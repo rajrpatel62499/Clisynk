@@ -1,0 +1,76 @@
+.modal-header {
+    flex-direction: row-reverse;
+}
+
+.avatar {
+    background: #F8F8F8 !important;
+    border: 1px solid #BBBBBB !important;
+}
+
+.new-tags-grid-mains-area {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 20px;
+    margin-top: 5px;
+    .comman-grid-tags {
+        background: #F8F8F8;
+        border-radius: 100px;
+        margin-right: 20px;
+        padding: 4px 20px;
+        font-size: 13px;
+        line-height: 16px;
+        text-align: center;
+        letter-spacing: 0.02em;
+        color: #979797;
+        cursor: pointer;
+        font-weight: 500;
+        &:last-child{
+            margin-right: 0px;
+        }
+    }
+}
+
+
+.employee {
+    background: #E6ECFF !important;
+    color: #3C6EE7 !important;
+}
+.other-tag {
+    color: #4A4A4A !important;
+    background: #F8F8F8 !important;
+}
+  
+.client-tag {
+    color: #447464 !important;
+    background: #DFFDF3 !important;
+}
+  
+.lead-tag {
+    color: #D78E2B !important;
+    background: #FFE7C7 !important;
+}
+
+.employee-tag {
+    color: #3C6EE7 !important;
+    background: #E6ECFF !important;
+}
+.input-field {
+    margin-bottom: 7px;
+}
+
+.red-req{
+    color: red;
+}
+
+section.action {
+    text-align: center;
+    width: 100%;
+}
+
+section.action .save-btn {
+    background: #4776E6;
+    border-radius: 5px;
+    color: #fff;
+    padding: 10px 40px;
+    font-size: 14px;
+}

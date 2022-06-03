@@ -1,0 +1,160 @@
+<div class="modal-header email_str_header">
+
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="goBack()" *ngIf="!modalData?.email">
+            <img src="/assets/images/back-arrow.svg">
+        </button>
+        <button class="icon-only" type="button" aria-label="Close" (click)="goBack()"
+                *ngIf="modalData?.email">
+            <img src="/assets/images/back-arrow.svg">
+        </button>
+    </section>
+
+    <section class="text">
+        <h4>Send an emails</h4>
+    </section>
+</div>
+<form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+
+    <div class="modal-body email_str_body">
+
+        <div class="input-row">
+            <label>To:</label>
+            <mat-form-field appearance="outline">
+                <mat-select formControlName="to">
+                    <mat-option *ngFor="let val of myModel?.emailArrays" [value]="val.id">
+                        {{val.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+
+        <div class="input-row">
+            <label>From:</label>
+            <div class="input-field">
+                <input matInput type="text" formControlName="from" readonly>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <label>Subject:</label>
+            <div class="input-field">
+                <input matInput placeholder="Enter subject" type="text" formControlName="subject">
+            </div>
+        </div>
+
+        <div class="email-content">
+            <div class="form-group">
+                <ckeditor formControlName="html" debounce="500" [config]="ckeConfig">
+                </ckeditor>
+            </div>
+        </div>
+
+        <div class="signature-toggle">
+            <section class="signature-preview" *ngIf="signStatus?.value">
+                <h4>{{loginData?.name}}</h4>
+                <p>{{loginData?.email}}</p>
+                <p>{{loginData?.countryCode}} {{loginData?.phoneNumber}}</p>
+            </section>
+
+            <section class="toggle-switch">
+                <div class="Signature">
+                    <span>Signature</span>
+                </div>
+                <div class="Signature-toggle">
+                    <label class="switch">
+                        <input type="checkbox" [formControl]="signStatus">
+                        <span class="slider round"></span>
+                    </label>
+                </div>
+            </section>
+        </div>
+
+        <div class="send_email_footer">
+            <section class="button-row">
+
+                <div class="tooltip-container tooltip-hover">
+                    <div class="tooltip-reference">
+                        <div class="btn-group add-booking-link" dropdown>
+                            <button id="button-basic2" dropdownToggle type="button" class="btn"
+                                    aria-controls="dropdown-basic">
+                                <img src="/assets/images/ic_booking.svg">
+                            </button>
+                            <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="button-basic" style="left: -103px;">
+                                <h4>Add booking link</h4>
+                                <li role="menuitem" style="display: block"
+                                    *ngFor="let data of myModel?.appointmentTypes"
+                                    (click)="addLink(data)">
+                                    <a class="dropdown-item">
+                                        <img src="assets/images/ic_attch2.svg">
+                                        <div class="item-text">
+                                            <h6> {{data?.name}} |
+                                                <ng-container *ngIf="data?.duration"> {{data?.duration}} min
+                                                </ng-container>
+                                            </h6>
+                                            <p> {{appoint.getBookingLink(data.name)}} </p>
+                                        </div>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <section class="tooltip">
+                        <div class="arrow"></div>
+                        <div>Add booking link</div>
+                    </section>
+                </div>
+
+                <div class="popover-container tooltip-container tooltip-hover">
+                    <div class="tooltip-reference">
+                        <div class="btn-group add-booking-link insert-templates" dropdown>
+                            <button id="button-basic2" dropdownToggle type="button" class="btn"
+                                    aria-controls="dropdown-basic">
+                                <img src="/assets/images/ic_insert_template.svg">
+                            </button>
+                            <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="button-basic" style="left: -103px;">
+                                <div class="email-templates">
+                                    <h4>Insert template</h4>
+
+                                    <ng-container *ngFor="let data of myModel?.templates">
+                                        <li role="menuitem" style="display: block" (click)="selectTemplate(data)">
+                                            <a class="dropdown-item">
+                                                <!--                                                <img src="assets/images/ic_attch2.svg">-->
+                                                <div class="item-text">
+                                                    <h6>{{data?.name}}</h6>
+                                                    <p>{{data?.subject || '(no subject)'}}</p>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    </ng-container>
+
+                                </div>
+                                <!--<div class="manage-templates">-->
+                                    <!--<a  class="text-button" (click)="openTemplate()"> Manage templates-->
+                                    <!--</a>-->
+                                <!--</div>-->
+
+                            </ul>
+                        </div>
+                    </div>
+                    <section class="tooltip">
+                        <div class="arrow"></div>
+                        <div>Insert template</div>
+                    </section>
+                </div>
+            </section>
+            <section class="button-row">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="fa fa-spinner fa-spin" *ngIf="myModel?.loader"></i>
+                    Save
+                </button>
+            </section>
+
+        </div>
+    </div>
+</form>
+
+

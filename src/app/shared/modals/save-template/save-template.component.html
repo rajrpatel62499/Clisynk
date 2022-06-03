@@ -1,0 +1,19 @@
+<div class="main">
+    <div class="header">
+        <h3>Save Template</h3>
+    </div>
+    <div class="form">
+        <mat-form-field appearance="outline">
+            <mat-label>Name Your Template <span class="red">*</span></mat-label>
+            <input matInput [(ngModel)]="templateName" placeholder="Placeholder">
+          </mat-form-field>
+    </div>
+
+    <div class="action">
+        <button class="save-btn mr-3" [disabled]="loader" (click)="saveTemplate()">
+            <i [ngClass]="{loader: 'fa fa-spinner fa-spin'}" aria-hidden="true"></i>
+            Save
+        </button>
+        <button class="cancel-btn" [disabled]="loader" (click)="close(false)">Cacnel</button>
+    </div>
+</div>

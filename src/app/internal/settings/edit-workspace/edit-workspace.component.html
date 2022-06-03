@@ -1,0 +1,152 @@
+<!-- <div class="contact-header">
+  <div class="Clients_list_heading">
+    <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()" />
+    <h3 class="page-title">Manage Workspace</h3>
+  </div>
+</div> -->
+
+<div class="modal-header email_str_header">
+  <section class="text">
+      <h4>Manage Workspace</h4>
+  </section>
+  <section id="close" class="navigation">
+      <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+          <img [src]="'/assets/images/ic_close.svg'">
+      </button>
+  </section>
+
+</div>
+
+
+
+<div class="main-edit-work-space-form">
+  <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+    <div class="first-row">
+      <label>From Workspace</label>
+      <div class="workspace-input">
+        <input type="text" formControlName="fromWorkspaceId" />
+        <mat-error
+          *ngIf="form.controls['fromWorkspaceId'].hasError('required')"
+        >
+          Please enter from workspace name.
+        </mat-error>
+      </div>
+    </div>
+    <div class="second-row comman-rows">
+      <label class="sub-heading">To Workspace</label>
+      <ng-multiselect-dropdown
+        formControlName="toWorkspaceIds"
+        [placeholder]="'Select Workspace'"
+        [data]="allWorkspaces"
+        [settings]="dropdownSettingsWorkspace"
+        (onSelect)="onItemSelectWps($event)"
+        (onDeSelect)="onDeSelectWps($event)"
+        (onSelectAll)="onSelectAllWps($event)"
+        (onDeSelectAll)="onDeSelectAllWps($event)"
+      >
+      </ng-multiselect-dropdown>
+      <mat-error
+        *ngIf="
+          form.controls['toWorkspaceIds'].hasError('required') &&
+          form.controls.toWorkspaceIds.touched
+        "
+      >
+        Please select workspaces.
+      </mat-error>
+      <!--<mat-error
+        *ngIf="
+          form.controls['contactId'].hasError('required') &&
+          form.controls.contactId.touched
+        "
+      >
+        Please enter contact.
+      </mat-error>-->
+      <!--<mat-form-field class="example-chip-list">
+        <mat-chip-list #chipList aria-label="Workspace selection">
+          <mat-chip
+            *ngFor="let workspace of workspaces"
+            [selectable]="selectable"
+            [removable]="removable"
+            (removed)="remove(workspace)"
+          >
+            {{ workspace }}
+            <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+          </mat-chip>
+          <input
+            placeholder="To Workspace"
+            #fruitInput
+            [formControl]="workspaceCtrl"
+            [matAutocomplete]="auto"
+            [matChipInputFor]="chipList"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="add($event)"
+            formControlName="toWorkspaces"
+          />
+        </mat-chip-list>
+        <mat-autocomplete
+          #auto="matAutocomplete"
+          (optionSelected)="selected($event)"
+        >
+          <mat-option
+            *ngFor="let workspace of filteredWorkspaces | async"
+            [value]="workspace"
+          >
+            {{ workspace?.name }}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>-->
+    </div>
+    <div class="second-row third-row comman-rows">
+      <label class="sub-heading">Contacts</label>
+      <ng-multiselect-dropdown
+        formControlName="contactIds"
+        [placeholder]="'Select contacts'"
+        [data]="contacts"
+        [settings]="dropdownSettingsContacts"
+        (onSelect)="onItemSelect($event)"
+        (onDeSelect)="onDeSelect($event)"
+        (onSelectAll)="onSelectAll($event)"
+        (onDeSelectAll)="onDeSelectAll($event)"
+      >
+        >
+      </ng-multiselect-dropdown>
+      <mat-error
+        *ngIf="
+          form.controls['contactIds'].hasError('required') &&
+          form.controls.contactIds.touched
+        "
+      >
+        Please select atleast one contact.
+      </mat-error>
+    </div>
+    <div class="second-row third-row comman-rows">
+      <label class="sub-heading">Contact group list</label>
+      <ng-multiselect-dropdown
+        formControlName="contactListIds"
+        [placeholder]="'Select contacts'"
+        [data]="contactGroupLists"
+        [settings]="dropdownSettingsContactsGroup"
+        (onSelect)="onItemSelect($event)"
+        (onDeSelect)="onDeSelect($event)"
+        (onSelectAll)="onSelectAll($event)"
+        (onDeSelectAll)="onDeSelectAll($event)"
+      >
+        >
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="second-row fourth-row comman-rows">
+      <label class="sub-heading">Contacts by tag</label>
+      <ng-multiselect-dropdown
+        formControlName="tagIds"
+        [placeholder]="'Select contact by tags'"
+        [data]="tags"
+        [settings]="dropdownSettingsTags"
+      >
+        >
+      </ng-multiselect-dropdown>
+    </div>
+    <div class="Merge-btn">
+      <button class="btn-outline-primary" type="submit">Merge</button>
+    </div>
+  </form>
+</div>

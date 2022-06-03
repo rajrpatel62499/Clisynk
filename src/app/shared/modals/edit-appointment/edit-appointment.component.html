@@ -1,0 +1,40 @@
+<div class="med-popup">
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close">
+                <img src="/assets/images/ic_close.svg" (click)="http.hideModal()">
+
+            </button>
+        </section>
+        <section class="text">
+            <h4>Edit appointment type</h4>
+        </section>
+
+        <section class="action">
+            <button class="btn-outline-primary" type="button" [disabled]="checkDisable()"
+                    (click)="finalSubmit()">
+               Save
+            </button>
+        </section>
+    </div>
+
+    <div class="modal-body ">
+        <div class="set-availability-stage">
+        <ng-container>
+            <h2>Appointment info</h2>
+            <app-appoint-1 [inputData]="modalData" [isEdit]="true"></app-appoint-1>
+        </ng-container>
+
+        <ng-container>
+            <h2>Hours and availability</h2>
+            <app-appoint-2  [inputData]="modalData" [isEdit]="true"></app-appoint-2>
+        </ng-container>
+
+        <ng-container>
+            <h2>Additional options</h2>
+            <app-appoint-3 [inputData]="modalData" [isEdit]="true"></app-appoint-3>
+        </ng-container>
+</div>
+    </div>
+
+</div>

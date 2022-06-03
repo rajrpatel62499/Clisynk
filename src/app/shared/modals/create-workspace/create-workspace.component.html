@@ -1,0 +1,79 @@
+<div class="main-popup-submit-feedback">
+  <!-- <div class="header-part">
+    <div class="heading">Create/Edit Workspace</div>
+    <button
+    class="icon-only"
+    type="button"
+    aria-label="Close"
+    (click)="http.hideModal()"
+  >
+    <img src="/assets/images/ic_close.svg" />
+  </button>
+  </div> -->
+
+  <div class="modal-header email_str_header">
+    <section class="text">
+        <h4>Create/Edit Workspace</h4>
+    </section>
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+            <img [src]="'/assets/images/ic_close.svg'">
+        </button>
+    </section>
+
+  </div>
+
+
+
+  
+  <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+    <div class="body-content-main-feedback">
+      <div class="text-area-main create-or-edit-workspace-main">
+        <div class="name-field">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label class="required">Name</mat-label>
+            <input
+              matInput
+              type="text"
+              formControlName="name"
+              placeholder=" Workspace Name"
+              maxlength="40"
+            />
+            <mat-error *ngIf="form.controls['name'].hasError('required')">
+              Please enter workspace name.
+            </mat-error>
+            <mat-error *ngIf="form.controls['name'].hasError('pattern')">
+              Special characters are not allowed in workspace name.
+            </mat-error>
+          </mat-form-field>
+        </div>
+        <div class="">
+          <mat-form-field class="full-width" appearance="outline">
+            <mat-label>Description</mat-label>
+            <textarea
+              matInput
+              formControlName="description"
+              rows="4"
+              maxlength="200"
+            >
+            </textarea>
+          </mat-form-field>
+        </div>
+      </div>
+      <div class="last-button-row">
+        <button class="icon-only submit-btn" type="submit">
+          <i class="fa fa-spinner fa-spin" *ngIf="loader"></i>
+          {{ isEdit ? "Update" : "Create" }}
+        </button>
+        <button
+          class="icon-only cancel-btn"
+          type="button"
+          aria-label="Close"
+          (click)="http.hideModal()"
+        >
+          Cancel
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,144 @@
+<div class="col-md-12">
+
+    <form [formGroup]="form" novalidate autocomplete="off">
+        <div class="input-field">
+            <h4>Duration</h4>
+            <p>How long is this type of appointment?</p>
+            <div class="btn-group add-btn select-opt" dropdown>
+                <mat-form-field appearance="outline" class="select-height">
+                    <mat-label>Duration</mat-label>
+                    <mat-select formControlName="duration" (selectionChange)="changeDuration()">
+                        <mat-option *ngFor="let val of durations" [value]="val.value">
+                            {{val?.name}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="row" *ngIf="showCustom">
+            <div class="col-md-6">
+                <div class="input-field">
+                    <div class="btn-group add-btn select-opt" dropdown>
+                        <mat-form-field appearance="outline" class="select-height">
+                            <mat-label>Hours</mat-label>
+                            <mat-select [formControl]="hour">
+                                <mat-option *ngFor="let val of hours" [value]="val">
+                                    {{val}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="input-field">
+                    <div class="btn-group add-btn select-opt" dropdown>
+                        <mat-form-field appearance="outline" class="select-height">
+                            <mat-label>Minutes</mat-label>
+                            <mat-select [formControl]="minute">
+                                <mat-option *ngFor="let val of minutes" [value]="val">
+                                    {{val}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <h4> Buffer time</h4>
+            <p> How much time is needed before and after these types of appointments?</p>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-field">
+                        <div class="btn-group add-btn select-opt" dropdown>
+                            <mat-form-field appearance="outline" class="select-height">
+                                <mat-label>Before</mat-label>
+                                <mat-select formControlName="beforeBufferTime">
+                                    <mat-option *ngFor="let data of bufferTimes" [value]="data.value">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-field">
+                        <div class="btn-group add-btn select-opt" dropdown>
+                            <mat-form-field appearance="outline" class="select-height">
+                                <mat-label>After</mat-label>
+                                <mat-select formControlName="afterBufferTime">
+                                    <mat-option *ngFor="let data of bufferTimes" [value]="data.value">
+                                        {{data?.name}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="input-field">
+            <h4>Availability</h4>
+            <p>When can people schedule with you?</p>
+            <div class="days-div">
+                <div class="btn-group" role="group" aria-label="Basic example">
+                    <tabset>
+                        <tab *ngFor="let data of availability;let i =index" [heading]="data.day" [active]="data.active"
+                             (selectTab)="data.active = true" (deselect)="data.active = false">
+                            <ng-container *ngIf="data?.timings?.length === 0">
+                                <section class="tab_unavailable">
+                                    <button class="btn btn-dark">Unavailable</button>
+                                </section>
+                                <section class="tab_add_availability">
+                                    <button class="btn-outline-primary" (click)="addAvailability(data)">Add Availability
+                                        for {{data.day}}</button>
+                                </section>
+                            </ng-container>
+
+                            <ng-container *ngIf="data?.timings?.length > 0">
+
+                                <ul class="slots">
+                                    <li *ngFor="let val of data?.timings;let j = index">
+                                        <div class="row">
+                                            <div class="col-md-5">
+                                                <timepicker [(ngModel)]="val.start" [showMeridian]="true"
+                                                            [ngModelOptions]="{standalone:true}"></timepicker>
+                                            </div>
+
+                                            <div class="col-md-5">
+                                                <timepicker [(ngModel)]="val.end" [showMeridian]="true"
+                                                            [ngModelOptions]="{standalone:true}">
+                                                </timepicker>
+                                            </div>
+                                            <div class="col-md-2 trash-btn">
+                                                <i class="far fa-trash-alt text-danger cursor"
+                                                   (click)="deleteAvailability(i,j)"></i>
+                                            </div>
+                                        </div>
+
+                                    </li>
+                                    <li>
+                                        <button type="button" class="text-button" (click)="addAvailability(data)">
+                                            +add Time frame
+                                        </button>
+                                    </li>
+                                </ul>
+
+                            </ng-container>
+
+                        </tab>
+                    </tabset>
+
+                </div>
+            </div>
+        </div>
+    </form>
+
+</div>

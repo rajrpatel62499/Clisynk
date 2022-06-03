@@ -1,0 +1,52 @@
+<div class="modal-header email_str_header">
+  <section id="close" class="navigation">
+    <button
+      class="icon-only"
+      type="button"
+      aria-label="Close"
+      (click)="http.hideModal(); onClose.next()"
+    >
+      <img src="/assets/images/ic_close.svg" />
+    </button>
+  </section>
+  <section class="text">
+    <h4>All Contact Groups</h4>
+  </section>
+</div>
+<div class="modal-body view-contact-pop">
+  <div class="view-contact-pop-inner">
+    <div class="input-field filter-search">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Search Contact Groups</mat-label>
+        <input matInput placeholder="" type="text" [formControl]="search" />
+      </mat-form-field>
+    </div>
+    <div class="row">
+      <div class="col-md-4" *ngFor="let data of lists | filter: search.value">
+        <div class="contact-saved-lists">
+          <a class="contact-list-card">
+            <div class="top" (click)="gotoTab(data)">
+              <h4 title="Clients" class="name">{{ data?.name }}</h4>
+              <div class="number">{{ data?.count || 0 }}</div>
+            </div>
+            <div class="bottom">
+              <label> Toggle list visibility </label>
+              <div class="visibility">
+                <img
+                  src="/assets/images/eye-show.svg"
+                  (click)="hideTab(data); onClose.next()"
+                  *ngIf="!data?.isHide"
+                />
+                <img
+                  src="/assets/images/eye-hide.svg"
+                  (click)="hideTab(data); onClose.next()"
+                  *ngIf="data?.isHide"
+                />
+              </div>
+            </div>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,198 @@
+<div class="add-build-automation-main">
+    <!-----------------header-main-------------------->
+    <div class="build-automation-header-main">
+        <div class="left-col">
+            <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()" width="50">
+            <span>Build automation</span>
+        </div>
+        <div class="right-col">
+            <span>When</span>
+            <img [src]="'/assets/images/back-arrow.svg'" width="50">
+            <span class="color-change">Then</span>
+        </div>
+    </div>
+   <!-------------------------------------end of header--------------------------------->
+   <div class="inner-add-build-main">
+        <div class="left-col">
+            <div class="card-main first-card">
+                <div class="when-heading">
+                    <img src="../../../assets/images/cloud-green.svg" width="20">
+                    <span>When</span>
+                </div>
+                <div class="short-description">...this occurs, start my automation.</div>
+            </div>
+            <div class="text-center center-down-img">
+                <img [src]="'/assets/images/back-arrow.svg'" width="50" class="down-arrow">
+            </div>
+            <div class="then-card">
+                <div class="when-heading">
+                    <img src="../../../assets/images/blue-flash.svg" width="20">
+                    <span>Then</span>
+                </div>
+                <div class="short-description">...this will be automated.</div>
+                <div class="add-icon-blue">
+                    <button class="btn" [routerLink]="['/automation/build-automation-then']">+</button>
+                </div>
+            </div>
+        </div>
+        <div class="right-col">
+            <ng-container *ngIf="leadform==false;else other_content">
+                <div class="right-inner-wrapper-first">
+                    <!-- ---------------upper-dropdown-main -->
+                    <div class="btn-group add-btn start-automation-dropdown" dropdown>
+                        <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle " aria-controls="dropdown-basic">
+                            What starts your automation?<i class="fas fa-angle-down"></i>
+                        </button>
+                        <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-basic">
+
+                            <li role="menuitem">
+                                <a class="dropdown-item">Option 1 </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">Option 2 </a>
+                            </li>
+                            <li role="menuitem">
+                                <a class="dropdown-item">Option 3 </a>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- -------------------------suggested-option----------- -->
+                    <div class="label-option">
+                        <span>Suggested options</span>
+                    </div>
+                    <div class="select-option-four-grid-wrapper">
+                        <div class="inner-grid-col" (click)="Aftersubmit()">
+                            <span>Lead form is <br/>submitted </span>
+                            <img src="../../../../assets/images/lead-form-is-submitted.svg" width="60">
+                        </div>
+                        <div class="inner-grid-col" (click)="Appointment()">
+                            <span>Appointment is <br/>scheduled </span>
+                            <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                        </div>
+                        <div class="inner-grid-col">
+                            <span>Tag is added </span>
+                            <img src="../../../../assets/images/tag-is-addwd.svg" width="60">
+                        </div>
+                        <div class="inner-grid-col">
+                            <span>Purchase is made </span>
+                            <img src="../../../../assets/images/purchase-is-made.svg" width="60">
+                        </div>
+
+                    </div>
+                    <!-- -------------------show all option Button----------------------------->
+                    <div class="text-center show-all-option">
+                        <button class="btn scroll-class" (click)="Showoption()" >{{buttonName}}</button>
+                    </div>
+                    <div class="text-center not-seeing-description">
+                        <span>Not seeing something you wish to automate? <br/>Let us know!</span>
+                    </div>
+
+                </div>
+            </ng-container>                
+            
+
+            <!-- ------------------all-options-there------------------- -->
+            <ng-container *ngIf="(option)">
+                    <div class="all-option-available">
+                       <div class="appoint-ments">
+                           <span> Appointments</span>
+                       </div>
+                    </div>
+                    <div class="right-inner-wrapper-first">
+                        <div class="select-option-four-grid-wrapper" style="margin-bottom: 40px;">
+                            <div class="inner-grid-col">
+                                <span>Appointment is <br/>scheduled </span>
+                                <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                            </div>
+                            <div class="inner-grid-col">
+                                <span>Appointment is <br/>cancelled </span>
+                                <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                            </div>    
+                        </div>
+                   </div>
+                   <!-- ------------forms------------- -->
+                    <div class="all-option-available">
+                        <div class="appoint-ments">
+                            <span> Forms</span>
+                        </div>
+                    </div>
+                    <div class="right-inner-wrapper-first">
+                        <div class="select-option-four-grid-wrapper" style="margin-bottom: 40px;">
+                            <div class="inner-grid-col">
+                                <span>Lead form is <br/>submitted </span>
+                                <img src="../../../../assets/images/lead-form-is-submitted.svg" width="60">
+                            </div>
+                        </div>
+                   </div>
+                   <!-- ------------Money------------- -->
+                   <div class="all-option-available">
+                    <div class="appoint-ments">
+                        <span> Money</span>
+                    </div>
+                </div>
+                <div class="right-inner-wrapper-first">
+                    <div class="select-option-four-grid-wrapper" >
+                        <div class="inner-grid-col">
+                            <span>Purchase is made </span>
+                            <img src="../../../../assets/images/purchase-is-made.svg" width="60">
+                        </div>
+                    </div>
+               </div>
+
+            </ng-container>
+
+            <!-- ------------------after-leadsubmit-form----------------->
+            <!----------------------------------------------------------------------->
+            <ng-template #other_content>
+                <ng-container *ngIf="aftersubmits==true">
+                    <div class="after-submitted-lead-form-main-for-edit-option">
+                        <div class="panel-group" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">
+                                    <h4 class="panel-title">
+                                        <a>Lead Form is submitted</a>
+                                    </h4>
+                                </div>
+                                <div id="collapseEleven" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="inner-first-row-main">
+                                            <div class="inner-left-col"> 
+                                                <label class="form-name-heading">Lead Form</label>
+                                                <span class="who-is-owner">Langermania</span>
+                                            </div>
+                                            <div class="inner-right-col">
+                                                <a class="btn-combo">
+                                                    <img src="../../../../assets/images/edit-button-gray.svg" width="20">
+                                                </a>
+                                                <a class="btn-combo">
+                                                    <img src="../../../../assets/images/delete-gray.svg" width="20">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="go-to-your-form">
+                                            <div class="left-inner-col-footer">
+                                                <button class="btn">Go to your form <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                                            </div>
+                                            <div class="right-inner-col-footer">
+                                                <button class="btn">Done</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                    <ng-container *ngIf="appointment==true">
+                         Appointment fine 
+                    </ng-container>
+           
+            </ng-template>
+
+        </div>
+
+   </div>
+  
+</div>

@@ -1,0 +1,75 @@
+<div class="med-popup">
+
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="goBack()">
+                <img src="/assets/images/back-arrow.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4 *ngIf="!modalData?.taskData">Add a new task</h4>
+            <h4 *ngIf="modalData?.taskData">Edit task</h4>
+        </section>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">Task title</mat-label>
+                            <input matInput type="text"
+                                   formControlName="taskTitle">
+                            <mat-error *ngIf="form.controls['taskTitle'].hasError('required')">
+                                Please enter title.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-4">
+                    <div class="input-field">
+                        <mat-form-field appearance="outline">
+                            <mat-label>Days until due</mat-label>
+                            <input matInput type="text" formControlName="days" appNumberOnly>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Note</mat-label>
+                        <textarea matInput formControlName="note"
+                                  rows="4"> </textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="input-field btn-group add-btn select-opt">
+                        <mat-form-field class="full-width select-height" appearance="outline">
+                            <mat-label>Assign Task to</mat-label>
+                            <mat-select formControlName="assignTask">
+                                <mat-option *ngFor="let val of assigns" [value]="val">{{val}}</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="button-row">
+                <button type="submit" class="btn btn-outline-primary">
+                    <i class="fa fa-spinner fa-spin" *ngIf="myModel?.loader"></i>
+                    Save
+                </button>
+                <button type="button" class="btn btn-link text-button" (click)="goBack()">Cancel
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>

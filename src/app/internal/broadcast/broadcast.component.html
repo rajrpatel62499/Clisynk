@@ -1,0 +1,328 @@
+<div class="broad-cast-header-main">
+    <div class="broad-cast-heading">Broadcasts</div>
+    <button type="button"  routerLink="/broadcast/add-broadcast" class="btn add-broadcast">Add Broadcasts </button>
+</div>
+
+
+<div *ngIf="myModel?.data?.data.length !== 0" class="tables-for-broadcast-list">
+
+    <div class="header-search-main">
+            <div class="left-search-main">
+                <input 
+                pattern=".*" autocomplete="off" class="" [formControl]="search"
+                (input)="broadcastList(broadCastType.ALL)"
+                type="text" placeholder="Search broadcast">
+            </div>
+
+            <div class="right-buttons">
+                    <div class="date-pickermain">
+                        <input type="text"
+                        placeholder="DD/MM/YYYY"
+                        class="form-control"
+                        bsDatepicker
+                      
+                        [bsConfig]="{ adaptivePosition: true }">
+                    </div>
+
+                    <div class="filter-button">
+                        <div class="btn-group" dropdown>
+                            <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"aria-controls="dropdown-basic">
+                                <img src="../../../assets/images/filter-vector.svg" alt="Filter" title="Filter">   
+                                Filter
+                            </button>
+                            <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                                role="menu" aria-labelledby="button-basic">
+                              <li role="menuitem"><a class="dropdown-item" (click)="broadcastList(broadCastType.ALL)">All</a></li>
+                              <li role="menuitem"><a class="dropdown-item" (click)="broadcastList(broadCastType.SENT)">Sent</a></li>
+                              <li role="menuitem"><a class="dropdown-item" (click)="broadcastList(broadCastType.SCHEDULED)">Scheduled</a></li>
+                              <li role="menuitem"><a class="dropdown-item" (click)="broadcastList(broadCastType.DRAFT)">Draft</a>
+                              </li>
+                            </ul>
+                          </div>
+                    </div>
+            </div>
+    </div>
+
+    <!-- --------------------Table----------------------------------- -->
+    <div class="broadcast-table-main">
+        <table>
+                <thead>
+                        <tr>
+                            <th class="hash-col">#</th>
+                            <th class="name-col">Name</th>
+                            <th class="date-col">Date</th>
+                            <th class="contacts-col">Contacts</th>
+                            <th class="view-content-col">View Content</th>
+                            <th class="status-col">Status</th>
+                            <th class="action-col">Action</th>
+                        </tr>
+                </thead>
+                <tbody>
+
+                        <tr *ngFor="let data of myModel?.data?.data; index as i">
+                            <td class="hash-col">{{i + 1}}</td>
+                            <td class="name-col">
+                                <div class="subject">
+                                    {{data?.subject || 'no subject'}}
+                                </div>
+                            </td>
+                            <td class="date-col">{{data?.updatedAt |date:'MMM dd, hh:mm a'}}</td>
+                            <td class="contacts-col">{{data?.contactId?.length}}</td>
+                            <td class="view-content-col" >
+                                <div class="views-cont">
+                                    <div class="comman-grid">
+                                        <img (click)="openDetails(data,true)" src="../../../assets/images/mac-icon.svg">
+                                    </div>
+                                    <div class="comman-grid">
+                                        <img (click)="openDetails(data,false)" src="../../../assets/images/iphone-vector.svg">
+                                    </div>
+                                </div>
+                            </td>
+                            <td class="status-col">
+                                <div class="comman-status draft" 
+                                [ngClass]="{ 'sent': data?.status == 1, 
+                                            'scheduled': data?.status == 2, 
+                                            'draft': data?.status == 3}">
+                                    {{
+                                        data?.status == 1 ? 'Sent' : 
+                                        data?.status == 2 ? 'Scheduled' : 
+                                        data?.status == 3 ? 'Draft' : 
+                                    'Draft'}}
+                                </div>
+                            </td>
+                            <td class="action-col">
+                                <div class="actions-column">
+                                    <div class="comman-grid">
+                                        <img src="../../../assets/images/copy-vector.svg" (click)="copyBroadcast(data)">
+                                    </div>
+                                    <div [routerLink]="['/broadcast/edit-broadcast',data._id]" 
+                                        (click)="http.saveData(data)" *ngIf="data?.status != 1"
+                                        class="comman-grid">
+                                        <img src="../../../assets/images/New-ui-images/pencil.svg">
+                                    </div>
+                                    <div class="comman-grid" *ngIf="data?.status != 1"> 
+                                        <img src="../../../assets/images/trash-icon.svg" (click)="deleteBroadcast(data)">
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                       
+
+                        <!-- -------------Shimmer-shine---------------------- -->
+                        <tr *ngIf="myModel?.loader">
+                            <td class="hash-col">
+                                <div class="number-shine shine"></div>
+                            </td>
+                            <td class="name-col">
+                                <div class="name-shine shine"></div>
+                            </td>
+                            <td class="date-col">
+                                <div class="date-shine shine"></div>
+                            </td>
+                            <td class="contacts-col">
+                                <div class="contact-shine shine"></div>
+                            </td>
+                            <td class="view-conent-col">
+                                <div class="views-cont">
+                                    <div class="view-shine shine"></div>
+                                    <div class="view-shine shine"></div>
+                                </div>
+                            </td>
+                            <td class="status-col">
+                                <div class="staus-shine shine"></div>
+                            </td>
+                            <td class="action-col">
+                                <div class="actions-btn">
+                                    <div class="comman-shine shine"></div>
+                                    <div class="comman-shine shine"></div>
+                                    <div class="comman-shine shine"></div>
+                                </div>
+                            </td>
+                        </tr>
+
+                </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<div *ngIf="myModel?.data?.data.length == 0">
+    <div class="lets-add-some-broadcast-main">
+            <img src="../../../assets/images/broadcast-none.svg" />
+            <h3 class="small-head">Let's add some Broadcasts</h3>
+            <p>Bring your Broadcast together for complete organization.</p>
+            <button routerLink="/broadcast/add-broadcast" class="btn btn-add-broadcast">Add Broadcasts</button>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- -------------Old Code---------------------------- -->
+
+<!-- <div class="broadcasts-page">
+    <section class="broadcast-table">
+        <header class="page-header">
+            <div class="title">
+                <h2>Broadcasts</h2>
+            </div>
+            <div class="actions button-row">
+                <div class="header-actions">
+                    <section></section>
+                    <section class="desktop-actions button-row">
+                        <button type="button" class="btn-outline-primary"
+                                routerLink="/broadcast/add-broadcast"> Create a broadcast
+                        </button>
+                    </section>
+                </div>
+            </div>
+        </header>
+        <div class="filter-row">
+            <div class="broadcast-search">
+                <div class="input-field filter-search invoices-page-table">
+                    <div class="search-bar">
+                        <div class="input-field no-label">
+                            <input type="search" name="" placeholder="Search broadcast"
+                                   pattern=".*" autocomplete="off" class="" [formControl]="search"
+                                   (input)="broadcastList(0)">
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="broadcast-list-filters">
+                <div class="filter-status">
+                    <div class="btn-group" dropdown>
+                        <button id="button-basic2" dropdownToggle type="button" class="text-button"
+                                aria-controls="dropdown-basic">
+                            <svg class="filter-icon icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="filter">
+                                    <path
+                                            d="M14 16a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2zm3-5a1 1 0 0 1 0 2H7a1 1 0 0 1 0-2zm3-5a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z"
+                                            fill-rule="evenodd"></path>
+                                </svg>
+                            </svg>
+                            Filter
+                        </button>
+                        <ul id="dropdown-basic2" class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                            <li style="display: block" (click)="broadcastList(0)">
+                                <a class="dropdown-item">
+                                    <span>All</span></a>
+                            </li>
+                            <li style="display: block" (click)="broadcastList(1)">
+                                <a class="dropdown-item">
+                                    <span>Sent</span>
+                                </a>
+                            </li>
+                            <li style="display: block" (click)="broadcastList(2)">
+                                <a class="dropdown-item">
+                                    <span>Scheduled</span>
+                                </a>
+                            </li>
+                            <li style="display: block" (click)="broadcastList(3)">
+                                <a class="dropdown-item">
+                                    <span>Drafts</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="broadcast-items">
+
+            <app-loader [showLoader]="myModel?.loader" [length]="myModel?.data?.count"></app-loader>
+
+            <ng-container *ngFor="let data of myModel?.data?.data">
+
+                <div class="stat-item no-stats">
+                    <section class="stat-description">
+                    <span class="stat-subject"> ({{data?.subject || 'no subject'}})
+                    </span>
+                        <div class="stat-message">
+            
+                            <span>Edited at {{data?.updatedAt |date:'MMM dd, hh:mm a'}} </span>
+                        </div>
+                        <div class="stat-status">
+                            <div class="status-container status-label">
+                                <span class="text semibold high-emphasis default"
+                                      *ngIf="data?.status != 1"> Draft </span>
+                                <span class="text semibold good" *ngIf="data?.status == 1"> Sent </span>
+                            </div>
+                        </div>
+                    </section>
+
+                    <section class="stat-stats">
+                        <div class="stat-block">
+                            <span class="table-number percentage text-center">{{data?.contactId?.length}}</span>
+                            <span class="percentage-label text-center">Contacts</span>
+                        </div>
+                        <div class="stat-block">
+                            <span class="table-number percentage text-center">&nbsp;</span>
+                            <span class="percentage-label text-center blue-link" (click)="openDetails(data)">View Content</span>
+                        </div>
+                    </section>
+
+
+                    <section class="broadcast-options stat-options">
+                        <div class="view-email" dropdown>
+                            <button dropdownToggle type="button" class="btn dropdown-toggle"
+                                    aria-controls="dropdown-basic">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="more-horizontal">
+                                    <circle cx="5" cy="12" r="2"></circle>
+                                    <circle cx="12" cy="12" r="2"></circle>
+                                    <circle cx="19" cy="12" r="2"></circle>
+                                </svg>
+                            </button>
+                            <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+
+                                <li role="menuitem" (click)="copyBroadcast(data)">
+                                    <a class="dropdown-item">
+                                        <svg class="option-icon icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="copy">
+                                                <path
+                                                        d="M20 9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2zm0 2h-9v9h9zm-6-9a2 2 0 0 1 2 2v2a1 1 0 1 1-2 0V4H4v10h2a1 1 0 1 1 0 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+                                                        fill-rule="evenodd"></path>
+                                            </svg>
+                                        </svg>
+                                        Make a copy</a>
+                                </li>
+
+                                <li role="menuitem" [routerLink]="['/broadcast/edit-broadcast',data._id]"
+                                    (click)="http.saveData(data)" *ngIf="data?.status != 1">
+                                    <a class="dropdown-item">
+                                        <svg class="option-icon icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="edit">
+                                                <path
+                                                        d="M9.914 3a1 1 0 1 1 0 2H5a1 1 0 0 0-1 1v14a1 1 0 0 0 1 1h13a1 1 0 0 0 1-1v-6a1 1 0 1 1 2 0v6a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V6a3 3 0 0 1 3-3zm8.699-1.79l.094.083 4 4a1 1 0 0 1 .083 1.32l-.083.094-9 9a1 1 0 0 1-.576.284L13 16H9a1 1 0 0 1-.993-.883L8 15v-4a1 1 0 0 1 .206-.608l.087-.1 9-9a1 1 0 0 1 1.32-.082zM18 3.414l-8 8V14h2.586l8-8z"
+                                                        fill-rule="evenodd"></path>
+                                            </svg>
+                                        </svg>
+                                        Edit</a>
+                                </li>
+
+                                <li role="menuitem" class="delete-opt" (click)="deleteBroadcast(data)"
+                                    *ngIf="data?.status != 1">
+                                    <a class="dropdown-item">
+                                        <svg class="option-icon icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="trash-2">
+                                                <path
+                                                        d="M14 1a3 3 0 0 1 3 3v1h4a1 1 0 1 1 0 2h-2v13a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H3a1 1 0 0 1 0-2h4V4a3 3 0 0 1 3-3zm3 6H7v13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1zm-6.5 3a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm3 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm.5-7h-4a1 1 0 0 0-.993.883L9 4v1h6V4a1 1 0 0 0-1-1z"
+                                                        fill-rule="evenodd"></path>
+                                            </svg>
+                                        </svg>
+                                        Delete</a>
+                                </li>
+                            </ul>
+                        </div>
+                    </section>
+                </div>
+            </ng-container>
+        </div>
+    </section>
+</div> -->

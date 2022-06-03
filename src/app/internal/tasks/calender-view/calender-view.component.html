@@ -1,0 +1,26 @@
+<div class="calander-views-task">
+
+<full-calendar style="width: 400px;height: 400px;" #calendarEl defaultView="dayGridMonth"
+id="full-calendar" deepChangeDetection="true" 
+[height]="'auto'"
+[editable]="true"
+[weekends]="calendarWeekends"
+[events]="calendarEvents"
+[plugins]="calendarPlugins" [validRange]="validRange"
+(dateClick)="handleDateClick($event)"
+(eventClick)="onEventClick($event)" 
+[eventResizableFromStart]="true"
+(eventResize)="onEventResize($event)"
+(eventDragStart)="onEventDragStart($event)"
+(eventDragStop)="onEventDragStop($event)"
+(eventDrop)="onEventDrop($event)"
+>
+</full-calendar>   
+</div>
+<!-- (eventRender)="onEventRender($event)"
+    (datesRender)="dateRender($event)" -->
+<!-- [header]="{
+    left: 'prev,next today',
+    center: 'title',
+    right: 'dayGridMonth,timeGridWeek,timeGridDay,listWeek'
+}" -->

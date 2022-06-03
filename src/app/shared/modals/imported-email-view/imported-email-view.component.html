@@ -1,0 +1,15 @@
+<table class="table">
+    <thead>
+      <tr>
+        <th scope="col">#</th>
+        <th scope="col">Email</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let email of this.modalData.emails; index as i">
+        <th scope="row">{{ i + 1}}</th>
+        <td>{{email}}</td>
+      </tr>
+ 
+    </tbody>
+  </table>

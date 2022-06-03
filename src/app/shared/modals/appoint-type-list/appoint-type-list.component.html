@@ -1,0 +1,96 @@
+<div class="appointment-types-item" *ngFor="let data of myModel?.appointmentTypes;let i=index">
+
+    <div class="appointment-type-card">
+        <section class="ds-card-body">
+            <h4>{{data?.name}}</h4>
+            <div class="tooltip-container">
+                <div class="tooltip-reference">
+                    <div class="btn-group add-booking-link" dropdown>
+                        <button id="button-basic2" dropdownToggle type="button" class="btn"
+                                aria-controls="dropdown-basic">
+                            <img src="/assets/images/dropdown_menu_ic.svg">
+                        </button>
+                        <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-basic" style="left: -103px;">
+
+                            <li role="menuitem" style="display: block" (click)="openEditType(data)">
+                                <a class="dropdown-item">
+                                    <img src="assets/images/ic_edit.svg">
+                                    <div class="item-text">
+                                        <h6> Edit </h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block"
+                                [appCopyClipboard]="appoint.getBookingLink(data.name)"
+                                (copied)="appoint.copied($event)">
+                                <a class="dropdown-item">
+                                    <img src="assets/images/ic_copy_link.svg">
+                                    <div class="item-text">
+                                        <h6> Copy link </h6>
+                                    </div>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block"
+                                (click)="openDeleteType(i, deleteType)">
+                                <a class="dropdown-item">
+                                    <img src="assets/images/ic_delete_opt.svg">
+                                    <div class="item-text">
+                                        <h6> Delete </h6>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+            <ng-container *ngIf="data?.duration"> {{data?.duration}} min
+            </ng-container>
+            <a (click)="http.openInNewTab(appoint.getBookingLink(data.name))">{{appoint.getBookingLink(data.name)}}</a>
+            <div class="actions">
+
+                <button type="button" class="money-btn"  (click)="openBook(data)">
+                    <svg class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="calendar">
+                            <path
+                                    d="M16 1a1 1 0 0 1 1 1v1h3a2 2 0 0 1 2 2v15a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h3V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 1-1zm4 10H4v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1zM7 5H4v4h16V5h-3v1a1 1 0 1 1-2 0V5H9v1a1 1 0 0 1-2 0z"
+                                    fill-rule="evenodd"></path>
+                        </svg>
+                    </svg>
+                    Book now
+                </button>
+
+                <button type="button" class="text-button" (click)="appoint.sendInvite(data)">
+                    <svg class="icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="send">
+                            <path
+                                    d="M22.707 1.293a1 1 0 0 1 .262.953l-.04.125-8 20a1 1 0 0 1-1.88-.06l-.03-.115-1.869-9.346-9.346-1.87a1 1 0 0 1-.283-1.858l.108-.05 20-8a1 1 0 0 1 1.078.22zm-3.445 4.86l-6.176 6.176 1.235 6.176zm-1.414-1.415L5.495 9.679l6.176 1.235z"
+                                    fill-rule="evenodd"></path>
+                        </svg>
+                    </svg>
+                    Send invite
+                </button>
+            </div>
+        </section>
+    </div>
+</div>
+
+<ng-template #deleteType>
+    <div class="delete-comp xs">
+        <div class="delete-comp-inner">
+            <h4>Are you sure you want to delete your appointment
+                type: {{myModel.appointmentTypes[this.selectedTypeIndex].name}}?</h4>
+            <p>Deleting your appointment type will disable the ability for anyone to book an appointment with this link.
+                Any
+                existing appointments you have scheduled will not be affected.</p>
+            <div class="button-row form-group">
+                <button class="delete-btn" type="submit"
+                        (click)="this.http.hideModal();deleteAppointmentType(1,myModel.appointmentTypes[selectedTypeIndex]._id)">
+                    Delete
+                </button>
+                <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

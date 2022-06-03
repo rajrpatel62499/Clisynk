@@ -1,0 +1,44 @@
+@font-face {
+    font-family: 'Sul Sans';
+    src: url('SulSans-Medium.eot');
+    src: url('SulSans-Medium.eot?#iefix') format('embedded-opentype'),
+        url('SulSans-Medium.woff2') format('woff2'),
+        url('SulSans-Medium.woff') format('woff'),
+        url('SulSans-Medium.ttf') format('truetype');
+    font-weight: 500;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Sul Sans';
+    src: url('SulSans-Bold.eot');
+    src: url('SulSans-Bold.eot?#iefix') format('embedded-opentype'),
+        url('SulSans-Bold.woff2') format('woff2'),
+        url('SulSans-Bold.woff') format('woff'),
+        url('SulSans-Bold.ttf') format('truetype');
+    font-weight: bold;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Sul Sans';
+    src: url('SulSans-Light.eot');
+    src: url('SulSans-Light.eot?#iefix') format('embedded-opentype'),
+        url('SulSans-Light.woff2') format('woff2'),
+        url('SulSans-Light.woff') format('woff'),
+        url('SulSans-Light.ttf') format('truetype');
+    font-weight: 300;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: 'Sul Sans';
+    src: url('SulSans-Regular.eot');
+    src: url('SulSans-Regular.eot?#iefix') format('embedded-opentype'),
+        url('SulSans-Regular.woff2') format('woff2'),
+        url('SulSans-Regular.woff') format('woff'),
+        url('SulSans-Regular.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+}
+

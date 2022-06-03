@@ -1,0 +1,226 @@
+<div class="med-popup">
+
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4>{{isEdit ? 'Edit' : 'Add'}} business information</h4>
+        </section>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="uploaded-img text-center" *ngIf="form.value.imageThumbnail">
+                <span class="clear-icon"
+                    (click)="form.controls.imageThumbnail.patchValue('');form.controls.imageOriginal.patchValue('')">
+                    <img src="assets/images/ic_close.svg">
+                </span>
+                <img [src]="form?.value?.imageThumbnail" class="thumb-img">
+            </div>
+
+            <div class="file-upload clickable" style="margin-bottom: 11px;" *ngIf="!form.value.imageThumbnail">
+                <section class="no-pointer-events">
+                    <div class="circle">
+                        <svg class="icon-upload icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="upload-cloud">
+                                <path
+                                    d="M12 10.998a1 1 0 0 1 .707.293l4 4.002a1 1 0 0 1-1.414 1.414L13 14.413V21a1 1 0 1 1-2 0v-6.587l-2.293 2.294a1 1 0 0 1-1.414-1.414l4-4.002a1 1 0 0 1 .707-.293zM9 3c2.935 0 5.5 1.581 6.89 3.933.02.032.041.051.056.06A.071.071 0 0 0 15.96 7H17a6 6 0 0 1 3.601 10.8 1 1 0 0 1-1.201-1.6A4 4 0 0 0 17 9h-1.042c-.788 0-1.439-.457-1.79-1.049A6 6 0 1 0 4.8 15.286a1 1 0 1 1-1.399 1.428A8 8 0 0 1 9 3z"
+                                    fill-rule="evenodd"></path>
+                            </svg>
+                        </svg>
+                    </div>
+                    <div class="file-type" style="display: none;"></div>
+                </section>
+                <section *ngIf="!loading" id="initial-info" class="no-pointer-events">
+                    <h4 class="label semibold"> Upload Image </h4>
+                    <h6 class="instructions"> Drag &amp; drop here or
+                        browse </h6>
+                    <h6 class="allowedFilesLabel"> jpeg, png files are acceptable </h6>
+                </section>
+
+                <section *ngIf="loading" id="initial-info1" class="no-pointer-events">
+                    <h4 class="label semibold"> Uploading...</h4>
+                </section>
+
+                <input accept="image/x-png,image/gif,image/jpeg" multiple="" type="file"
+                    (change)="uploadImage($event.target.files[0])">
+                <mat-error
+                    *ngIf="!loading && form.controls['imageThumbnail'].hasError('required') && form.controls.imageThumbnail.touched">
+                    Please upload image.
+                </mat-error>
+            </div>
+
+            <div class="input-field btn-group add-btn select-opt">
+                <mat-form-field class="full-width select-height" appearance="outline">
+                    <mat-label>Business type</mat-label>
+                    <mat-select formControlName="businessType">
+                        <mat-option *ngFor="let val of myModel?.businessTypes" [value]="val.value">
+                            {{val?.key}}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline" hintLabel="Max 40 characters">
+                    <mat-label class="required">Business Name</mat-label>
+                    <input matInput type="text" maxlength="40" #input pattern="(^[a-zA-Z](.)*)$" formControlName="name">
+                    <!-- <mat-error *ngIf="form.controls['name'].hasError('required')">
+                        Please enter business name.
+                    </mat-error> -->
+                    <mat-error *ngIf="!form.get('name').valid">
+                        Please enter valid business name.
+                    </mat-error>
+                    <mat-hint align="end">{{input.value?.length || 0}}/40</mat-hint>
+                </mat-form-field>
+            </div>
+
+            <!--            <input type="text"-->
+            <!--                   formControlName="address1" (addressSelect)="addressDetails($event)"-->
+            <!--                   appGoogleplace >-->
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label class="required">Address 1</mat-label>
+                    <input matInput type="text" formControlName="address1" (addressSelect)="addressDetails($event)"
+                        appGoogleplace onkeydown="return (event.keyCode!==13);">
+                    <mat-error *ngIf="form.controls['address1'].hasError('required')">
+                        Please enter Address 1.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Address 2</mat-label>
+                    <input matInput type="text" formControlName="address2">
+                </mat-form-field>
+            </div>
+
+            <div class="row">
+
+                <div class="col-md-6">
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">City</mat-label>
+                            <input matInput type="text" pattern="^[a-zA-Z\s]+$" formControlName="city">
+                            <!-- <mat-error *ngIf="form.controls['city'].hasError('required')">
+                                Please enter city.
+                            </mat-error> -->
+                            <mat-error *ngIf="!form.get('city').valid && form.get('city').touched">
+                                Please enter valid city.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">Postal code</mat-label>
+                            <input matInput type="text" appNumberOnly maxlength="7" formControlName="postalCode">
+                            <mat-error *ngIf="form.controls['postalCode'].hasError('required')">
+                                Please enter postal code.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">Country</mat-label>
+                            <input matInput type="text"  pattern="^[a-zA-Z\s]+$" formControlName="country">
+                            <mat-error *ngIf="!form.get('country').valid && form.get('country').touched">
+                                Please enter valid country.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">State</mat-label>
+                            <input matInput type="text"  pattern="^[a-zA-Z\s]+$" formControlName="state">
+                            <mat-error *ngIf="!form.get('state').valid && form.get('state').touched">
+                                Please enter valid state.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+            </div>
+
+            <!--            <div class="row">-->
+            <!--                <div class="col-md-6">-->
+            <!--                    <div class="input-field btn-group add-btn select-opt">-->
+            <!--                        <mat-form-field class="full-width select-height" appearance="outline">-->
+            <!--                            <mat-label class="required">Country</mat-label>-->
+            <!--                            <mat-select formControlName="country"-->
+            <!--                                        (selectionChange)="countryList(form.value.country)">-->
+            <!--                                <mat-option *ngFor="let val of myModel?.countries" [value]="val.country_name">-->
+            <!--                                    {{val?.country_name}}</mat-option>-->
+            <!--                            </mat-select>-->
+            <!--                        </mat-form-field>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+
+            <!--                <div class="col-md-6">-->
+            <!--                    <div class="input-field btn-group add-btn select-opt">-->
+            <!--                        <mat-form-field class="full-width select-height" appearance="outline">-->
+            <!--                            <mat-label class="required">State</mat-label>-->
+            <!--                            <mat-select formControlName="state">-->
+            <!--                                <mat-option *ngFor="let val of myModel?.states" [value]="val.state_name">-->
+            <!--                                    {{val?.state_name}}</mat-option>-->
+            <!--                            </mat-select>-->
+            <!--                        </mat-form-field>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Phone</mat-label>
+                    <input matInput type="text" appNumberOnly maxlength="15" formControlName="phone">
+                </mat-form-field>
+            </div>
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label class="required">Business Email</mat-label>
+                    <input matInput type="text" formControlName="email">
+                    <mat-error *ngIf="form.controls['email'].hasError('required')">
+                        Please enter email.
+                    </mat-error>
+                    <mat-error *ngIf="form.controls['email'].hasError('pattern')">
+                        Please enter valid email.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Website</mat-label>
+                    <input matInput type="text" formControlName="website">
+                    <mat-error *ngIf="form.controls['website'].hasError('pattern')">
+                        Please enter valid url.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="button-row">
+                <button type="submit" class="btn btn-outline-primary">{{isEdit ? 'Update' : 'Save'}}</button>
+                <button type="button" class="btn btn-link text-button" (click)="http.hideModal()">Cancel
+                </button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+<button style="display: none" id="myId">
+</button>

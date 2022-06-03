@@ -1,0 +1,108 @@
+.panel-group .panel {
+    background: #fff;
+    box-shadow: 0px 2px 4px #848484;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.panel-group .panel .panel-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 22px;
+    background: #fff;
+    border-bottom: 1px solid #e6e6e6;
+    cursor: pointer;
+}
+
+.panel-group .panel .panel-title {
+    margin: 0;
+    font-size: 16px;
+    position: relative;
+    font-weight: 400;
+    /* padding-left: 45px; */
+}
+
+/* .panel-group .panel .panel-title::before{
+    position: absolute;
+    content: '';
+    background: url('../../../../../assets/images/cloud-green.svg') no-repeat;
+    background-size: 30px;
+    height: 30px;
+    width: 30px;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+} */
+
+.panel-body .inner-first-row-main {
+    padding: 20px 30px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.panel-body .inner-first-row-main .inner-left-col label.form-name-heading {
+    display: block;
+    margin-bottom: 2px;
+    font-size: 18px;
+    color: #000;
+    font-weight: 400;
+}
+
+.panel-body .inner-first-row-main .inner-left-col span.who-is-owner {
+    font-size: 16px;
+    color: #b9b9b9;
+}
+
+.panel-body .inner-first-row-main .inner-right-col a.btn-combo {
+    display: inline-block;
+    margin-left: 20px;
+}
+
+.panel-body .inner-first-row-main .inner-right-col a.btn-combo img {
+    width: 25px;
+}
+.go-to-your-form {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 20px;
+    border-top: 1px solid #e6e6e6;
+}
+
+.go-to-your-form .left-inner-col-footer button.btn {
+    font-size: 15px;
+    color: #0444d7;
+    display: flex;
+    align-items: center;
+}
+.go-to-your-form .left-inner-col-footer button.btn:hover {
+   text-decoration: underline;
+}
+
+.go-to-your-form .left-inner-col-footer button.btn img {
+    width: 16px;
+    margin-left: 8px;
+}
+
+.go-to-your-form .right-inner-col-footer button.btn {
+    font-size: 15px;
+    color: #0444d7;
+}
+
+.go-to-your-form .right-inner-col-footer button.btn:hover {
+    text-decoration: underline;
+}
+
+.panel-body {
+    padding: 0;
+}
+
+.edit-timings .col-8 {
+    font-size: 14px;
+}
+.edit-timings .blue-link {
+    font-size: 14px;
+}

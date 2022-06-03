@@ -1,0 +1,232 @@
+<div class="profile-section">
+
+  <div class="Clients_list_heading">
+    <h3 class="inter-page-heading">Workspace</h3>
+    <div class="btn-combobox">
+      <button class="back-btn" (click)="http.goBack()">Back</button>
+      <button class="add-user-btn" (click)="http.openModal('createWorkspace')"> Create a Workspace</button>
+    </div>
+  </div>
+  <!-- <div class="contact-header">
+    <div class="Clients_list_heading">
+      <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()" />
+      <h3 class="page-title">Workspace</h3>
+      <button
+        class="btn-outline-primary t-r-btn"
+        (click)="http.openModal('createWorkspace')"
+      >
+        Create a Workspace
+      </button>
+    </div>
+  </div> -->
+
+
+  <!-- --------------------------------------------OLD CODE COMMENTED HERE---------------------------------------------- -->
+
+  <!-- <div class="smart-form-listing-table">
+    <table class="smart-table-list">
+      <thead>
+        <tr>
+          <th class="form-name">Name</th>
+          <th class="description">Description</th>
+          <th class="added-on">Created On</th>
+          <th class="actions-table">Actions</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="!loader || selectedWorkspace?._id">
+        <tr *ngFor="let workspace of allData; let i = index"
+          [ngClass]="{ disabled: selectedWorkspace?._id !== workspace?._id }">
+          <td class="form-name">
+            <div class="first-col-inner-main">
+              <div class="first-later-name" [ngStyle]="{
+                  'background-color': workspace.backgroundColor
+                }">
+                {{ workspace?.name.toUpperCase().charAt(0) }}
+              </div>
+              <div class="worked-name">
+                {{ workspace?.name }}
+                <span>
+                  <img src="../../../../assets/images/users-bunch.svg" width="15" />
+                  {{ workspace?.contacts }}
+                </span>
+              </div>
+            </div>
+          </td>
+          <td class="description" matTooltip="Description">
+            {{ workspace.description ? workspace.description : "-" }}
+          </td>
+          <td class="added-on">
+            {{ workspace?.createdAt | date: "dd/MM/yy" }}
+          </td>
+          <td class="actions-table">
+            <button class="delete-icon" matTooltip="Edit" (click)="openEditWorkspace(workspace)">
+              <img src="../../../../assets/images/edit-button-gray.svg" width="20" />
+            </button>
+            <button *ngIf="allData.length > 1" class="delete-icon" matTooltip="Delete"
+              (click)="deleteWorkspace(deletePopup, workspace?._id)">
+              <img src="../../../../assets/images/trash-icon.svg" width="20" />
+            </button>
+            <button class="delete-icon" matTooltip="Manage Workspace" [routerLink]="['/settings/edit-workspace']"
+              [queryParams]="{
+              workspaceId: workspace?._id,
+              workspaceName: workspace?.name
+            }">
+              <img src="../../../../assets/images/working-space-icon.svg" width="20" />
+
+            </button>
+          </td>
+        </tr>
+        <tr *ngIf="allData?.length === 0">
+          <td class="no-record" colspan="5">No Workspace Found</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <ng-container *ngIf="loader">
+    <div class="first-section-wrapper">
+      <div class="gravatar-title">
+        <div>
+          <ngx-skeleton-loader count="3" [theme]="{
+              width: '100%',
+              'border-radius': '0',
+              height: '60px',
+              'margin-bottom': '3px',
+              'z-index': '99',
+              'margin-left': '0px',
+              'margin-top': '0',
+              border: 'none',
+              left: '0'
+            }">
+          </ngx-skeleton-loader>
+        </div>
+      </div>
+    </div>
+  </ng-container> -->
+
+
+
+  <!-- --------------------------------------------NEW CODE---------------------------------------------- -->
+  <div class="search-on-tables">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search Workspace...">
+  </div>
+
+  <div class="new-table-main manage-workspace-table-main">
+    <table class="genral-table">
+      <thead>
+        <tr>
+          <th class="second-col-new">Name</th>
+          <th class="third-col-new">Contacts</th>
+          <th class="fourth-col-new">Description</th>
+          <th class="fifth-col-new">Created On </th>
+          <th class="sixth-col-new">Action</th>
+        </tr>
+
+      </thead>
+      <tbody >
+        <ng-container *ngIf="loader">
+          <tr *ngFor="let item of [1, 2, 3, 4, 5]">
+            <td class="second-col-new">
+              <div class="shimmer-table shine"></div>
+            </td>
+            <td class="third-col-new">
+              <div class="shimmer-table shine"></div>
+            </td>
+            <td class="fourth-col-new">
+              <div class="shimmer-table shine"></div>
+            </td>
+            <td class="fifth-col-new">
+              <div class="role-icons">
+                <div class="date-shimer shimmer-table shine"></div>
+              </div>
+            </td>
+            <td class="sixth-col-new">
+              <div class="action-btn">
+                <div class="shimmer-table shine"></div>
+                <div class="shimmer-table shine"></div>
+                <div class="shimmer-table shine"></div>
+              </div>
+            </td>
+
+          </tr>
+        </ng-container>
+        <ng-container *ngIf="selectedWorkspace?._id">
+          
+          <tr *ngFor="let workspace of (allData| filter:searchText); let i = index"
+          [ngClass]="{ disabled: selectedWorkspace?._id !== workspace?._id }">
+            <td class="second-col-new">
+              <!-- <div class="comman-text-field">Hello Face</div> -->
+              <div class="first-col-inner-main">
+                <div class="first-later-name" [ngStyle]="{
+                    'background-color': workspace.backgroundColor
+                  }">
+                  {{ workspace?.name.toUpperCase().charAt(0) }}
+                </div>
+                <div class="worked-name">
+                  {{ workspace?.name }}
+                </div>
+              </div>
+            </td>
+            <td class="third-col-new">
+              {{ workspace?.contacts }}
+            </td>
+            <td class="fourth-col-new" matTooltip="Description">
+              <div class="comman-text-field">
+                {{ workspace.description ? workspace.description : "-" }}
+              </div>
+            </td>
+            <td class="fifth-col-new">
+              <div class="role-icons">
+                {{ workspace?.createdAt | date: "dd/MM/yy" }}
+              </div>
+            </td>
+            <td class="sixth-col-new">
+              <div class="action-btn">
+                <a matTooltip=" Edit" matTooltip="Edit" (click)="openEditWorkspace(workspace)"> 
+                  <img src="../../../../assets/images/New-ui-images/pencil.svg"> 
+                </a>
+                <a 
+                *ngIf="selectedWorkspace?._id === workspace?._id"
+                class="delete-icon" matTooltip="Manage Workspace" (click)="openEditManageWorkspace(workspace)"> <img
+                    src="../../../../assets/images/New-ui-images/expert-icon.svg"> </a>
+                <a matTooltip="Delete"  *ngIf="allData.length > 1" (click)="deleteWorkspace(deletePopup, workspace?._id)">
+                   <img src="../../../../assets/images/New-ui-images/delete.svg"> 
+                </a>
+              </div>
+            </td>
+          </tr>
+        </ng-container>
+        
+        <tr *ngIf="allData?.length === 0 && !loader">
+          <td class="no-record" colspan="5">No Workspace Found</td>
+        </tr>
+        <ng-container  *ngIf="(allData| filter:searchText) as data">
+          <tr *ngIf="data.length == 0 && allData?.length !== 0">
+            <td class="no-record" colspan="5">No Workspace Found</td>
+          </tr>
+        </ng-container>
+        
+
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<ng-template #deletePopup>
+  <div class="delete-comp xs">
+    <div class="delete-comp-inner">
+      <h4>Delete workspace</h4>
+      <div class="delete-content-area">
+        <p>Are you sure you want to delete this workspace?</p>
+        <div class="button-row form-group">
+          <button class="delete-btn" type="submit" (click)="http.hideModal(); changeStatus(4)">
+            Delete
+          </button>
+          <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</ng-template>

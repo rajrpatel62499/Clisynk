@@ -1,0 +1,216 @@
+<ng-container *ngIf="!selectedSlot && !successMsg">
+    <div class="selectedsloats">
+        <div class="row">
+            <div class="col-md-12">
+                <header class="appt-picker-header">
+                    <button type="button" class="button icon-only">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="calendar">
+                                <path
+                                        d="M16 1a1 1 0 0 1 1 1v1h3a2 2 0 0 1 2 2v15a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h3V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 1-1zm4 10H4v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1zM7 5H4v4h16V5h-3v1a1 1 0 1 1-2 0V5H9v1a1 1 0 0 1-2 0z"
+                                        fill-rule="evenodd"></path>
+                            </svg>
+                        </svg>
+                    </button>
+                    <div class="header">
+                        <p class="title"> Select a time </p>
+                        <p>{{allData?.name}} With {{http.loginData.name}}</p>
+                    </div>
+                </header>
+            </div>
+        </div>
+        <div class="select-appointment-container">
+            <div class="row">
+                <div class="col-md-6">
+
+                    <div class="calendar" style="display: flex;flex-direction: column;">
+                        <!--                        <full-calendar style="    width: 400px;height: 400px;" #calendar defaultView="dayGridMonth"-->
+                        <!--                            id="full-calendar" deepChangeDetection="true" [events]="calendarEvents"-->
+                        <!--                            [plugins]="calendarPlugins" [validRange]="validRange" (dateClick)="handleDateClick($event)">-->
+                        <!--                        </full-calendar>-->
+
+                        <full-calendar style="width: 400px;height: 400px;" #calendar defaultView="dayGridMonth"
+                                       id="full-calendar" deepChangeDetection="true" [events]="calendarEvents"
+                                       [plugins]="calendarPlugins" [validRange]="validRange"
+                                       (dateClick)="handleDateClick($event)"></full-calendar>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="time-picker-wrapper">
+                        <div class="day-picker">
+                            <h5>{{todayDate.value | date}}</h5>
+                            <div class="button-group">
+                                <button class="" (click)="next(1)">
+                                    <svg class="icon-only">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-left">
+                                            <path
+                                                    d="M14.707 6.293a1 1 0 0 1 0 1.414L10.414 12l4.293 4.293a1 1 0 0 1-1.414 1.414l-5-5a1 1 0 0 1 0-1.414l5-5a1 1 0 0 1 1.414 0z"
+                                                    fill-rule="evenodd"></path>
+                                        </svg>
+                                    </svg>
+                                </button>
+                                <button class="" (click)="next(2)">
+                                    <svg class="icon-only">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-right">
+                                            <path
+                                                    d="M9.293 6.293a1 1 0 0 1 1.414 0l5 5a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414-1.414L13.586 12 9.293 7.707a1 1 0 0 1 0-1.414z"
+                                                    fill-rule="evenodd"></path>
+                                        </svg>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="date-slots">
+                                <ul class="slots-ul">
+                                    <app-loader [showLoader]="myModel.loader"></app-loader>
+                                    <label *ngIf="myModel?.slots?.length === 0 && !myModel.loader" class="no-slot">No
+                                        Slots
+                                        Available</label>
+
+                                    <li *ngFor="let data of myModel?.slots;let i =index">
+                                        {{data?.start |time}} - {{data?.end | time}}
+                                        <span *ngIf="selectedIndex != i"
+                                              (click)="selectedIndex = i">Book now</span>
+                                        <span class="btn-outline-primary slot-confirm" *ngIf="selectedIndex == i"
+                                              (click)="selectedSlot = data;selectedIndex = undefined">
+                                            Confirm
+                                        </span>
+                                    </li>
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="selectedSlot && !successMsg">
+    <div class="form-view selectedsloats">
+        <div class="modal-header email_str_header">
+            <section id="close" class="navigation">
+                <button class="icon-only" type="button" aria-label="Close" (click)="selectedSlot = null">
+                    <img src="/assets/images/back-arrow.svg">
+                </button>
+            </section>
+            <section class="text">
+                <h4>Review and confirm</h4>
+                <p>{{allData?.name}} With {{http.loginData.name}}</p>
+            </section>
+        </div>
+
+        <form class="submission-form-wrapper" [formGroup]="form" autocomplete="off" (ngSubmit)="finalSubmit()">
+
+            <h3>
+                {{todayDate.value.date | date:'EEE,MMM, dd yyyy'}}
+                <br>
+                {{selectedSlot?.start | time}} - {{selectedSlot?.end |time}}
+                ({{selectedSlot?.end - selectedSlot?.start}} min)
+                <br>
+                Asia/Calcutta - IST
+            </h3>
+
+            <ng-container *ngIf="!this.allData.bookingId">
+                <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline" hintLabel="Max 26 characters">
+                        <mat-label class="required">First Name</mat-label>
+                        <input matInput type="text" formControlName="firstName" maxlength="26" #fname>
+                        <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+                            Please enter first name.
+                        </mat-error>
+                        <mat-hint align="end">{{fname.value?.length || 0}}/26</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline" hintLabel="Max 26 characters">
+                        <mat-label class="required">Last Name</mat-label>
+                        <input matInput type="text" formControlName="lastName" maxlength="26" #lname>
+                        <mat-error *ngIf="form.controls['lastName'].hasError('required')">
+                            Please enter last name.
+                        </mat-error>
+                        <mat-hint align="end">{{lname.value?.length || 0}}/26</mat-hint>
+                    </mat-form-field>
+                </div>
+
+                <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">E-mail</mat-label>
+                        <input matInput type="text" formControlName="email">
+                        <mat-error *ngIf="form.controls['email'].hasError('required')">
+                            Please enter e-mail.
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['email'].hasError('pattern')">
+                            Please enter valid email.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">Phone Number</mat-label>
+                        <input matInput type="tel" formControlName="phoneNumber" appNumberOnly minlength="10" maxlength="15">
+                        <mat-error *ngIf="form.controls['phoneNumber'].hasError('required')">
+                            Please enter phone no.
+                        </mat-error>
+                        <mat-error *ngIf="form.controls['phoneNumber'].hasError('minlength')">
+                            Please enter valid phone no.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="form-check" style="padding: 5px 0 22px 5px">
+                    <label class="form-check-label">
+                        <input type="checkbox" [formControl]="checkBox"> I'd like to receive important emails from
+                        {{http?.loginData?.name}}
+                    </label>
+                </div>
+
+                <!--                <label class="custom-checkbox">-->
+                <!--                  -->
+                <!--                    <input type="checkbox"  [formControl]="checkBox">-->
+                <!--                    <span class="checkmark"></span>-->
+                <!--                </label>-->
+
+            </ng-container>
+
+            <div class="button-row">
+                <button type="button" class="btn-outline-primary" (click)="finalSubmit()"> Confirm</button>
+                <button type="button" class="text-button" (click)="selectedSlot = null"> Cancel</button>
+            </div>
+        </form>
+    </div>
+</ng-container>
+
+<ng-container *ngIf="successMsg">
+    <div class="form-view selectedsloats text-center successMsg">
+        <div class="modal-header email_str_header popup-success">
+            <img [src]="'assets/images/calender.png'">
+            <h3>Your appointment is confirmed, {{allData?.name}}!</h3>
+            <p style="margin-top:17px">Here are your appointment details. They've also been sent to {{lastBookingData.addedBy.name}}
+                to {{form.value.email}}</p>
+            <div class="successMsg-when">
+                <label>What</label>
+                <span>{{lastBookingData?.contactId?.fullName}} With {{lastBookingData.addedBy.name}}</span>
+            </div>
+            <div class="successMsg-when">
+                <label>When</label>
+                <span>{{lastBookingData.date | date:'EEE MMM, dd yyyy'}}</span>
+                <span>{{lastBookingData?.startTime | time}} - {{lastBookingData?.endTime |time}}
+                    ({{lastBookingData?.endTime - lastBookingData?.startTime}}min)</span>
+            </div>
+
+            <div class="successMsg-when">
+                <label>Where</label>
+                <span>{{whereText}}</span>
+            </div>
+
+        </div>
+    </div>
+
+</ng-container>

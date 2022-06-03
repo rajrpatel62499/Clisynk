@@ -1,0 +1,29 @@
+.third-tab-code {
+    padding: 40px;
+}
+
+.third-tab-code .inner-code-wrapper-main {
+    width: 300px;
+}
+
+.third-tab-code .inner-code-wrapper-main .above-ping-main {
+    text-align: center;
+    background: #F8F8F8;
+    border: 1px solid #979797;
+    padding: 90px 0px;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.third-tab-code .inner-code-wrapper-main .below-ping-main .heading-ping {
+    text-align: center;
+    font-size: 16px;
+    margin-bottom: 10px;
+    font-weight: 500;
+}
+.third-tab-code .inner-code-wrapper-main .below-ping-main span.create-temp {
+    text-align: center !important;
+    display: block;
+    font-weight: 300 !important;
+    font-size: 14px !important;
+}

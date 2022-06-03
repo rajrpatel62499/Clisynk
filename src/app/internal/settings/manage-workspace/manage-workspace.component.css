@@ -1,0 +1,222 @@
+.main-header-smart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e6e6e8;
+}
+
+.main-header-smart .left-col {
+  display: flex;
+  align-items: center;
+}
+
+.main-header-smart .left-col .back-btn {
+  margin-right: 15px;
+  border: none;
+  background: none;
+}
+
+.main-header-smart .left-col span.heading-main {
+  font-size: 28px;
+  font-weight: 100;
+}
+
+/* --------------table-width-------------------- */
+
+.form-name {
+  width: 250px;
+}
+.description {
+  width: 220px;
+}
+.added-on {
+  width: 200px;
+}
+/* .status{
+    width: 200px;
+} */
+.actions-table {
+  width: 200px;
+}
+
+.smart-form-listing-table table.smart-table-list tr th {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #000;
+  font-weight: 500;
+}
+
+.smart-form-listing-table .smart-table-list tr {
+  border-bottom: 1px solid #e6e6e8;
+}
+
+.smart-form-listing-table table.smart-table-list tr td {
+  padding: 10px 20px;
+  font-size: 13px;
+  color: #000;
+  font-weight: 400;
+}
+
+.smart-form-listing-table table.smart-table-list .down-arrow {
+  background: none;
+  border: none;
+}
+
+.not-published {
+  border: none;
+  background: #f0f0f0;
+  padding: 6px 15px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+.published {
+  background: #0d3174;
+  border: none;
+  padding: 6px 15px;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 20px;
+}
+
+.delete-icon {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.smart-form-listing-table .smart-table-list tbody tr {
+  cursor: pointer;
+  transition: 0.2s all ease;
+}
+
+.smart-form-listing-table .smart-table-list tbody tr:hover {
+  background: #f0f0f0;
+  transition: 0.2s all ease;
+}
+
+.first-col-inner-main {
+  display: flex;
+  align-items: center;
+  font-size: 16px;
+}
+
+.first-col-inner-main .worked-name span {
+  display: flex;
+  align-items: center;
+  margin-left: 10px;
+  font-size: 12px;
+  font-weight: 300;
+}
+
+.first-col-inner-main .worked-name span img {
+  margin-right: 3px;
+}
+
+.first-col-inner-main .worked-name {
+  display: flex;
+  align-items: center;
+}
+
+.first-col-inner-main .first-later-name {
+  /* margin-right: 20px;
+    background: #eff3ff;
+    width: 45px;
+    height: 45px;
+    border-radius: 100%;
+    box-shadow: 0px 0px 5px #e6e3e3;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    color: #4566a2; */
+
+  margin-right: 14px;
+  /* background: #649ef1; */
+  width: 45px;
+  height: 45px;
+  border-radius: 100%;
+  box-shadow: 0px 0px 5px #e6e3e3;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  color: #fff;
+  background: #5a6079 !important;
+}
+.no-record {
+  text-align: center;
+}
+.disabled {
+  cursor: not-allowed !important;
+  pointer-events: none !important;
+  /* background-color: lightgray; */
+}
+
+
+.disabled .actions-table button.delete-icon:last-child {
+  display: none;
+}
+
+.delete-comp-inner{
+  padding: 0px;
+}
+
+.delete-comp-inner h4 {
+  padding: 18px 30px;
+  border-bottom: 1px solid #ccc;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 26px;
+  color: #2A2A2A;
+}
+
+.delete-content-area {
+  padding-bottom: 30px;
+  padding-left: 30px;
+  padding-right: 30px;
+  padding-top: 30px;
+  text-align: center;
+}
+.modal-dialog.modal-md {
+  max-width: 26rem;
+}
+
+.delete-comp-inner .delete-content-area p {
+  width: 50%;
+  margin: auto;
+  font-size: 18px;
+  line-height: 28px;
+  text-align: center;
+  color: #2A2A2A;
+  font-weight: 400;
+}
+
+.delete-comp-inner .delete-content-area .button-row.form-group {
+  margin-bottom: 0px;
+  margin-top: 50px;
+}
+
+button.delete-btn {
+  background: #FD1C37 !important;
+  border-radius: 5px;
+  padding: 10px 40px;
+  transition: 0.2s all ease;
+}
+
+button.delete-btn:hover {
+  background: #980505 !important;
+}
+
+button.text-button {
+  border: 1px solid #4776E6;
+  padding: 8px 30px !important;
+  transition: 0.2s all ease;
+}
+
+
+button.text-button:hover{
+  background: #4776E6 !important;
+  color: #fff !important;
+}

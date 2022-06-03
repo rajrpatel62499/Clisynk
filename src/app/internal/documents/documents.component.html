@@ -1,0 +1,692 @@
+<!-- documents sidebar -->
+<ng-template
+  #itemTemplate
+  let-item="item"
+  let-onCollapseExpand="onCollapseExpand"
+  let-onCheckedChange="onCheckedChange"
+>
+  <div class="form-inline row-item">
+    <i
+      *ngIf="item.children"
+      class="mr-1"
+      (click)="onCollapseExpand()"
+      aria-hidden="true"
+      [ngSwitch]="item.collapsed"
+    >
+      <svg
+        *ngSwitchCase="true"
+        width="0.8rem"
+        height="0.8rem"
+        viewBox="0 0 16 16"
+        class="bi bi-caret-right-fill"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M12.14 8.753l-5.482 4.796c-.646.566-1.658.106-1.658-.753V3.204a1 1 0 0 1 1.659-.753l5.48 4.796a1 1 0 0 1 0 1.506z"
+        />
+      </svg>
+      <svg
+        *ngSwitchCase="false"
+        width="0.8rem"
+        height="0.8rem"
+        viewBox="0 0 16 16"
+        class="bi bi-caret-down-fill"
+        fill="currentColor"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          d="M7.247 11.14L2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z"
+        />
+      </svg>
+    </i>
+    <tr class="selectable-row">
+      <div class="form-check">
+        <label
+          class="form-check-label"
+          (click)="item.checked = !item.checked; onCheckedChange()"
+        >
+          {{ item.text }}
+        </label>
+        <td class="table-th" dropdown>
+          <img
+            class="list-dropdown"
+            src="assets/images/dropdown_menu_ic.svg"
+            width="20px"
+            id="dropdownMenu6"
+            dropdownToggle
+            aria-controls="dropdown-basic5"
+          />
+          <ul
+            class="type-drop dropdown-menu"
+            id="dropdownMenu6"
+            *dropdownMenu
+            role="menu"
+            aria-labelledby="dropdown-basic5"
+          >
+            <li role="menuitem" style="display: block">
+              <a class="dropdown-item" (click)="copyDocument()">
+                <img src="assets/images/duplicate-doc-icon.svg" />
+                <span class="ellipsis">Duplicate</span>
+              </a>
+            </li>
+            <li role="menuitem" style="display: block">
+              <a class="dropdown-item">
+                <span class="ellipsis">Move</span>
+              </a>
+            </li>
+            <li role="menuitem" style="display: block">
+              <a (click)="renameDocs(data)" class="dropdown-item">
+                <img src="assets/images/edit-doc-icon.svg" />
+                <span class="ellipsis">Rename</span>
+              </a>
+            </li>
+            <li role="menuitem" style="display: block">
+              <a (click)="deleteDocModal(data)" class="dropdown-item">
+                <img src="assets/images/delete-doc-icon.svg" />
+                <span class="ellipsis">Delete</span>
+              </a>
+            </li>
+          </ul>
+        </td>
+      </div>
+    </tr>
+  </div>
+</ng-template>
+<div class="doc-col">
+  <div class="title">Documents</div>
+  <div class="all-row set-1 active">
+    <img src="assets/images/document_folder.svg" />
+    <span class="full-width" (click)="addedByFilter('0')">All</span>
+  </div>
+  <div class="second-row set">
+    <div class="filter-title new-filter-title">
+      FOLDERS
+      <a class="add-folder-main" (click)="openAddTask()">
+        <img src="../../../assets/images/add-icon.svg" />
+      </a>
+    </div>
+  </div>
+  <div class="second-row set">
+    <kendo-treeview
+      kendoTreeViewDragAndDrop
+      kendoTreeViewDragAndDropEditing
+      [nodes]="folderStructureInTreeView"
+      textField="text"
+      [hasChildren]="hasChildren"
+      [children]="fetchChildren"
+      kendoTreeViewExpandable
+      kendoTreeViewSelectable
+      kendoTreeViewHierarchyBinding
+      [isSelected]="isItemSelected"
+      childrenField="children"
+      [(selectedKeys)]="selectedKeys"
+      (selectionChange)="handleClickSelection($event)"
+    >
+      <ng-template kendoTreeViewNodeTemplate let-folderStructureInTreeViewItem>
+        <img src="assets/images/document_folder.svg" class="tree-view-folder" />
+        <span>{{ folderStructureInTreeViewItem.text }}</span>
+        <span>
+          <ul class="WebComponentsIcons">
+            <li #target class="target">
+              <span class="k-icon k-i-more-vertical"></span>
+              <kendo-contextmenu
+                [target]="target"
+                [items]="itemsExpand"
+                showOn="click"
+                (select)="onSelectOptionFromThreeDot($event)"
+              >
+              </kendo-contextmenu>
+            </li>
+          </ul>
+        </span>
+      </ng-template>
+    </kendo-treeview>
+  </div>
+  <div class="second-row">
+    <div class="filter-title">LABELS</div>
+    <div class="all-row">
+      <span class="draft-color"></span>
+      <span class="full-width" (click)="filterLabel('DRAFT')">Draft</span>
+    </div>
+    <div class="all-row">
+      <span class="approval-color"></span>
+      <span class="full-width" (click)="filterLabel('Approval')"
+        >For Approval</span
+      >
+    </div>
+    <div class="all-row">
+      <span class="sent-color"></span>
+      <span class="full-width" (click)="filterLabel('Sent')">Sent</span>
+    </div>
+    <div class="all-row">
+      <span class="viewed-color"></span>
+      <span class="full-width" (click)="filterLabel('Viewed')">Viewed</span>
+    </div>
+
+    <div class="all-row">
+      <span class="completed-color"></span>
+      <span class="full-width" (click)="filterLabel('Completed')"
+        >Completed</span
+      >
+    </div>
+  </div>
+</div>
+<!-- documents table -->
+<div class="row">
+  <div class="col-12 table-col">
+    <div class="card">
+      <div class="row">
+        <div class="col-3">
+          <span
+            class="labels"
+            *ngFor="let breadcrumb of documentsBreadcrumbs"
+            (click)="addedByFilter(breadcrumb?.id)"
+            >{{ breadcrumb?.name }}</span
+          >
+        </div>
+        <div class="col-9">
+          <div style="width: 100%; text-align: right">
+            <span>
+              <input
+                class="search-document-main"
+                type="search"
+                [(ngModel)]="searchText"
+                (keyup.enter)="documentList()"
+                autocomplete="off"
+                placeholder="Search Documents"
+              />
+            </span>
+            <span dropdown style="position: relative">
+              <button
+                type="button"
+                class="btn create-btn"
+                id="button-create"
+                dropdownToggle
+                aria-controls="dropdown-basic"
+              >
+                Create<mat-icon>arrow_drop_down</mat-icon>
+              </button>
+              <ul
+                id="dropdown-create"
+                *dropdownMenu
+                class="dropdown-menu create-menu"
+                role="menu"
+                aria-labelledby="button-basic"
+              >
+                <li
+                  role="menuitem"
+                  style="display: block"
+                  (click)="openAddDocument()"
+                >
+                  <a class="dropdown-item">
+                    <span class="ellipsis"
+                      ><img src="assets/images/add-document.svg" />
+                      Document</span
+                    >
+                  </a>
+                </li>
+                <li
+                  role="menuitem"
+                  style="display: block"
+                  (click)="openAddTask()"
+                >
+                  <a class="dropdown-item">
+                    <span class="ellipsis"
+                      ><img src="assets/images/add-folder.svg" /> Folder</span
+                    >
+                  </a>
+                </li>
+                <li role="menuitem" style="display: block">
+                  <a class="dropdown-item">
+                    <span class="ellipsis"
+                      ><img src="assets/images/add-upload.svg" /> Upload</span
+                    >
+                  </a>
+                </li>
+              </ul>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="table-grid">
+      <div class="table-wrapper">
+        <table>
+          <colgroup>
+            <col name="col-th-column-7" width="300" />
+            <col name="col-th-column-8" width="100" />
+            <col name="col-th-column-9" width="100" />
+            <col name="col-th-column-10" width="200" />
+            <col name="col-th-column-11" width="100" />
+          </colgroup>
+          <thead>
+            <tr *ngIf="!isShowHeader">
+              <th
+                dropdown
+                class="table-th"
+                style="display: flex; align-items: center"
+              >
+                <input
+                  type="checkbox"
+                  class="check-box checkDocs"
+                  (click)="selectAllCopyDocument()"
+                />
+                <a
+                  class="click-dropdown title-color"
+                  type="button"
+                  id="dropdownMenu3"
+                  dropdownToggle
+                  aria-controls="dropdown-basic2"
+                  style="margin-top: 4px"
+                >
+                  <!-- <input type="checkbox" /> -->
+                  Title
+                  <img class="title-icon" src="assets/images/down-arrow.svg" />
+                </a>
+                <ul
+                  class="dropdown-menu status-drop"
+                  id="dropdownMenu3"
+                  *dropdownMenu
+                  role="menu"
+                  aria-labelledby="dropdown-basic2"
+                >
+                  <div class="drop-label">ORDER</div>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="sorting('title', 1)" class="dropdown-item">
+                      <span class="ellipsis">A-Z</span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="sorting('title', -1)" class="dropdown-item">
+                      <span class="ellipsis">Z-A</span>
+                    </a>
+                  </li>
+                </ul>
+              </th>
+              <th dropdown class="table-th">
+                <a
+                  class="click-dropdown title-color"
+                  type="button"
+                  id="dropdownMenu1"
+                  dropdownToggle
+                  aria-controls="dropdown-basic"
+                >
+                  Status
+                  <img class="title-icon" src="assets/images/down-arrow.svg" />
+                </a>
+                <ul
+                  class="dropdown-menu status-drop"
+                  id="dropdownMenu1"
+                  *dropdownMenu
+                  role="menu"
+                  aria-labelledby="dropdown-basic"
+                >
+                  <div class="drop-label">ORDER</div>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="sorting('status', 1)" class="dropdown-item">
+                      <span class="ellipsis">Ascending</span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="sorting('status', -1)" class="dropdown-item">
+                      <span class="ellipsis">Descending</span>
+                    </a>
+                  </li>
+                </ul>
+              </th>
+              <th class="sortable">
+                <div class="active-sortable cell table-value">Value</div>
+              </th>
+              <th dropdown class="table-th">
+                <a
+                  class="click-dropdown title-color"
+                  type="button"
+                  id="dropdownMenu2"
+                  dropdownToggle
+                  aria-controls="dropdown-basic1"
+                >
+                  Modified
+                  <img class="title-icon" src="assets/images/down-arrow.svg" />
+                </a>
+                <ul
+                  class="dropdown-menu status-drop"
+                  id="dropdownMenu2"
+                  *dropdownMenu
+                  role="menu"
+                  aria-labelledby="dropdown-basic1"
+                >
+                  <div class="drop-label">ORDER</div>
+                  <li role="menuitem" style="display: block">
+                    <a
+                      (click)="sorting('lastModified', -1)"
+                      class="dropdown-item"
+                    >
+                      <span class="ellipsis">Newest to oldest</span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a
+                      (click)="sorting('lastModified', 1)"
+                      class="dropdown-item"
+                    >
+                      <span class="ellipsis">Oldest to newest</span>
+                    </a>
+                  </li>
+                </ul>
+              </th>
+              <th dropdown class="table-th">
+                <div
+                  class="active-sortable cell table-value"
+                  id="dropdownMenu6"
+                  dropdownToggle
+                  aria-controls="dropdown-basic6"
+                >
+                  <img src="assets/images/change-order-icon.svg" width="20px" />
+                </div>
+                <ul
+                  class="filter-drop dropdown-menu"
+                  id="dropdownMenu6"
+                  *dropdownMenu
+                  role="menu"
+                  aria-labelledby="dropdown-basic6"
+                >
+                  <div class="drop-label">ORDER</div>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="sorting('title', 1)" class="dropdown-item">
+                      <span class="ellipsis">Folders List</span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="sorting('title', -1)" class="dropdown-item">
+                      <span class="ellipsis">Documents List</span>
+                    </a>
+                  </li>
+                </ul>
+              </th>
+            </tr>
+            <tr *ngIf="isShowHeader">
+              <th
+                dropdown
+                class="table-th"
+                style="display: flex; align-items: center"
+              >
+                <input
+                  type="checkbox"
+                  class="check-box checkDocs"
+                  (click)="selectAllCopyDocument()"
+                  checked
+                />
+              </th>
+              <th></th>
+              <th></th>
+              <th></th>
+              <th>
+                <div class="selected-icon">
+                  <div>
+                    <img src="assets/images/duplicate-doc-icon.svg" />
+                    <span class="select-option" (click)="copyDocument()"
+                      >Duplicate</span
+                    >
+                  </div>
+                  <div>
+                    <img src="assets/images/move.svg" />
+                    <span class="select-option" (click)="moveAllDocument()"
+                      >Move</span
+                    >
+                  </div>
+                  <div dropdown class="table-th">
+                    <img
+                      src="assets/images/dropdown_menu_ic.svg"
+                      width="20px"
+                      id="dropdownMenu7"
+                      dropdownToggle
+                      aria-controls="dropdown-basic7"
+                      style="cursor: pointer"
+                    />
+                    <ul
+                      class="type-drop dropdown-menu"
+                      id="dropdownMenu7"
+                      *dropdownMenu
+                      role="menu"
+                      aria-labelledby="dropdown-basic7"
+                    >
+                      <li role="menuitem" style="display: block">
+                        <a class="dropdown-item">
+                          <img src="assets/images/delete-doc-icon1.svg" />
+                          <span class="ellipsis" (click)="multipleDeleteDocs()"
+                            >Delete</span
+                          >
+                        </a>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody
+            *ngIf="!loader"
+            #activeList="cdkDropList"
+            class="box-list"
+            cdkDropList
+            cdkDropListOrientation="vertical"
+            [cdkDropListData]="responseData"
+            (cdkDropListDropped)="dropEvent($event)"
+          >
+            <tr
+              class="selectable-row"
+              *ngFor="let data of responseData; let i = index"
+              cdkDrag
+            >
+              <td class="">
+                <div class="cell table-label">
+                  <a
+                    data-qa="invoice-contact-Varinder Dhawan"
+                    *ngIf="data?.type == 'FOLDER'"
+                  >
+                    <div style="display: flex">
+                      <div style="position: absolute">
+                        <input
+                          type="checkbox"
+                          class="checkbox"
+                          (change)="
+                            getSelectedCount(
+                              i,
+                              data?._id,
+                              $event.target.checked
+                            )
+                          "
+                          [(ngModel)]="data.isSelected"
+                        />
+                        <img
+                          src="assets/images/document_folder.svg"
+                          class="table-img"
+                          *ngIf="!data?.isSelected"
+                        />
+                      </div>
+                      <div
+                        style="margin-left: 35px"
+                        (click)="subFolderList(data)"
+                      >
+                        <div>
+                          <span class="doc-name1">{{ data?.title }}</span>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                  <a
+                    data-qa="invoice-contact-Varinder Dhawan"
+                    class="title-color"
+                    *ngIf="data?.type == 'FILE'"
+                  >
+                    <div style="display: flex">
+                      <div style="position: absolute">
+                        <input
+                          type="checkbox"
+                          class="checkbox"
+                          (change)="
+                            getSelectedCount(
+                              i,
+                              data?._id,
+                              $event.target.checked
+                            )
+                          "
+                          [(ngModel)]="data.isSelected"
+                        />
+                        <img
+                          src="assets/images/sidebar-doc.svg"
+                          class="table-img"
+                          *ngIf="!data?.isSelected"
+                        />
+                      </div>
+                      <div style="margin-left: 35px">
+                        <div
+                          routerLink="/documents/approve-doc/{{ data?._id }}"
+                        >
+                          <span class="doc-name1">{{ data?.title }}</span>
+                        </div>
+                        <div>
+                          <div class="table-text">No recipient</div>
+                        </div>
+                      </div>
+                    </div>
+                  </a>
+                </div>
+              </td>
+              <td class="">
+                <div class="cell">
+                  <span
+                    data-qa="invoice-contact-Varinder Dhawan"
+                    class="table-value"
+                    >{{ data?.status }}
+                  </span>
+                </div>
+              </td>
+              <td class="" style="text-align: right">
+                <div *ngIf="data?.type == 'FILE'" class="cell">
+                  <span data-qa="invoice-contact-Varinder Dhawan"
+                    >${{ data?.value ? data?.value : 0.0 }}
+                  </span>
+                </div>
+              </td>
+              <td class="">
+                <div class="cell">
+                  <span class="pink-color" title="">AV</span>
+                  <span
+                    data-qa="invoice-contact-Varinder Dhawan"
+                    class="table-value"
+                    title="{{ data?.updatedAt | date: 'MMM d, y, h:mm:ss a' }}"
+                    >{{ data?.updatedAt | date: "MMM d, y, h:mm:ss a" }}
+                  </span>
+                </div>
+              </td>
+              <td class="table-th" dropdown>
+                <img
+                  class="list-dropdown"
+                  src="assets/images/dropdown_menu_ic.svg"
+                  width="20px"
+                  id="dropdownMenu5"
+                  dropdownToggle
+                  aria-controls="dropdown-basic5"
+                />
+                <ul
+                  class="type-drop dropdown-menu"
+                  id="dropdownMenu5"
+                  *dropdownMenu
+                  role="menu"
+                  aria-labelledby="dropdown-basic5"
+                >
+                  <li
+                    role="menuitem"
+                    style="display: block"
+                    *ngIf="data?.type == 'FILE'"
+                  >
+                    <a class="dropdown-item" (click)="copyOnlyDocument(data)">
+                      <img src="assets/images/duplicate-doc-icon.svg" />
+                      <span class="ellipsis">Duplicate</span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a class="dropdown-item" (click)="moveDocument(data)">
+                      <img src="assets/images/move.svg" />
+                      <span class="ellipsis">Move</span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a (click)="renameDocs(data)" class="dropdown-item">
+                      <img src="assets/images/edit-doc-icon.svg" />
+                      <span class="ellipsis">Rename</span>
+                    </a>
+                  </li>
+                  <!-- <li role="menuitem" style="display: block">
+                        <a class="dropdown-item">
+                          <span class="ellipsis">Download</span>
+                        </a>
+                  </li> -->
+                  <li role="menuitem" style="display: block">
+                    <a (click)="deleteDocModal(data)" class="dropdown-item">
+                      <img src="assets/images/delete-doc-icon.svg" />
+                      <span class="ellipsis">Delete</span>
+                    </a>
+                  </li>
+                </ul>
+              </td>
+            </tr>
+          </tbody>
+          <i class="fa fa-spinner fa-spin" *ngIf="loader"></i>
+        </table>
+        <div
+          *ngIf="searchText !== '' && !loader && !responseData.length"
+          direction="row"
+          width="1"
+          height="1"
+          class="Item-xwy1t9-0 hxCQKY nodata-container"
+        >
+          <h3
+            class="Title-sc-3zvmf3-0 iqzivz Title-sc-1fudgxe-0 hqNXoB styled__StyledTitle-sc-1q3jwcw-3 iKRJiL"
+            spacing="s0"
+          >
+            <div>
+              <img
+                src="assets/images/doc-not-found.svg"
+                width="70px"
+                style="margin-bottom: 30px"
+              />
+            </div>
+            No Results for "{{ searchText }}"
+          </h3>
+          <div>Try searching something else.</div>
+        </div>
+        <div
+          *ngIf="!loader && responseData.length === 0 && searchText === ''"
+          direction="row"
+          width="1"
+          height="1"
+          class="Item-xwy1t9-0 hxCQKY nodata-container"
+        >
+          <img
+            src="assets/images/document_folder.svg"
+            width="70px"
+            style="margin-bottom: 30px"
+          />
+          <h3
+            class="Title-sc-3zvmf3-0 iqzivz Title-sc-1fudgxe-0 hqNXoB styled__StyledTitle-sc-1q3jwcw-3 iKRJiL"
+            spacing="s0"
+          >
+            No documents in this folder
+          </h3>
+          <span>
+            Create a new document here or go to your document list to move an
+            existing document into this folder.</span
+          >
+          <div>
+            <button class="btn create-btn" (click)="openAddDocument()">
+              Create
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

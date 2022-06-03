@@ -1,0 +1,46 @@
+<div class="col-md-12">
+    <div class="step-4">
+        <h1>High five, {{http?.loginData?.name}}!</h1>
+        <h1>Your link is ready to share.</h1>
+        <img src="assets/images/hand.png">
+        <button class="btn-outline-primary" (click)="appoint.openBooking(inputData?.name)">
+            Preview live page
+        </button>
+        <!--        <p>letsmeet.io/langermania/ghfghf</p>-->
+        <p>{{inputData.link}}</p>
+        <div class="step-4_links">
+            <button class="text-button" (click)="appoint.sendInvite(inputData)">
+                <svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="send">
+                        <path d="M22.707 1.293a1 1 0 0 1 .262.953l-.04.125-8 20a1 1 0 0 1-1.88-.06l-.03-.115-1.869-9.346-9.346-1.87a1 1 0 0 1-.283-1.858l.108-.05 20-8a1 1 0 0 1 1.078.22zm-3.445 4.86l-6.176 6.176 1.235 6.176zm-1.414-1.415L5.495 9.679l6.176 1.235z"
+                              fill-rule="evenodd"></path>
+                    </svg>
+                </svg>
+                Email Link
+            </button>
+
+            <button class="text-button" [appCopyClipboard]="appoint.getBookingLink(inputData?.name)"
+                    (copied)="appoint.copied($event)">
+                <svg>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                         id="copy">
+                        <path
+                                d="M20 9a2 2 0 0 1 2 2v9a2 2 0 0 1-2 2h-9a2 2 0 0 1-2-2v-9a2 2 0 0 1 2-2zm0 2h-9v9h9zm-6-9a2 2 0 0 1 2 2v2a1 1 0 1 1-2 0V4H4v10h2a1 1 0 1 1 0 2H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </svg>
+                Copy
+                <!--                <button class="text-button">-->
+                <!--                    <svg>-->
+                <!--                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="code">-->
+                <!--                            <path-->
+                <!--                                    d="M16.707 5.293l6 6a1 1 0 0 1 0 1.414l-6 6a1 1 0 0 1-1.414-1.414L20.586 12l-5.293-5.293a1 1 0 0 1 1.414-1.414zm-8 0a1 1 0 0 1 0 1.414L3.414 12l5.293 5.293a1 1 0 1 1-1.414 1.414l-6-6a1 1 0 0 1 0-1.414l6-6a1 1 0 0 1 1.414 0z"-->
+                <!--                                    fill-rule="evenodd"></path>-->
+                <!--                        </svg>-->
+                <!--                    </svg>-->
+                <!--                    Embed on your website-->
+                <!--                </button>-->
+            </button>
+        </div>
+    </div>
+</div>

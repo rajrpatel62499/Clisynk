@@ -1,0 +1,33 @@
+<div class="row">
+    <div class="col-md-12 btn-group add-btn select-opt" *ngIf="isShowPipeline">
+        <mat-form-field class="full-width select-height" appearance="outline" (click)="dropdown.isOpen = false">
+            <mat-label>Move Deals to...</mat-label>
+            <mat-select>
+                <mat-option value="false" *ngFor="let val of showPipelines;let i=index"
+                            (click)="selectPipe(val)">{{val?.name}}
+                    <ng-container *ngIf="selectedStage?.name"> -> {{selectedStage?.name}} </ng-container>
+                    <div class="input-chevron">
+                        <img src="assets/images/ic_dropdown.svg">
+                    </div>
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12" style="margin-top: -32px;">
+        <button type="button" id="myId" class="btn btn-primary" style="display: none"
+                (click)="dropdown.isOpen = !dropdown.isOpen">
+        </button>
+        <!--        *ngIf="stages?.stages?.length">-->
+        <div class="btn-group" dropdown #dropdown="bs-dropdown">
+            <ul *dropdownMenu class="dropdown-menu" role="menu" id="pipeLineDropdown">
+                <li role="menuitem" *ngFor="let val of stages?.stages">
+                    <a class="dropdown-item" (click)="selectOption(val);dropdown.hide()">{{val?.name}}</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+

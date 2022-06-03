@@ -1,0 +1,15 @@
+<nav class="navbar-default navbar-static-side" role="navigation">
+    <div class="sidebar-collapse">
+        <ul class="nav metismenu navbar-nav" id="side-menu">
+
+            <li *ngFor="let menu of sideBar" class="nav-item">
+                <a *ngIf="!menu?.children?.length" routerLinkActive="router-active" [routerLink]="[menu.path]"
+                   (click)="hideSideBar()">
+                    <img src="/assets/images/{{menu.file}}" class="side-icon">
+                    <span class="nav-label">{{menu?.title}}</span>
+                    <span *ngIf="menu?.children?.length" class="fa arrow"></span>
+                </a>
+            </li>
+        </ul>
+    </div>
+</nav>

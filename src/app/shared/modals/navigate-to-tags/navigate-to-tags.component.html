@@ -1,0 +1,24 @@
+<div class="main-popup-submit-feedback">
+    <div class="header-part">
+        <div class="heading">
+            Navigate to the tags page to  manage <br/> your tags ?
+        </div>
+    </div>
+    <div class="body-content-main-feedback">
+        
+        <div class="text-area-main">
+          A draft will be saved of your current <br/>
+          automation.
+
+        </div>
+        <div class="last-button-row">
+            <button class="icon-only submit-btn" type="button" (click)="confirm()" >
+                {{ (loader) ? 'Saving draft...'  : "Manage Tags"}}
+            </button>
+            <button class="icon-only cancel-btn" type="button" aria-label="Close" (click)="http.hideModal()">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+</div>

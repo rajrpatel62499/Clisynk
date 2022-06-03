@@ -1,0 +1,108 @@
+<div class="add-build-automation-main">
+    <!-----------------header-main-------------------->
+    <div class="build-automation-header-main">
+        <div class="left-col">
+            <img style="cursor: pointer;" [src]="'/assets/images/back-arrow.svg'" routerLink="/automation/build-automation" width="50">
+            <span>Build automation</span>
+        </div>
+        <app-automation-header></app-automation-header>
+    </div>
+    <!-------------------------------------end of header--------------------------------->
+    <div class="inner-add-build-main">
+        <div class="left-col">
+            <app-automation-preview></app-automation-preview>
+        </div>
+        <!-- TOGGLING BETWEEN WHEN AND THEN EVENT -->
+        <!-- {{($whenEvent|async)?.value|json}} -->
+        <!-- {{($thenTasks|async)?.value |json}} -->
+        <ng-container [ngSwitch]="($eventSelected | async)">
+            
+            <ng-container *ngSwitchCase="EventType.WHEN">
+
+                <div class="right-col">
+                    <div class="after-submitted-lead-form-main-for-edit-option">
+                        <ng-container *ngIf="(!($whenEvent|async)); else addedWhenCard">
+                            <app-when-suggestions></app-when-suggestions>
+                        </ng-container>
+                        <ng-template #addedWhenCard>
+                            <app-display-card [taskData]="($whenEvent|async)"></app-display-card>
+                        </ng-template>
+                    </div>
+                </div>
+
+            </ng-container>
+            
+            <ng-container *ngSwitchCase="EventType.THEN">
+                <div class="right-col">
+                    <div class="after-submitted-lead-form-main-for-edit-option">
+                        <div class="mb-3" *ngFor="let item of ($thenTasks|async)?.controls; let i = index;">
+                            <app-display-card [index]="i" [taskData]="item"></app-display-card>
+                        </div>
+                        <ng-container *ngIf="((($thenTasks|async)?.length == 0) || (!($thenTasks|async))); else addCardBlock">
+                            <app-then-suggestions (onSelectedEvent)="thenInternalEvents = $event"></app-then-suggestions>
+                        </ng-container>
+                        <ng-template #addCardBlock>
+                            <div [ngSwitch]="thenInternalEvents">
+                                <div *ngSwitchCase="THEN_INTERNAL_EVENTS.on_then_event_selected">
+                                    <div class="text-and-then">
+                                        and then
+                                    </div>
+                                    <div class="add-button">
+                                        <button class="add-btn-tag"
+                                            (click)="thenInternalEvents = THEN_INTERNAL_EVENTS.on_add_then_event_clicked">
+                                            <!-- (click)="addThenTask()" -->
+                                            <img src="../../../../assets/images/add-icon.svg" width="30">
+                                        </button>
+                                    </div>
+                                    <div class="what-else">
+                                        What else needs to be automated ?
+                                    </div>
+                                </div>
+                                <div *ngSwitchCase="THEN_INTERNAL_EVENTS.on_add_then_event_clicked">
+                                    <app-then-suggestions (onSelectedEvent)="thenInternalEvents = $event"></app-then-suggestions>
+                                </div>
+                                <div *ngSwitchDefault>output2</div>
+                            </div>
+                        </ng-template>
+
+
+                    </div>
+                </div>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_LEAD_FORM">
+                <app-choose-lead-form></app-choose-lead-form>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_APPOINTMENT_SCHEDULED">
+                <app-choose-appointment-type></app-choose-appointment-type>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_APPOINTMENT_CANCELED">
+                <app-choose-appointment-type></app-choose-appointment-type>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_TAG_ADDED">
+                <app-choose-tag></app-choose-tag>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_PRODUCT_PURCHASED">
+                <app-choose-product></app-choose-product>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.THEN_EDIT_SEND_EMAIL">
+                <app-choose-template></app-choose-template>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.THEN_EDIT_SEND_EMAIL_SELECT">
+                <app-email-editor></app-email-editor>
+            </ng-container>
+
+            <ng-container *ngSwitchCase="EventType.THEN_TIME_SCHEDULE">
+                <app-time-schedule></app-time-schedule>
+            </ng-container>
+
+        </ng-container>
+    </div>
+
+</div>

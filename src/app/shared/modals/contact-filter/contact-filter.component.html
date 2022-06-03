@@ -1,0 +1,200 @@
+<form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+  <div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+      <button
+        class="icon-only"
+        type="button"
+        aria-label="Close"
+        (click)="http.hideModal()"
+      >
+        <img src="/assets/images/ic_close.svg" />
+      </button>
+    </section>
+    <section class="text">
+      <h4>{{ isEdit ? " Update" : " Create" }} a group</h4>
+    </section>
+  </div>
+
+  <div class="modal-body custom-code-using">
+    <!-- <section class="top" *ngIf="!addBtn">
+        <h5 style="margin-bottom: 10px;">Sort Contacts</h5>
+        <br>
+        <div class="input-field btn-group add-btn select-opt">
+            <mat-form-field class="full-width select-height" appearance="outline">
+                <mat-label>Sort contacts</mat-label>
+                <mat-select [(ngModel)]="filters.sortBy" (ngModelChange)="contactList()">
+                    <mat-option value="false" *ngFor="let sort of filters.sortByList" [value]="sort.id">{{sort?.name}}
+                    </mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </section>
+
+    <section class="top" *ngFor="let data of filters.selectList;let i=index">
+
+        <section>
+            <div class="add-filter-field">
+                <div class="filter-heading">
+                    <h2>{{data?.viewValue}}</h2>
+                    <a (click)="removeBtn(i)">Remove</a>
+                </div>
+                <div class=" field-grid editing">
+                    <div class="input-field btn-group add-btn select-opt">
+                        <mat-form-field class="full-width select-height" appearance="outline">
+                            <mat-select [(ngModel)]="data.type" (ngModelChange)="contactList()">
+                                <ng-container *ngIf="data.selected == 1">
+                                    <mat-option *ngFor="let sort of filters.filterTypes1" [value]="sort.id">
+                                        {{sort?.name}}</mat-option>
+                                </ng-container>
+                                <ng-container *ngIf="data.selected == 2">
+                                    <mat-option *ngFor="let sort of filters.filterTypes2" [value]="sort.id">
+                                        {{sort?.name}}</mat-option>
+                                </ng-container>
+
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="input-field" *ngIf="data.selected == 2">
+                        <mat-form-field class="select-height full-width" appearance="outline">
+                            <input matInput type="text"
+                                   [(ngModel)]="data.value" (ngModelChange)="contactList()">
+                        </mat-form-field>
+                    </div>
+
+                    <mat-form-field
+                            *ngIf="data.selected == 1 && (data.type != 4 && data.type != 5  && data.type != 6)"
+                            appearance="outline">
+                        <mat-label>Choose a date</mat-label>
+                        <input matInput [matDatepicker]="picker" readonly [(ngModel)]="data.value"
+                               (dateChange)="contactList()">
+                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <div class="input-field"
+                         *ngIf="data.selected == 1 && (data.type == 4 || data.type == 5 || data.type == 6)">
+                        <mat-form-field class="select-height full-width" appearance="outline">
+                            <input matInput type="text"
+                                   [(ngModel)]="data.value" (ngModelChange)="contactList()">
+                        </mat-form-field>
+                    </div>
+
+                </div>
+            </div>
+        </section>
+    </section> -->
+
+    <!------- old code commanted ------>
+    <!-- <div class="multiselect-field">
+        <div class="btn-group add-btn select-opt">
+            <mat-form-field class="full-width select-height" appearance="outline">
+                <mat-label>Add a filter</mat-label>
+                <mat-select [(ngModel)]="filters.selectFilters" (selectionChange)="selectFilter()">
+                    <mat-optgroup *ngFor="let group of filters?.groups" [label]="group.GropupName"
+                                  [disabled]="group.disabled">
+                        <mat-option *ngFor="let list of group.groupList" [value]="list">
+                            {{list.viewValue}}
+                        </mat-option>
+                    </mat-optgroup>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div> -->
+
+    <!-- ----------------------updated-new-cod e------------------- -->
+    <div class="new-form-field-main">
+      <div class="input-field">
+        <label>Name</label>
+        <mat-form-field class="full-width" appearance="outline">
+          <mat-label class="required">Name</mat-label>
+          <input matInput type="text" formControlName="name" maxlength="40" />
+          <mat-error
+            *ngIf="
+              form.controls['name'].hasError('required') &&
+              form.controls.name.touched
+            "
+          >
+            Please enter group name.
+          </mat-error>
+          <mat-error *ngIf="form.controls['name'].hasError('pattern')">
+            Special characters are not allowed in group name.
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="form-group Associated-Contact">
+        <label>Contact</label>
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Contact'"
+          [data]="contacts"
+          [settings]="settingsContacts"
+          (onSelect)="onItemSelect($event)"
+          (onDeSelect)="onDeSelect($event)"
+          (onSelectAll)="onSelectAll($event)"
+          (onDeSelectAll)="onDeSelectAll($event)"
+          formControlName="contactIds"
+        >
+        </ng-multiselect-dropdown>
+        <mat-error
+          *ngIf="
+            form.controls['contactIds'].hasError('required') &&
+            form.controls.contactIds.touched
+          "
+        >
+          Please select atleast one contact.
+        </mat-error>
+      </div>
+      <div class="form-group Associated-Contact">
+        <label>Tag</label>
+        <ng-multiselect-dropdown
+          [placeholder]="'Select Tag'"
+          [data]="tags"
+          [settings]="settingsContactsTags"
+          (onSelect)="onItemSelectTag($event)"
+          (onDeSelect)="onDeSelectTag($event)"
+          (onSelectAll)="onSelectAllTag($event)"
+          (onDeSelectAll)="onDeSelectAllTag($event)"
+          formControlName="tagIds"
+        >
+        </ng-multiselect-dropdown>
+      </div>
+    </div>
+  </div>
+  <div class="modal-footerr">
+    <div class="footer-info">
+      <!--<div class="contacts-filtered">
+        <span class="number">{{
+          contactSelectedCount + contactSelectedByTagCount
+        }}</span>
+        <span> contacts selected </span>
+      </div>
+      <a *ngIf="addBtn" (click)="addBtn = false">
+        + Save filtered contacts as a list
+      </a>-->
+    </div>
+    <!--<div class="col-md-12" *ngIf="addBtn">
+      <mat-form-field class="full-width" appearance="outline">
+        <mat-label>Choose a name for this group</mat-label>
+        <input
+          matInput
+          placeholder="Choose a name for this list"
+          type="text"
+          formControlName="name_for_list"
+        />
+      </mat-form-field>
+    </div>-->
+    <div class="button-row">
+      <button type="submit" class="btn btn-outline-primary">
+        <i class="fa fa-spinner fa-spin" *ngIf="loader"></i>
+        {{ isEdit ? " Update" : " Create" }}
+      </button>
+      <button
+        type="reset"
+        class="btn btn-link text-button"
+        (click)="resetBtn()"
+      >
+        Reset
+      </button>
+    </div>
+  </div>
+</form>

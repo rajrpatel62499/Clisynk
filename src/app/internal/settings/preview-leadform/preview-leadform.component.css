@@ -1,0 +1,358 @@
+.main-lead-forms{
+    display: block;
+    grid-template-columns: repeat(1, 1fr);
+    grid-column-gap: 80px;
+    padding: 20px 30px;
+}
+
+.first-alert-strips {
+    background: #e6e6e8;
+    padding: 30px 20px;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+}
+
+.first-alert-strips p {
+    margin-bottom: 0;
+    font-size: 18px;
+    font-weight: 400;
+    line-height: 27px;
+    padding-left: 20px;
+    position: relative;
+}
+.first-alert-strips  label.alert-icon{
+    width: 35px;
+    height: 35px;
+    margin-bottom: 0;
+    border: 3px solid #000;
+    border-radius: 100%;
+    padding: 15px;
+    position: relative;
+}
+
+.first-alert-strips label.alert-icon:before {
+    position: absolute;
+    content: '';
+    width: 2px;
+    height: 12px;
+    background: #000;
+    top: 5px;
+    margin: auto;
+    left: 1px;
+    right: 0;
+}
+
+
+.first-alert-strips label.alert-icon:after {
+    position: absolute;
+    content: '';
+    background: #000;
+    width: 3px;
+    height: 3px;
+    bottom: 7px;
+    left: 0px;
+    right: 0;
+    margin: auto;
+    border-radius: 220px;
+}
+
+.add-your-business-main {
+    margin-top: 20px;
+}
+
+.add-your-business-main .label-name {
+    margin-bottom: 5px;
+    font-size: 18px;
+}
+
+.upload-logo-optional {
+    width: 45%;
+    margin-top: 12px;
+    border: 2px dashed #dadada;
+    padding: 25px;
+    position: relative;
+    border-radius: 20px;
+    text-align: center;
+    margin-bottom: 10px;
+}
+
+.upload-logo-optional input.upload-btn {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    cursor: pointer;
+    z-index: 99;
+    opacity: 0;
+}
+
+.add-your-logo-heading {
+    font-size: 18px;
+    margin-top: 10px;
+    margin-right: 0;
+}
+
+.upload-logo-optional .logo-heading {
+    font-size: 25px;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.upload-logo-optional p.text-description {
+    margin-bottom: 0;
+}
+
+.upload-logo-optional p.text-description {
+    margin-bottom: 0;
+    font-size: 18px;
+    color: #9d9ca2;
+}
+
+.upload-logo-optional p.text-description span.blue-text {
+    display: block;
+    color: #003fdc;
+}
+
+.info-about-logo {
+    font-size: 14px;
+    font-weight: 300;
+    margin-bottom: 10px;
+}
+
+.Edit-your-form label.label-name {
+    font-size: 18px;
+}
+
+.Edit-your-form p {
+    margin-bottom: 0;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.edit-form-btn {
+    margin: 0;
+    /* margin-top: 30px; */
+    background: #fff;
+    border: 1px solid #ccc;
+    color: #0040db;
+}
+
+.lead-form-preview {
+    font-size: 18px;
+    font-weight: 400;
+}
+
+
+.right-edit-form-main {
+    background: #fff;
+    box-shadow: 0px 1px 4px #828282;
+    padding: 35px;
+    border-radius: 20px;
+    width: 28%;
+    margin: auto;
+    margin-top: 60px;
+    min-height: 800px;
+}
+
+.right-edit-form-main span.logo-text-both {
+    display: block;
+    margin-bottom: 20px;
+    text-align: center;
+    font-size: 22px;
+}
+
+.submit-btn-row button.btn {
+    background: #0442db;
+    color: #fff;
+    padding: 8px 20px;
+    font-size: 12px;
+}
+
+.submit-btn-row button.btn:hover{
+    background-color: #233e81;
+    color: #fff;
+}
+
+@media(max-width:1660px){
+    .upload-logo-optional{
+        width: 60%;
+    }
+}
+
+@media(max-width:1500px){
+    .main-lead-forms{
+        grid-column-gap: 50px;
+    }
+    .first-alert-strips p{
+        font-size: 15px;
+        line-height: 22px;
+    }
+    .add-your-business-main .label-name{
+        margin-bottom: 5px;
+        font-size: 15px;
+    }
+    .add-your-logo-heading{
+        font-size: 15px;
+        margin-top: 3px;
+        
+    }
+    .upload-logo-optional{
+        width: 80%;
+    }
+    .upload-logo-optional .logo-heading{
+        font-size: 18px;
+        margin-top: 9px;
+        margin-bottom: 15px;
+    }
+    .upload-logo-optional  p.text-description{
+        font-size: 13px;
+    }
+    .info-about-logo{
+        font-size: 15px;
+        margin-bottom: 20px;
+    }
+    .Edit-your-form label.label-name{
+        font-size: 15px;
+    }
+    .Edit-your-form p{
+        font-size: 13px;
+    }
+    .lead-form-preview{
+        font-size: 15px;
+        font-weight: 400;
+    }
+    .right-edit-form-main  span.logo-text-both{
+        margin-bottom: 20px;
+        font-size: 20px;
+    }
+}
+
+
+/* -----------------------header---------------- */
+.header-for-lead-form-main{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 13px 20px;
+    border-bottom: 1px solid #e6e6e8;
+    margin-bottom: 10px;
+}
+
+
+.header-for-lead-form-main .inner-left-head .Clients_list_heading {
+    padding: 0;
+    margin-bottom: 0;
+    border: none;
+}
+
+.header-for-lead-form-main .right-col-three-btn {
+    display: flex;
+    align-items: center;
+}
+
+.header-for-lead-form-main .right-col-three-btn .comm-btn {
+    margin-left: 20px;
+}
+/* #0442db */
+
+.header-for-lead-form-main .right-col-three-btn .comm-btn button.copy-btn {
+    background: transparent;
+    border: none;
+    display: flex;
+    align-items: center;
+    color: #0442db;
+    font-size: 12px;
+}
+
+.comm-btn button.copy-btn img {
+    margin-right: 9px;
+    width: 14px;
+}
+
+.header-for-lead-form-main .right-col-three-btn .comm-btn button.copy-btn:hover {
+   text-decoration: underline;
+}
+
+.header-for-lead-form-main .go-to-form {
+    padding: 11px 20px;
+    border: 1px solid #ccc !important;
+    border-radius: 8px;
+}
+
+.header-for-lead-form-main .go-to-form:hover {
+    background: #0442db !important;
+    color: #fff !important;
+    border: 1px solid #0442db !important;
+}
+
+.header-for-lead-form-main .go-to-form:hover img {
+    filter: brightness(100);
+}
+
+.form-description-inner-main {
+    padding: 10px 33px;
+    font-size: 18px;
+    font-weight: 100;
+    color: #0442db;
+}
+
+.last-edit-btn {
+    display: flex;
+    align-items: center;
+    margin-top: 30px;
+}
+
+.last-edit-btn .unpublish-changes-shrot {
+    margin-left: 15px;
+    font-size: 14px;
+    color: #000;
+}   
+
+.remove-btn-logo {
+    margin-bottom: 20px;
+}
+
+
+.remove-btn-logo button.rm-btn {
+    background: transparent;
+    border: none;
+    padding: 0;
+    font-size: 15px;
+    color: #ff3500;
+}
+
+.remove-btn-logo button.rm-btn:hover{
+    text-decoration: underline;
+}
+
+.business-logo {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 20px;
+    margin-top: 15px;
+}
+
+.submission-text{
+    display: block;
+    text-align: center;
+    font-size: 25px;
+    margin-top: 30px;
+    margin-bottom: -15px;
+}
+
+.submission-display{
+    font-size: 22px;
+    background: #fff;
+    box-shadow: 0px 1px 4px #828282;
+    padding: 35px;
+    border-radius: 20px;
+    width: 30%;
+    margin: auto;
+    margin-top: 40px;
+    min-height: 100px;
+    text-align: center;
+}

@@ -1,0 +1,48 @@
+.delete-comp-inner{
+    padding: 0px;
+}
+  
+.delete-comp-inner h4 {
+    padding: 18px 30px;
+    border-bottom: 1px solid #ccc;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 26px;
+    color: #2A2A2A;
+}
+
+.delete-content-area {
+    padding-bottom: 30px;
+    padding-left: 30px;
+    padding-right: 30px;
+    padding-top: 30px;
+    text-align: center;
+}
+
+.delete-comp-inner .delete-content-area .button-row.form-group {
+    margin-bottom: 0px;
+    margin-top: 50px;
+  }
+  
+  button.delete-btn {
+    background: #FD1C37 !important;
+    border-radius: 5px;
+    padding: 10px 40px;
+    transition: 0.2s all ease;
+  }
+  
+  button.delete-btn:hover {
+    background: #980505 !important;
+  }
+  
+  button.text-button {
+    border: 1px solid #4776E6;
+    padding: 8px 30px !important;
+    transition: 0.2s all ease;
+  }
+  
+  
+  button.text-button:hover{
+    background: #4776E6 !important;
+    color: #fff !important;
+  }

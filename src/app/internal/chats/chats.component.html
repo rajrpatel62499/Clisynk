@@ -1,0 +1,2289 @@
+<div class="wrapper border-bottom white-bg">
+
+    <!-- left sidebar chat -->
+    <div class="contact">
+        <div class="contact-header">
+            <ng-container>
+                <div class="title-pading-inner">
+                    <span class="page-title1">Chats</span>
+                </div>
+                <div class="invoices-page-table chat-search-bar-left-side">
+                    <div class="search-bar" style="margin : 0 1.5rem">
+                        <div class="input-field no-label" style="width: 100% !important;">
+                            <input id="" type="search" name="" placeholder="Search" maxlength="232" pattern=".*"
+                                autocomplete="off" [formControl]="searchName" (input)="generalSearch($event)">
+                        </div>
+                    </div>
+                </div>
+
+                <ul class="nav nav-pills mb-3 contact-h-tab-heading mt-2 chat-left-tabs-main">
+                    <li class="nav-item" [ngClass]="{'tab-btn':tab == 'chats'}"
+                        (click)="selected='';tab='chats';getAllActiveChat()">
+                        Chats
+                    </li>
+                    <li class="nav-item" (click)="selected='';tab='groups';getAllGroupData()"
+                        [ngClass]="{'tab-btn':tab == 'groups'}">
+                        Groups
+                    </li>
+                    <li class="nav-item" [ngClass]="{'tab-btn':tab == 'allContact'}"
+                        (click)="selected='';tab='allContact';getAllContact()">
+                        Contact
+                    </li>
+                </ul>
+            </ng-container>
+
+            <!-- all chats list -->
+            <div class="tab-content contact-v-tab-heading all-chat-listing-inner" id="pills-tabContent"
+                *ngIf="tab == 'chats'">
+                <div class="tab-pane1" id="pills-home">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                        <div *ngIf="activeChatList.length != 0" class="select-all custom-select-all">
+                            <label class="custom-checkbox">Select all
+                                <input type="checkbox" [formControl]="allSelect" (change)="selectAllContact()">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div>
+
+                        <cdk-virtual-scroll-viewport itemSize="20" class="full-port left-side-chat-history">
+                            <app-loader [showLoader]="loader" [length]="activeChatList?.length">
+                            </app-loader>
+                            <div *cdkVirtualFor="let data of activeChatList;let i = index">
+                                <a class="nav-link" (click)="clickChat(data,i);"
+                                    [ngClass]="{'active': selectedIndex == i}">
+                                    <span class="circle">
+                                        <label class="custom-checkbox">
+                                            <input type="checkbox" (change)="getSelectedCount()"
+                                                [(ngModel)]="data.isSelected">
+                                            <span class="checkmark" style="margin-left: -10px;">
+                                            </span>
+                                            <span class="circle" *ngIf="!data.isSelected" style="top: 0;left:0">
+
+                                                <span *ngIf="data?.chatType == 'GROUP';else chatPrivate">
+                                                    <span *ngIf="data?.profileImage;else onlyName">
+                                                        <img [src]="data?.profileImage?.thumbnail"
+                                                            class="profile-image-list" />
+                                                    </span>
+                                                    <ng-template #onlyName>
+                                                        {{data?.groupDetails?.name?.substr(0, 1)}}
+                                                    </ng-template>
+                                                </span>
+
+                                                <ng-template #chatPrivate>
+                                                    <span *ngIf="data?.temp?.profileImage?.thumbnail;else onlyName">
+                                                        <img [src]="data?.temp?.profileImage?.thumbnail"
+                                                            class="profile-image-list" />
+                                                    </span>
+                                                    <ng-template #onlyName>
+                                                        {{data?.temp?.name == undefined ?
+                                                        data?.temp?.fullName?.substr(0, 1) : data?.temp?.name?.substr(0,
+                                                        1)}}
+                                                    </ng-template>
+                                                </ng-template>
+
+                                            </span>
+                                        </label>
+                                    </span>
+                                    <h4>
+                                        {{data?.chatType == 'GROUP' ? data?.groupDetails?.name : (data?.temp?.name ==
+                                        undefined ? data.temp?.fullName : data?.temp?.name) }}
+                                    </h4>
+
+                                    <div *ngIf="data?.unreadCount > 0;else lastMsgWithoutUnreadCount"
+                                        style="display: flex;" class="video-small">
+                                        <div class="unread-text-blue">
+                                            {{data?.lastMessage?.file ? data?.lastMessage?.file?.type :
+                                            data?.lastMessage?.content}}
+                                        </div>
+                                        <div class="unread-count">{{data?.unreadCount}}</div>
+                                    </div>
+                                    <ng-template #lastMsgWithoutUnreadCount>
+                                        <div class="unread-text" class="video-small">
+                                            {{data?.lastMessage?.file ? data?.lastMessage?.file?.type :
+                                            data?.lastMessage?.content}}
+                                        </div>
+                                    </ng-template>
+                                </a>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+            </div>
+
+            <!-- all groups list-->
+            <div class="tab-content contact-v-tab-heading all-chat-listing-inner" id="pills-tabContent"
+                *ngIf="tab == 'groups'">
+                <div class="tab-pane1" id="pills-home">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                        <!-- <div *ngIf="groupData.length != 0" class="select-all custom-select-all">
+                            <label class="custom-checkbox">Select all
+                                <input type="checkbox" [formControl]="allSelect">
+                                <span class="checkmark"></span>
+                            </label>
+
+                        </div> -->
+                        <cdk-virtual-scroll-viewport itemSize="20" class="full-port"
+                            style="height: calc(100vh - 253px) !important;">
+                            <app-loader [showLoader]="loader" [length]="groupData?.length"></app-loader>
+                            <div *cdkVirtualFor="let data of groupData;let i = index">
+
+                                <a class="nav-link group-add-main" [ngClass]="{'active': selectedIndex == i}">
+                                    <span class="circle">
+                                        <label class="custom-checkbox">
+                                            <!-- <input type="checkbox" (change)="getSelectedCount()"
+                                                [(ngModel)]="data.isSelected"> -->
+                                            <span class="checkmark" style="margin-left: -10px;z-index: 999;">
+                                            </span>
+                                            <span class="circle" style="top: 0;left:0">
+                                                {{data?.name?.substr(0, 1)}}
+                                            </span>
+                                        </label>
+                                    </span>
+                                    <h4 (click)="createChatRoomGroup(data)">{{data?.name}}</h4>
+                                </a>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+            </div>
+
+            <!-- all contact list-->
+            <div class="tab-content contact-v-tab-heading all-chat-listing-inner" id="pills-tabContent"
+                *ngIf="tab == 'allContact'">
+                <div class="tab-pane1" id="pills-home">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                        <!-- <div class="select-all custom-select-all">
+                            <label class="custom-checkbox">Select all
+                                <input type="checkbox" [formControl]="allSelect" (change)="selectAllContacts()">
+                                <span class="checkmark"></span>
+                            </label>
+                        </div> -->
+                        <cdk-virtual-scroll-viewport itemSize="50" class="full-port"
+                            style="height: calc(100vh - 253px) !important;">
+                            <app-loader [showLoader]="loader" [length]="chatModel?.contacts?.length">
+                            </app-loader>
+                            <div *cdkVirtualFor="let data of chatModel?.contacts;let i = index">
+
+                                <a class="nav-link group-add-main-contact" [ngClass]="{'active': selectedIndex == i}">
+                                    <span class="circle" style="margin-top: 10px;">
+                                        <label class="custom-checkbox">
+                                            <!-- <input type="checkbox" (change)="getSelectedCounts()"
+                                                [(ngModel)]="data.isSelected">
+                                            <span class="checkmark" style="margin-left: -10px;z-index: 999;">
+                                            </span> -->
+                                            <span class="circle" style="top: 0;left:0">
+                                                <span *ngIf="data?.profileImage?.thumbnail;else onlyName">
+                                                    <img [src]="data?.profileImage?.thumbnail"
+                                                        class="profile-image-list" />
+                                                </span>
+                                                <ng-template #onlyName>
+                                                    {{data?.fullName?.substr(0, 1)}}
+                                                </ng-template>
+                                            </span>
+                                        </label>
+                                    </span>
+                                    <h4 (click)="createChatRoom(data)">{{data?.fullName}}</h4>
+                                    <p (click)="createChatRoom(data)">{{data?.email}}
+                                        <span>Added {{data?.createdAt |date:'MMM dd,yyyy'}}</span>
+                                    </p>
+                                </a>
+                            </div>
+                        </cdk-virtual-scroll-viewport>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <!-- profile section -->
+    <mat-sidenav-container class="example-container side-nav-group-main">
+
+        <mat-sidenav #sidenav [mode]="mode.value" class="group-information-main-side-nav">
+
+            <!-- pin msgs profile  -->
+            <div *ngIf="openPinMsgFlag;else mediaContent">
+
+                <i class="fa fa-arrow-left" aria-hidden="true" style="float: right;font-size: 20px;cursor: pointer;"
+                    (click)="clickProfileBack()"></i>
+                <div class="username pt-4" style="text-align: left;font-size: 18px;">Pin Messages</div>
+                <div class="profile-pin">
+                    <ng-container *ngIf="pinLoader">
+                        <div class="fb-item" *ngFor="let val of ['','','','']">
+                            <div class="first-section-wrapper">
+                                <div class="gravatar-title">
+                                    <div>
+                                        <ngx-skeleton-loader
+                                            [theme]="{ width: '200px',   'border-radius': '0', height: '15px', 'margin-bottom': '10px'}">
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                    <div>
+                                        <ngx-skeleton-loader
+                                            [theme]="{width: '170px','border-radius': '0',height: '15px'}">
+                                        </ngx-skeleton-loader>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="!pinLoader">
+                        <div *ngFor="let data of profilePinArray">
+                            <div style="float: right;cursor: pointer;margin-right: 5px;">
+                                <img src="assets/images/unpin-icon.png" width="20px" (click)="unPinFromProfile(data)" />
+                            </div>
+                            <div *ngIf="data?.file != null;else textMsg">
+                                <div *ngIf="data?.file?.type == 'IMAGE'" style="padding-top: 10px;padding-bottom: 5px;">
+                                    <img [src]="data?.file?.thumbnail" class="image-view-profile"
+                                        (click)="previewImage(data?.file?.original)" />
+                                </div>
+                                <div *ngIf="data?.file?.type == 'VIDEO'" style="padding-top: 10px;">
+                                    <div style="position: relative;" class="video-style" data-target="#myModal"
+                                        data-toggle="modal" (click)="playVideo(data?.file?.original)">
+                                        <img src="assets/images/blurVideoImage.gif"
+                                            class="video-view-profile video-style" />
+                                        <img src="assets/images/video.svg" width="40px" class="video-icon" />
+                                    </div>
+                                </div>
+                                <div *ngIf="data?.file?.type == 'OTHER'" style="margin-top: 10px;margin-bottom: 5px;">
+                                    <div class="doc-view-profile">
+                                        <div style="display: flex;" (click)="previewFile(data?.file?.original)">
+                                            <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                    style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                            </div>
+                                            <div>
+                                                <div style="color: black;" class="doc-name">{{data?.file?.fileName}}
+                                                </div>
+                                                <div style="color: black;">{{data?.file?.size}}</div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <ng-template #textMsg>
+                                <div style="margin: 10px 0px;">
+                                    <span class="text-view-profile profile-text-container">{{data?.content}}</span>
+                                </div>
+                            </ng-template>
+                            <span class="msg-time-profile">{{data?.createdAt |date:'yyyy-MM-dd h:mm'}}</span>
+                        </div>
+                    </ng-container>
+
+                </div>
+            </div>
+
+            <!-- media profile tab -->
+            <ng-template #mediaContent>
+                <div *ngIf="openMediaFlag;else defaultContent">
+                    <i class="fa fa-arrow-left" aria-hidden="true"
+                        style="float: right;font-size: 20px;cursor: pointer; color: #c5c5c5;padding-top: 5px;"
+                        (click)="clickProfileBack()"></i>
+                    <ng-container>
+                        <ul class="nav nav-pills mb-3 contact-h-tab-heading pt-4">
+                            <li class="nav-item" [ngClass]="{'tab-btn':tab1 == 'mediaTab'}"
+                                (click)="selected='';tab1='mediaTab';getProfileImages()">
+                                Media
+                            </li>
+                            <li class="nav-item" (click)="selected='';tab1='linkTab';getProfileLink()"
+                                [ngClass]="{'tab-btn':tab1 == 'linkTab'}">
+                                Links
+                            </li>
+                            <li class="nav-item" [ngClass]="{'tab-btn':tab1 == 'docTab'}"
+                                (click)="selected='';tab1='docTab';">
+                                Docs
+                            </li>
+                        </ul>
+                    </ng-container>
+                </div>
+            </ng-template>
+
+            <!-- main profile page -->
+            <ng-template #defaultContent>
+                <div *ngIf="toggleProfileOpen">
+                    <i class="fa fa-arrow-left" (click)="sidenav.toggle()" aria-hidden="true"
+                        style="float: right;font-size: 20px;cursor: pointer;padding-top: 10px;"></i>
+                    <div class="profile-section">
+                        <div class="profile-img-container">
+                            <div *ngIf="selectedChat?.chatType == 'GROUP';else privateChat">
+                                <div *ngIf="selectedChat?.profileImage?.thumbnail;else defaultName">
+                                    <img class="profile-image" [src]="selectedChat?.profileImage?.thumbnail"
+                                        style="cursor: pointer;"
+                                        (click)="previewImage(selectedChat?.profileImage?.original)">
+                                </div>
+                            </div>
+                            <ng-template #privateChat>
+                                <div *ngIf="selectedChat?.temp?.profileImage?.thumbnail;else defaultName">
+                                    <img class="profile-image" [src]="selectedChat?.temp?.profileImage?.thumbnail"
+                                        style="cursor: pointer;"
+                                        (click)="previewImage(selectedChat?.temp?.profileImage?.original)">
+                                </div>
+                            </ng-template>
+                            <ng-template #defaultName>
+                                <div class="user-circle">
+                                    {{selectedChat?.chatType == 'GROUP' ? selectedChat?.groupDetails?.name?.substr(0,1)
+                                    : (selectedChat?.temp?.name ? selectedChat?.temp?.name?.substr(0,1) :
+                                    selectedChat?.temp?.fullName?.substr(0,1))}}
+                                </div>
+                            </ng-template>
+                        </div>
+                        <div class="username">
+                            {{selectedChat?.chatType == 'GROUP' ? selectedChat?.groupDetails?.name :
+                            (selectedChat?.temp?.name ? selectedChat?.temp?.name : selectedChat?.temp?.fullName) }}
+                        </div>
+                        <div style="padding: 35px 0px;">
+                            <div (click)="openMedia()">
+                                <span class="profile-name-list">Media, Links and Docs</span>
+                                <span class="arrow-icon">
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <!-- <hr/> -->
+                            <div class="row mt-2">
+                                <div *ngFor="let data of profileImageArray;let i = index">
+                                    <div *ngIf="data?.file?.type == 'IMAGE' && i <= 2">
+                                        <div class="col-4" style="margin-bottom: 10px;">
+                                            <img [src]="data?.file?.thumbnail"
+                                                style="width: 100px;height: 100px;cursor: pointer;"
+                                                (click)="previewImage(data?.file?.original)" />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <hr />
+                            <div *ngIf="profileMediaArray.length == 0" style="text-align: center;padding: 10px 0px;">
+                                No Media, Links and Docs
+                            </div>
+                            <hr />
+                            <div (click)="openPinMsg()">
+                                <span class="profile-name-list">Pin Messages</span>
+                                <span class="arrow-icon">
+                                    <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                                </span>
+                            </div>
+                            <hr *ngIf="selectedChat?.chatType !== 'GROUP'" />
+                            <div *ngIf="selectedChat?.chatType !== 'GROUP'" style="cursor: pointer;">
+                                <span class="profile-name-list" (click)="unBlockUser(openUnBlockModal);sidenav.toggle()"
+                                    *ngIf="allBlockUsers.includes(selectedChat?.temp?._id);else blockText">
+                                    Unblock Contact
+                                </span>
+                                <ng-template #blockText>
+                                    <span (click)="blockUser(openUnBlockModal);sidenav.toggle()"
+                                        class="profile-name-list"> Block
+                                        Contact </span>
+                                </ng-template>
+                            </div>
+                            <hr />
+                            <div (click)="clearChatModal(openClearChatModal);sidenav.toggle()" style="cursor: pointer; padding-bottom: 10px;
+                            margin-bottom: 10px; border-bottom: 1px solid rgba(0,0,0,.1);">
+                                <span class="profile-name-list" style="color: #df3333;">Clear Chat</span>
+                            </div>
+                            <div class="main-group-member-box">
+                                <div *ngIf="selectedChat?.chatType == 'GROUP'" class="group-of-member-main-div">
+                                    <!-- <hr/> -->
+                                    <!-- {{selectedChat?.users?.length}} participents -->
+                                    <div *ngFor="let user of selectedChat?.users"
+                                        style="display: flex;margin: 15px 0px;">
+                                        <div class="user-circle">
+                                            <span *ngIf="user?.profileImage;else onlyName">
+                                                <img [src]="user?.profileImage?.thumbnail" class="profile-image-list" />
+                                            </span>
+                                            <ng-template #onlyName>
+                                                {{user?.fullName?.substr(0, 1)}}
+                                            </ng-template>
+                                        </div>
+                                        <div>
+                                            <div class="username-header">
+                                                {{user?.fullName}}
+                                            </div>
+                                            <div>{{user?.email}}</div>
+                                        </div>
+                                        <hr />
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                    <!-- </div> -->
+                </div>
+            </ng-template>
+
+            <!-- profile media tab -->
+            <div class="tab-content contact-v-tab-heading" id="pills-tabContent" *ngIf="tab1 == 'mediaTab'">
+                <div class="tab-pane1" id="pills-home">
+                    <div class="nav nav-pills row" id="v-pills-tab" aria-orientation="vertical">
+                        <ng-container *ngIf="mediaLoader">
+                            <div style="display: flex;justify-content: space-between;">
+                                <div class="fb-item" *ngFor="let val of ['','']">
+                                    <div class="first-section-wrapper">
+                                        <div class="gravatar-title">
+                                            <div>
+                                                <ngx-skeleton-loader
+                                                    [theme]="{ width: '155px',   'border-radius': '0', height: '130px', 'margin-bottom': '10px'}">
+                                                </ngx-skeleton-loader>
+                                            </div>
+                                            <!-- <div>
+                                            <ngx-skeleton-loader
+                                            [theme]="{width: '140px','border-radius': '0',height: '125px'}">
+                                            </ngx-skeleton-loader>
+                                        </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="display: flex;justify-content: space-between;">
+                                <div class="fb-item" *ngFor="let val of ['','']">
+                                    <div class="first-section-wrapper">
+                                        <div class="gravatar-title">
+                                            <div>
+                                                <ngx-skeleton-loader
+                                                    [theme]="{ width: '155px',   'border-radius': '0', height: '130px', 'margin-bottom': '10px'}">
+                                                </ngx-skeleton-loader>
+                                            </div>
+                                            <!-- <div>
+                                        <ngx-skeleton-loader
+                                        [theme]="{width: '140px','border-radius': '0',height: '125px'}">
+                                        </ngx-skeleton-loader>
+                                    </div> -->
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="!mediaLoader">
+                            <div *ngFor="let data of profileMediaArray">
+                                <div *ngIf="data?.file?.type == 'IMAGE'">
+                                    <div style="margin-bottom: 10px;padding: 0px 10px;">
+                                        <img [src]="data?.file?.thumbnail"
+                                            style="width: 100px;height: 100px;cursor: pointer;"
+                                            (click)="previewImage(data?.file?.original)" />
+                                    </div>
+                                </div>
+                                <div *ngIf="data?.file?.type == 'VIDEO'" style="position: relative;">
+                                    <div style="margin-bottom: 10px;padding: 0px 10px;" data-target="#myModal"
+                                        data-toggle="modal" (click)="playVideo(data?.file?.original)">
+                                        <img src="assets/images/blurVideoImage.gif" style="padding: 3px;"
+                                            class="common-img-class" style="padding: 0px;width: 100px;height: 100px;" />
+                                        <img src="assets/images/video.svg" width="20px" class="video-icon" />
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div *ngIf="profileMediaArray.length == 0" class="no-media-title">
+                            No Media
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- profile link tab -->
+            <div class="tab-content contact-v-tab-heading" id="pills-tabContent" *ngIf="tab1 == 'linkTab'">
+                <div class="tab-pane1" id="pills-home">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                        <div *ngFor="let data of profileLinkMsgArray">
+                            <div *ngIf="data?.content && pattern.test(data?.content);else noLink"
+                                class="link-msg-container">
+                                <i class="fa fa-link" aria-hidden="true" style="font-size: 15px;"></i>
+                                <a [href]="data?.content" class="link-msg">{{data?.content}}</a>
+                            </div>
+                        </div>
+                        <div *ngIf="profileLinkMsgArray.length == 0" class="no-media-title">
+                            No Links
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- profile doc tab -->
+            <div class="tab-content contact-v-tab-heading" id="pills-tabContent" *ngIf="tab1 == 'docTab'">
+                <div class="tab-pane1" id="pills-home">
+                    <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                        <ng-container *ngIf="mediaLoader">
+                            <div class="fb-item" *ngFor="let val of ['','','','']">
+                                <div class="first-section-wrapper">
+                                    <div class="gravatar-title">
+                                        <div>
+                                            <ngx-skeleton-loader
+                                                [theme]="{ width: '200px',   'border-radius': '0', height: '15px', 'margin-bottom': '10px'}">
+                                            </ngx-skeleton-loader>
+                                        </div>
+                                        <div>
+                                            <ngx-skeleton-loader
+                                                [theme]="{width: '170px','border-radius': '0',height: '15px'}">
+                                            </ngx-skeleton-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="!mediaLoader">
+                            <div *ngFor="let data of profileMediaArray">
+                                <div *ngIf="data?.file?.type == 'OTHER'">
+                                    <div (click)="previewFile(data?.file?.original)" style="display: flex;margin-bottom: 15px;border: 1px solid #dfdfdf;padding: 6px;border-radius: 5px;font-size: 14px;
+                                        background: #dfdfdf61;cursor: pointer;">
+                                        <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                style="height : 36px;margin-right:10px;margin-top: 4px;" /></div>
+                                        <div>
+                                            <div class="doc-name">{{data?.file?.fileName}}</div>
+                                            <div>{{data?.file?.size}}</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div *ngIf="profileMediaArray.length == 0" class="no-media-title">
+                            No Docs
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+        </mat-sidenav>
+        <mat-sidenav-content>
+
+            <!-- chat start -->
+            <div class="contact-right" *ngIf="!videoManage">
+                <div class="w-100" *ngIf="!defaultScreenFlag">
+
+                    <!-- chat header -->
+                    <div class="chat-header">
+                        <div style="display: flex;cursor: pointer;flex-grow: 1;"
+                            (click)="closeProfile();openMediaProfile();sidenav.toggle();">
+                            <div class="user-circle">
+
+                                <span *ngIf="selectedChat?.chatType == 'GROUP';else privateChat">
+                                    <span *ngIf="selectedChat?.profileImage ;else onlyNameChat">
+                                        <img [src]="selectedChat?.profileImage?.thumbnail" class="profile-image-list" />
+                                    </span>
+                                    <ng-template #onlyNameChat>
+                                        {{selectedChat?.groupDetails?.name?.substr(0,1)}}
+                                    </ng-template>
+                                </span>
+                                <ng-template #privateChat>
+                                    <span *ngIf="selectedChat?.temp?.profileImage;else onlyNameChat">
+                                        <img [src]="selectedChat?.temp?.profileImage?.thumbnail"
+                                            class="profile-image-list" />
+                                    </span>
+                                    <ng-template #onlyNameChat>
+                                        {{selectedChat?.temp?.name ? selectedChat?.temp?.name.substr(0,1) :
+                                        selectedChat?.temp?.fullName.substr(0,1)}}
+                                    </ng-template>
+                                </ng-template>
+
+                            </div>
+                            <div *ngIf="typingFlag;else onlyUserName">
+                                <div class="username-header">
+                                    {{selectedChat?.chatType == 'GROUP' ? selectedChat?.groupDetails?.name :
+                                    (selectedChat?.temp?.name ? selectedChat?.temp?.name : selectedChat?.temp?.fullName)
+                                    }}
+                                </div>
+                                <div *ngIf="typingFlag;">typing...</div>
+                            </div>
+                            <ng-template #onlyUserName>
+                                <div class="username-header">
+                                    {{selectedChat?.chatType == 'GROUP' ? selectedChat?.groupDetails?.name :
+                                    (selectedChat?.temp?.name ? selectedChat?.temp?.name : selectedChat?.temp?.fullName)
+                                    }}
+                                </div>
+                            </ng-template>
+                        </div>
+
+
+                        <div *ngIf="!searchFlag">
+                            <span class="search-icon" *ngIf="!isBlockedBy"><img src="assets/images/video-icon-chat.png"
+                                    style="cursor: pointer;width: 28px;" (click)="handleVideo()" /></span>
+                            <span class="search-icon" *ngIf="!isBlockedBy"><img src="assets/images/phone-icon-chat.png"
+                                    style="cursor: pointer;width: 26px;" (click)="handleAudio()" /></span>
+                            <span class="search-icon"><img src="assets/images/search.png"
+                                    style="cursor: pointer;width: 26px;" (click)="displaySearch()" /></span>
+                            <span class="search-icon" *ngIf="forwardselectmsg"><img
+                                    (click)="forwardMsg(openForwardModal,chat)" src="../../../assets/images/forward.svg"
+                                    style="cursor: pointer;width: 28px;" /></span>
+                            <!-- <span class="search-icon" ><img  (click)="forwardMsg(openForwardModal,chat)" src="../../../assets/images/close.svg"
+                                            style="cursor: pointer;width: 28px;"/></span> -->
+                            <span class="search-icon" *ngIf="forwardselectmsg"><img (click)="closeForward()"
+                                    src="../../../assets/images/close.svg"
+                                    style="cursor: pointer;width: 28px;" /></span>
+
+                        </div>
+
+                        <div class="invoices-page-table" style="display: contents;" *ngIf="searchFlag">
+                            <span>{{searchIndex}} of {{searchTotalCount}}</span>
+                            <div class="search-bar" style="margin-left: 1rem;margin-bottom: 0px;max-width: 16rem;">
+                                <div class="input-field no-label" style="width: 100% !important;">
+                                    <input id="" type="search" name="" placeholder="Search" maxlength="50" pattern=".*"
+                                        autocomplete="off" [(ngModel)]="search"
+                                        (input)="handleSearch($event.target.value)">
+                                </div>
+                            </div>
+                            <img src="/assets/images/ic_close.svg" width="25px" *ngIf="searchArray.length == 0"
+                                (click)="closeSearchChat()">
+                            <i class="fa fa-chevron-up" aria-hidden="true"
+                                *ngIf="searchFlag && searchArray.length > 0 && ((searchArray.length) !== searchIndex)"
+                                (click)="handleSearchScrollUp()" style="margin: 0px 20px;cursor: pointer;"></i>
+                            <i class="fa fa-chevron-down" aria-hidden="true"
+                                *ngIf="searchFlag && searchArray.length > 0 && searchIndex !== 0"
+                                (click)="handleSearchScrollDown()" style="cursor: pointer;"></i>
+
+                        </div>
+                    </div>
+
+                    <!-- chat msgs container -->
+                    <div #scrollMe (scroll)="onScroll($event)" class="main-chat-container">
+                        <ng-container *ngIf="simmerLoader">
+                            <div class="fb-item" *ngFor="let val of ['','','','']">
+                                <div class="first-section-wrapper">
+                                    <div class="gravatar-title">
+                                        <div style="text-align: right;">
+                                            <ngx-skeleton-loader
+                                                [theme]="{ width: '200px',   'border-radius': '0', height: '15px', 'margin-bottom': '10px'}">
+                                            </ngx-skeleton-loader>
+                                        </div>
+                                        <div style="text-align: right;">
+                                            <ngx-skeleton-loader
+                                                [theme]="{width: '170px','border-radius': '0',height: '15px'}">
+                                            </ngx-skeleton-loader>
+                                        </div>
+                                    </div>
+
+                                </div>
+                                <div class="first-section-wrapper">
+                                    <div class="gravatar-title">
+                                        <div>
+                                            <ngx-skeleton-loader
+                                                [theme]="{ width: '200px',   'border-radius': '0', height: '15px', 'margin-bottom': '10px'}">
+                                            </ngx-skeleton-loader>
+                                        </div>
+                                        <div>
+                                            <ngx-skeleton-loader
+                                                [theme]="{width: '170px','border-radius': '0',height: '15px'}">
+                                            </ngx-skeleton-loader>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="!simmerLoader">
+                            <div *ngFor="let chat of massageArray;let i = index" class="dropdown message-hover">
+                                <div class="row msg-row" style="margin-bottom: 5px;" [id]="chat?._id">
+
+                                    <!-- CHECKBOX-FOR-FORWARD-ALL -->
+                                    <mat-checkbox *ngIf="forwardselectmsg" name="check__{{i}}"
+                                        (change)="forwardCheck($event,chat)" class="example-margin" style="position: absolute;
+                                    top: 5px; bottom: 0; margin: auto; bottom: 0; margin: auto; height: 20px; left:0;">
+                                    </mat-checkbox>
+                                    <!-- admin msg -->
+                                    <div *ngIf="adminId === chat?.from?.user;else otherUser" style="float: right;"
+                                        class="dropdown">
+
+                                        <!--admin side files display -->
+
+                                        <ng-container *ngIf="chat?.file != null;else onlyMsg">
+                                            <div *ngIf="chat?.ref == null;else ImageReplay">
+                                                <div *ngIf="chat?.pinnedBy.length > 0; else imageNoReplayWithoutPin">
+                                                    <div *ngIf="chat?.file?.type == 'IMAGE'" class="image-div">
+                                                        <img [src]="chat?.file?.thumbnail" class="image-view-pin"
+                                                            (click)="previewImage(chat?.file?.original)" />
+                                                    </div>
+                                                    <div *ngIf="chat?.file?.type == 'AUDIO'" class="image-div">
+                                                        <audio controls>
+                                                            <source [src]="chat?.file?.original" type="audio/mp3">
+                                                        </audio>
+                                                    </div>
+                                                    <div *ngIf="chat?.file?.type == 'VIDEO'" class="image-div"
+                                                        style="position: relative;" data-target="#myModal"
+                                                        data-toggle="modal" (click)="playVideo(chat?.file?.original)">
+                                                        <img src="assets/images/blurVideoImage.gif"
+                                                            class="video-style video-view-pin" />
+                                                        <img src="assets/images/video.svg" width="40px"
+                                                            class="video-icon" />
+                                                    </div>
+                                                    <div *ngIf="chat?.file?.type == 'OTHER'" class="image-div">
+                                                        <div class="doc-pin"
+                                                            (click)="previewFile(chat?.file?.original)">
+                                                            <div style="display: flex;">
+                                                                <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.file?.fileName}}</div>
+                                                                    <div>{{chat?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <ng-template #imageNoReplayWithoutPin>
+                                                    <div *ngIf="chat?.file?.type == 'IMAGE'"
+                                                        [ngClass]="chat?.loading == true ? '' : 'common-border'">
+                                                        <img [src]="chat?.file?.thumbnail" class="image-view"
+                                                            (click)="previewImage(chat?.file?.original)" />
+                                                    </div>
+                                                    <div *ngIf="chat?.file?.type == 'AUDIO'"
+                                                        [ngClass]="chat?.loading == true ? '' : 'common-border'">
+                                                        <audio controls>
+                                                            <source [src]="chat?.file?.original" type="audio/mp3">
+                                                        </audio>
+                                                    </div>
+                                                    <div *ngIf="chat?.file?.type == 'VIDEO'" style="position: relative;"
+                                                        [ngClass]="chat?.loading == true ? '' : 'common-border'">
+                                                        <img [src]="chat?.file?.thumbnail" class="video-style"
+                                                            *ngIf="chat?.loading;else notLoading" />
+                                                        <ng-template #notLoading>
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="video-style"
+                                                                (click)="playVideo(chat?.file?.original)"
+                                                                data-target="#myModal" data-toggle="modal" />
+                                                            <img src="assets/images/video.svg"
+                                                                (click)="playVideo(chat?.file?.original)"
+                                                                data-target="#myModal" data-toggle="modal" width="40px"
+                                                                class="video-icon" />
+                                                        </ng-template>
+                                                    </div>
+
+                                                    <div *ngIf="chat?.file?.type == 'OTHER'"
+                                                        style="color: white;margin-top: 5px;">
+                                                        <img [src]="chat?.file?.thumbnail" class="image-view"
+                                                            *ngIf="chat?.loading;else notLoadingDoc" />
+                                                        <ng-template #notLoadingDoc>
+                                                            <div class="doc-view-admin"
+                                                                (click)="previewFile(chat?.file?.original , chat?.file?.fileName)"
+                                                                style="cursor: pointer;">
+                                                                <div style="display: flex;">
+                                                                    <div><img
+                                                                            src="assets/images/docpreview-white-icon.svg"
+                                                                            style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                    </div>
+                                                                    <div class="doc-view">
+                                                                        <div class="doc-name">{{chat?.file?.fileName}}
+                                                                        </div>
+                                                                        <div>{{chat?.file?.size}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                            <ng-template #ImageReplay>
+                                                <div *ngIf="chat?.pinnedBy.length > 0;else ImageReplayWithoutPin">
+                                                    <div *ngIf="chat?.ref?.content">
+
+                                                        <div *ngIf="pattern.test(chat?.content);else notMatch"
+                                                            class="replay-txt-mt msg-padding">
+                                                            <a [href]="chat?.content"
+                                                                [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                class="link-text-pin">{{chat?.ref?.content}}</a>
+                                                        </div>
+                                                        <ng-template #notMatch>
+                                                            <div class="replay-txt-mt msg-padding">
+                                                                <span
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                    {{chat?.ref?.content}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-container *ngTemplateOutlet="mediaReplayPin"></ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'AUDIO'"
+                                                        class="replay-msg-border">
+                                                        <audio controls>
+                                                            <source [src]="chat?.ref?.file?.original" type="audio/mp3">
+                                                        </audio>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'IMAGE'">
+                                                        <div class="replay-msg-border">
+                                                            <img [src]="chat?.ref?.file?.thumbnail"
+                                                                class="common-img-class"
+                                                                (click)="previewImage(chat?.file?.original)" />
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="mediaReplayPin"></ng-container>
+                                                    </div>
+
+                                                    <div *ngIf="chat?.ref?.file?.type == 'VIDEO'">
+                                                        <div style="position: relative;" class="replay-txt-mt"
+                                                            data-target="#myModal" data-toggle="modal"
+                                                            (click)="playVideo(chat?.ref?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="image-view" />
+                                                            <img src="assets/images/video.svg" data-target="#myModal"
+                                                                data-toggle="modal"
+                                                                (click)="playVideo(chat?.ref?.file?.original)"
+                                                                width="40px" class="video-icon" />
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="mediaReplayPin"></ng-container>
+                                                    </div>
+
+                                                    <div *ngIf="chat?.ref?.file?.type == 'OTHER'"
+                                                        class="simple-admin-file"
+                                                        (click)="previewFile(chat?.ref?.file?.original)">
+                                                        <div style="display: flex;padding: 4px;">
+                                                            <div><img src="assets/images/docpreview-white-icon.svg"
+                                                                    style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                            </div>
+                                                            <div>
+                                                                <div class="doc-name">{{chat?.ref?.file?.fileName}}
+                                                                </div>
+                                                                <div>{{chat?.ref?.file?.size}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="mediaReplayPin"></ng-container>
+                                                    </div>
+
+                                                    <ng-template #mediaReplayPin>
+                                                        <div *ngIf="chat?.file?.type == 'IMAGE'"
+                                                            class="replaypin-admin-mb">
+                                                            <img [src]="chat?.file?.thumbnail" class="common-img-class"
+                                                                (click)="previewImage(chat?.file?.original)" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'AUDIO'"
+                                                            class="replaypin-admin-mb">
+                                                            <audio controls>
+                                                                <source [src]="chat?.file?.original" type="audio/mp3">
+                                                            </audio>
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'VIDEO'"
+                                                            style="position: relative;" class="replaypin-admin-mb"
+                                                            data-target="#myModal" data-toggle="modal"
+                                                            (click)="playVideo(chat?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                style="padding: 3px;" class="common-img-class"
+                                                                style="padding: 0px;" />
+                                                            <img src="assets/images/video.svg" width="40px"
+                                                                class="video-icon" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'OTHER'"
+                                                            (click)="previewFile(chat?.file?.original)">
+                                                            <div style="display: flex;"
+                                                                class="replay-msgs-pin doc-layout">
+                                                                <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.file?.fileName}}</div>
+                                                                    <div>{{chat?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+
+                                                </div>
+                                                <ng-template #ImageReplayWithoutPin>
+                                                    <div *ngIf="chat?.ref?.content" class="common-class">
+
+                                                        <div *ngIf="pattern.test(chat?.content);else notMatch"
+                                                            class="replay-admin-mb msg-padding">
+                                                            <a [href]="chat?.content"
+                                                                [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                class="link-text-pin">{{chat?.ref?.content}}</a>
+                                                        </div>
+                                                        <ng-template #notMatch>
+                                                            <div class="replay-admin-mb msg-padding">
+                                                                <span
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                    {{chat?.ref?.content}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-container *ngTemplateOutlet="mediaReplay"></ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'IMAGE'" class="common-class">
+                                                        <div class="replay-admin-mb">
+                                                            <img [src]="chat?.ref?.file?.thumbnail"
+                                                                style="width : 245px;height: 150px;margin: 0px;"
+                                                                (click)="previewImage(chat?.file?.original)" />
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="mediaReplay"></ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'AUDIO'"
+                                                        class="replay-admin-mb">
+                                                        <audio controls>
+                                                            <source [src]="chat?.ref?.file?.original" type="audio/mp3">
+                                                        </audio>
+                                                        <ng-container *ngTemplateOutlet="mediaReplay"></ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'VIDEO'" class="common-class">
+                                                        <div style="position: relative;" class="replay-admin-mb"
+                                                            data-target="#myModal" data-toggle="modal"
+                                                            (click)="playVideo(chat?.ref?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="image-view" />
+                                                            <img src="assets/images/video.svg" width="40px"
+                                                                class="video-icon" />
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="mediaReplay"></ng-container>
+                                                    </div>
+
+                                                    <div *ngIf="chat?.ref?.file?.type == 'OTHER'" class="common-class">
+                                                        <div (click)="previewFile(chat?.ref?.file?.original)">
+                                                            <div style="display: flex;" class="replay-msgs">
+                                                                <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.ref?.file?.fileName}}
+                                                                    </div>
+                                                                    <div>{{chat?.ref?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="mediaReplay"></ng-container>
+                                                    </div>
+
+                                                    <ng-template #mediaReplay>
+
+                                                        <div *ngIf="chat?.file?.type == 'IMAGE'"
+                                                            class="replay-admin-mt">
+                                                            <img [src]="chat?.file?.thumbnail" class="common-img-class"
+                                                                (click)="previewImage(chat?.file?.original)" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'AUDIO'"
+                                                            class="replay-admin-mt">
+                                                            <audio controls>
+                                                                <source [src]="chat?.file?.original" type="audio/mp3">
+                                                            </audio>
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'VIDEO'"
+                                                            style="position: relative;" class="replay-admin-mt">
+                                                            <img [src]="chat?.file?.thumbnail"
+                                                                *ngIf="loading;else notLoading" />
+                                                            <ng-template #notLoading>
+
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="common-img-class" data-target="#myModal"
+                                                                    data-toggle="modal"
+                                                                    (click)="playVideo(chat?.file?.original)" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </ng-template>
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'OTHER'" class="doc-layout"
+                                                            (click)="previewFile(chat?.file?.original)">
+                                                            <div style="display: flex;" class="replay-file-mb">
+                                                                <div><img src="assets/images/docpreview-white-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.file?.fileName}}</div>
+                                                                    <div>{{chat?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+
+                                                </ng-template>
+                                            </ng-template>
+                                        </ng-container>
+
+                                        <!-- admin side text(msg) display -->
+                                        <ng-template #onlyMsg>
+                                            <div *ngIf="chat?.ref == null; else replayWithPin">
+                                                <div *ngIf="chat?.pinnedBy.length > 0;else noReplayWithoutPin"
+                                                    class="admin-msg-pin dropbtn">
+                                                    <div style="display: flex;">
+                                                        <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                            <a [href]="chat?.content"
+                                                                [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                class="link-text-pin">{{chat?.content}}</a>
+                                                        </div>
+                                                        <ng-template #notMatch>
+                                                            <div>
+                                                                <span
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                    {{chat?.content}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </div>
+
+                                                <ng-template #noReplayWithoutPin>
+                                                    <div class="simple-admin-msg dropbtn">
+                                                        <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                            <a [href]="chat?.content" class="link-text"
+                                                                [ngClass]="{'search-text link-text-admin':searchArray.includes(chat._id)}">{{chat?.content}}</a>
+                                                        </div>
+                                                        <ng-template #notMatch>
+                                                            <div>
+                                                                <span
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                    {{chat?.content}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                </ng-template>
+                                            </div>
+                                        </ng-template>
+
+                                        <ng-template #replayWithPin>
+                                            <ng-container *ngIf="chat?.pinnedBy.length > 0;else replayWithoutPin">
+                                                <ng-container *ngIf="chat?.ref?.file ;else textReplayWithPin">
+                                                    <div *ngIf="chat?.ref?.file?.type == 'IMAGE'"
+                                                        class="simple-admin-file">
+                                                        <div style="display: flex;" class="replay-msg-border">
+                                                            <img [src]="chat?.ref?.file?.thumbnail"
+                                                                class="image-view-pin"
+                                                                (click)="previewImage(chat?.ref?.file?.original)" />
+                                                        </div>
+                                                        <div>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchPin">
+                                                            </ng-container>
+                                                        </div>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'AUDIO'"
+                                                        class="replay-msg-border">
+                                                        <audio controls>
+                                                            <source [src]="chat?.ref?.file?.original" type="audio/mp3">
+                                                        </audio>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearchPin">
+                                                        </ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'VIDEO'"
+                                                        class="simple-admin-file">
+                                                        <div style="display: flex;position: relative;"
+                                                            data-target="#myModal" data-toggle="modal"
+                                                            (click)="playVideo(chat?.ref?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="common-img-class replay-msg-border" />
+                                                            <img src="assets/images/video.svg" width="40px"
+                                                                class="video-icon" />
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearchPin">
+                                                        </ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'OTHER'"
+                                                        class="simple-admin-file"
+                                                        (click)="previewFile(chat?.ref?.file?.original)">
+                                                        <div style="display: flex;padding: 4px;">
+                                                            <div><img src="assets/images/docpreview-white-icon.svg"
+                                                                    style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                            </div>
+                                                            <div>
+                                                                <div class="doc-name">{{chat?.ref?.file?.fileName}}
+                                                                </div>
+                                                                <div>{{chat?.ref?.file?.size}}</div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearchPin">
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+
+                                                <ng-template #textReplayWithPin>
+                                                    <div class="simple-admin-msg" style="padding: 0px;">
+                                                        <div style="padding: 6px;"
+                                                            *ngIf="pattern.test(chat?.ref?.content);else notMatch">
+                                                            <a [href]="chat?.ref?.content" style="color: white;"
+                                                                [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                class="link-text-replay">{{chat?.ref?.content}}</a>
+                                                        </div>
+                                                        <ng-template #notMatch>
+                                                            <div class="simple-admin-msg">
+                                                                <span
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                    {{chat?.ref?.content}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearchPin">
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-container>
+                                            <ng-template #replayWithoutPin>
+                                                <ng-container *ngIf="chat?.ref?.file;else textReplayWithoutPin">
+                                                    <div *ngIf="chat?.ref?.file?.type == 'IMAGE'" class="admin-msg">
+                                                        <img [src]="chat?.ref?.file?.original"
+                                                            class="image-view-pin replay-admin-mb"
+                                                            (click)="previewImage(chat?.ref?.file?.original)" />
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearch">
+                                                        </ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'AUDIO'" class="admin-msg">
+                                                        <audio controls>
+                                                            <source [src]="chat?.ref?.file?.original" type="audio/mp3">
+                                                        </audio>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearch">
+                                                        </ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'VIDEO'" class="admin-msg">
+                                                        <div style="position: relative;" data-target="#myModal"
+                                                            data-toggle="modal"
+                                                            (click)="playVideo(chat?.ref?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="common-img-class replay-admin-mb"
+                                                                style="margin: 0px;" />
+                                                            <img src="assets/images/video.svg" width="40px"
+                                                                class="video-icon" />
+                                                        </div>
+
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearch">
+                                                        </ng-container>
+                                                    </div>
+                                                    <div *ngIf="chat?.ref?.file?.type == 'OTHER'" class="admin-msg">
+                                                        <div class="replay-admin-mb"
+                                                            (click)="previewFile(chat?.ref?.file?.original)"
+                                                            style="padding-right: 7px;">
+                                                            <div style="display: flex;">
+                                                                <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.ref?.file?.fileName}}
+                                                                    </div>
+                                                                    <div>{{chat?.ref?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearch">
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                                <ng-template #textReplayWithoutPin>
+                                                    <div class="admin-msg">
+                                                        <div style="padding: 6px;" class="replay-msgs msg-padding"
+                                                            *ngIf="pattern.test(chat?.ref?.content);else notMatch">
+                                                            <a [href]="chat?.ref?.content"
+                                                                [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                class="link-text-replay">{{chat?.ref?.content}}</a>
+                                                        </div>
+                                                        <ng-template #notMatch>
+                                                            <div class="replay-msgs msg-padding">
+                                                                <span
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                    {{chat?.ref?.content}}</span>
+                                                            </div>
+                                                        </ng-template>
+                                                        <ng-container *ngTemplateOutlet="testRegexAndSearch">
+                                                        </ng-container>
+                                                    </div>
+
+                                                </ng-template>
+                                            </ng-template>
+                                        </ng-template>
+
+                                        <ng-template #testRegexAndSearch>
+                                            <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                <a [href]="chat?.content"
+                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                    class="link-text">{{chat?.content}}</a>
+                                            </div>
+                                            <ng-template #notMatch>
+                                                <div class="simple-admin-msg">
+                                                    <span
+                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}">{{chat?.content}}</span>
+                                                </div>
+                                            </ng-template>
+                                        </ng-template>
+
+                                        <ng-template #testRegexAndSearchPin>
+                                            <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                <a [href]="chat?.content"
+                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                    class="link-text-pin">{{chat?.content}}</a>
+                                            </div>
+                                            <ng-template #notMatch>
+                                                <div class="replay-msgs-pin">
+                                                    <span
+                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}">{{chat?.content}}</span>
+                                                </div>
+                                            </ng-template>
+                                        </ng-template>
+
+                                        <span class="msg-time-admin" style="margin-bottom: 10px;">
+                                            <span *ngIf="chat?.pinnedBy.length > 0">
+                                                <img src="assets/images/pin.png" width="14px" />
+                                            </span>
+                                            {{chat?.createdAt |date:'h:mm a'}}
+                                            <ng-container *ngIf="chat?.isViewed ;else received">
+                                                <svg width="16" height="11" viewBox="0 0 16 11" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M14.9563 0.0544434L6.74891 8.46944L5.57642 7.73313L6.74891 9.14264L6.83119 9.03746V9.05849L15.306 0.412081L14.9563 0.0544434Z"
+                                                        fill="#3279F1" />
+                                                    <path
+                                                        d="M12.8993 0.0544434L4.69186 8.46944L1.2361 4.68269L0.906982 5.01929L4.69186 9.14264L4.77414 9.03746V9.05849L13.249 0.412081L12.8993 0.0544434Z"
+                                                        fill="#3279F1" />
+                                                </svg>
+                                            </ng-container>
+                                            <ng-template #received>
+                                                <ng-container *ngIf="chat?.isReceived;else sent">
+                                                    <svg width="16" height="11" viewBox="0 0 16 11" fill="none"
+                                                        xmlns="http://www.w3.org/2000/svg">
+                                                        <path
+                                                            d="M14.9563 0.0544434L6.74891 8.46944L5.57642 7.73313L6.74891 9.14264L6.83119 9.03746V9.05849L15.306 0.412081L14.9563 0.0544434Z"
+                                                            fill="#787878" />
+                                                        <path
+                                                            d="M12.8993 0.0544434L4.69186 8.46944L1.2361 4.68269L0.906982 5.01929L4.69186 9.14264L4.77414 9.03746V9.05849L13.249 0.412081L12.8993 0.0544434Z"
+                                                            fill="#787878" />
+                                                    </svg>
+                                                </ng-container>
+                                            </ng-template>
+                                            <ng-template #sent>
+                                                <svg width="16" height="11" viewBox="0 0 16 11" fill="none"
+                                                    xmlns="http://www.w3.org/2000/svg">
+                                                    <path
+                                                        d="M12.8993 0.0544434L4.69186 8.46944L1.2361 4.68269L0.906982 5.01929L4.69186 9.14264L4.77414 9.03746V9.05849L13.249 0.412081L12.8993 0.0544434Z"
+                                                        fill="#787878" />
+                                                </svg>
+                                            </ng-template>
+                                        </span>
+                                        <div class="dropdown-content admin-dropdown" dropdown
+                                            style="text-align: right;width: 100%;margin-left: 12px;">
+
+                                            <i class="fa fa-ellipsis-v" aria-hidden="true" style="cursor: pointer;"
+                                                dropdownToggle aria-controls="dropdown-basic"></i>
+
+                                            <ul id="dropdown-create" *dropdownMenu class="dropdown-menu admin-side"
+                                                role="menu" aria-labelledby="button-basic">
+                                                <li role="menuitem" style="display: block" (click)="replayMsg(chat)">
+                                                    <a class="dropdown-item">
+                                                        <img src="../../../assets/images/reply.svg" width="15"
+                                                            class="groupo-img">
+                                                        <span class="ellipsis">Replay</span>
+                                                    </a>
+                                                </li>
+                                                <li role="menuitem" style="display: block" (click)="forwardselect()">
+                                                    <a class="dropdown-item">
+                                                        <img src="../../../assets/images/forward.svg" width="15"
+                                                            class="groupo-img">
+                                                        <span class="ellipsis">Forward message</span>
+                                                    </a>
+                                                </li>
+                                                <li role="menuitem" style="display: block"
+                                                    *ngIf="chat?.pinnedBy.length > 0" (click)="unpinMsg(chat)">
+                                                    <a class="dropdown-item">
+                                                        <img src="../../../assets/images/pin-message.svg" width="15"
+                                                            class="groupo-img">
+                                                        <span class="ellipsis">Unpin message</span>
+                                                    </a>
+                                                </li>
+                                                <li role="menuitem" style="display: block"
+                                                    *ngIf="chat?.pinnedBy.length == 0" (click)="pinMsg(chat)">
+                                                    <a class="dropdown-item">
+                                                        <img src="../../../assets/images/pin-message.svg" width="15"
+                                                            class="groupo-img">
+                                                        <span class="ellipsis">Pin message</span>
+                                                    </a>
+                                                </li>
+                                                <li role="menuitem" style="display: block" (click)="deleteMsg(chat)">
+                                                    <a class="dropdown-item">
+                                                        <img src="../../../assets/images/trash.svg" width="15"
+                                                            class="groupo-img">
+                                                        <span class="ellipsis">Delete message</span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+
+                                    <!-- user msg file -->
+                                    <ng-template #otherUser>
+                                        <div *ngIf="selectedChat?.chatType == 'GROUP'"
+                                            style="font-weight: bold;font-size: 14px;">
+                                            {{ chat?.fromUserName }}
+                                        </div>
+                                        <div style="float: left;position: relative;margin-left: 30px;" [id]="chat?._id">
+
+                                            <div *ngIf="chat?.file != null;else onlyMsg">
+                                                <div *ngIf="chat?.ref == null;else UserImageReplay">
+                                                    <div
+                                                        *ngIf="chat?.pinnedBy.length > 0; else imageNoReplayWithoutPin">
+                                                        <div *ngIf="chat?.file?.type == 'IMAGE'" class="image-div">
+                                                            <img [src]="chat?.file?.thumbnail" class="image-view-pin"
+                                                                (click)="previewImage(chat?.file?.original)" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'AUDIO'" class="image-div">
+                                                            <audio controls>
+                                                                <source [src]="chat?.file?.original" type="audio/mp3">
+                                                            </audio>
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'VIDEO'" class="image-div"
+                                                            style="position: relative;" data-target="#myModal"
+                                                            data-toggle="modal"
+                                                            (click)="playVideo(chat?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="video-style video-view-pin" />
+                                                            <img src="assets/images/video.svg" width="40px"
+                                                                class="video-icon" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'OTHER'" class="image-div">
+                                                            <div class="doc-pin" style="display: flex;"
+                                                                (click)="previewFile(chat?.file?.original)">
+                                                                <div><img src="assets/images/docpreview-blue-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.file?.fileName}}</div>
+                                                                    <div>{{chat?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                    <ng-template #imageNoReplayWithoutPin>
+                                                        <div *ngIf="chat?.file?.type == 'IMAGE'"
+                                                            class="common-border-user">
+                                                            <img [src]="chat?.file?.thumbnail" class="image-view"
+                                                                (click)="previewImage(chat?.file?.original)" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'AUDIO'" class="image-view">
+                                                            <audio controls>
+                                                                <source [src]="chat?.file?.original" type="audio/mp3">
+                                                            </audio>
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'VIDEO'"
+                                                            style="position: relative;" class="common-border-user"
+                                                            data-target="#myModal" data-toggle="modal"
+                                                            (click)="playVideo(chat?.file?.original)">
+                                                            <img src="assets/images/blurVideoImage.gif"
+                                                                class="video-style" />
+                                                            <img src="assets/images/video.svg" data-target="#myModal"
+                                                                data-toggle="modal"
+                                                                (click)="playVideo(chat?.file?.original)" width="40px"
+                                                                class="video-icon" />
+                                                        </div>
+                                                        <div *ngIf="chat?.file?.type == 'OTHER'" style="color: white;">
+                                                            <div class="doc-view-user"
+                                                                (click)="previewFile(chat?.file?.original , chat?.file?.fileName)">
+                                                                <div style="display: flex;">
+                                                                    <div>
+                                                                        <img src="assets/images/docpreview-blue-icon.svg"
+                                                                            style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                    </div>
+                                                                    <div class="doc-view">
+                                                                        <div class="doc-name">{{chat?.file?.fileName}}
+                                                                        </div>
+                                                                        <div>{{chat?.file?.size}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                                <ng-template #UserImageReplay>
+                                                    <div *ngIf="chat?.pinnedBy.length > 0;else ImageReplayWithoutPin">
+                                                        <div *ngIf="chat?.ref?.content">
+                                                            <div class="replay-txt-mt msg-padding">
+                                                                {{chat?.ref?.content}}
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayPinUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'IMAGE'">
+                                                            <div class="replay-msg-border">
+                                                                <img [src]="chat?.ref?.file?.thumbnail"
+                                                                    class="common-img-class"
+                                                                    (click)="previewImage(chat?.file?.original)" />
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayPinUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'AUDIO'"
+                                                            class="replay-msg-border">
+                                                            <audio controls>
+                                                                <source [src]="chat?.ref?.file?.original"
+                                                                    type="audio/mp3">
+                                                            </audio>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayPinUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'VIDEO'">
+
+                                                            <div style="position: relative;" class="replay-txt-mt"
+                                                                data-target="#myModal" data-toggle="modal"
+                                                                (click)="playVideo(chat?.ref?.file?.original)">
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="image-view" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayPinUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'OTHER'"
+                                                            class="simple-admin-file"
+                                                            (click)="previewFile(chat?.ref?.file?.original)">
+                                                            <div style="display: flex;padding: 4px;">
+                                                                <div><img src="assets/images/docpreview-white-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.ref?.file?.fileName}}
+                                                                    </div>
+                                                                    <div>{{chat?.ref?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayPinUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <ng-template #mediaReplayPinUser>
+                                                            <div *ngIf="chat?.file?.type == 'IMAGE'"
+                                                                class="replaypin-admin-mb">
+                                                                <img [src]="chat?.file?.thumbnail"
+                                                                    class="common-img-class"
+                                                                    (click)="previewImage(chat?.file?.original)" />
+                                                            </div>
+                                                            <div *ngIf="chat?.file?.type == 'AUDIO'"
+                                                                class="replaypin-admin-mb">
+                                                                <audio controls>
+                                                                    <source [src]="chat?.file?.original"
+                                                                        type="audio/mp3">
+                                                                </audio>
+                                                            </div>
+                                                            <div *ngIf="chat?.file?.type == 'VIDEO'"
+                                                                style="position: relative;" class="replaypin-admin-mb"
+                                                                data-target="#myModal" data-toggle="modal"
+                                                                (click)="playVideo(chat?.file?.original)">
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="common-img-class" style="padding: 0px;" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </div>
+                                                            <div *ngIf="chat?.file?.type == 'OTHER'"
+                                                                (click)="previewFile(chat?.file?.original)">
+                                                                <div style="display: flex;"
+                                                                    class="replay-msgs-pin doc-layout">
+                                                                    <div><img
+                                                                            src="assets/images/docpreview-blue-icon.svg"
+                                                                            style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="doc-name">{{chat?.file?.fileName}}
+                                                                        </div>
+                                                                        <div>{{chat?.file?.size}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </div>
+                                                    <ng-template #ImageReplayWithoutPin>
+                                                        <div *ngIf="chat?.ref?.content" class="common-class">
+                                                            <div class="replay-txt-mt msg-padding">
+                                                                {{chat?.ref?.content}}
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'IMAGE'"
+                                                            class="common-class">
+                                                            <div class="replay-msg-border">
+                                                                <img [src]="chat?.ref?.file?.thumbnail"
+                                                                    style="width : 245px;height: 150px;margin: 0px;"
+                                                                    (click)="previewImage(chat?.file?.original)" />
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'AUDIO'"
+                                                            class="common-class">
+                                                            <audio controls>
+                                                                <source [src]="chat?.ref?.file?.original"
+                                                                    type="audio/mp3">
+                                                            </audio>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'VIDEO'"
+                                                            class="common-class">
+                                                            <div style="position: relative;" class="replay-msg-border"
+                                                                data-target="#myModal" data-toggle="modal"
+                                                                (click)="playVideo(chat?.ref?.file?.original)">
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="image-view" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'OTHER'"
+                                                            class="common-class">
+                                                            <div (click)="previewFile(chat?.ref?.file?.original)">
+                                                                <div style="display: flex;" class="replay-txt-mt">
+                                                                    <div><img
+                                                                            src="assets/images/docpreview-white-icon.svg"
+                                                                            style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="doc-name">
+                                                                            {{chat?.ref?.file?.fileName}}
+                                                                        </div>
+                                                                        <div>{{chat?.ref?.file?.size}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="mediaReplayUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                        <ng-template #mediaReplayUser>
+                                                            <div *ngIf="chat?.file?.type == 'IMAGE'"
+                                                                class="replay-user-mb">
+                                                                <img [src]="chat?.file?.thumbnail"
+                                                                    class="common-img-class"
+                                                                    (click)="previewImage(chat?.file?.original)" />
+                                                            </div>
+                                                            <div *ngIf="chat?.file?.type == 'AUDIO'"
+                                                                class="replay-user-mb">
+                                                                <audio controls>
+                                                                    <source [src]="chat?.file?.original"
+                                                                        type="audio/mp3">
+                                                                </audio>
+                                                            </div>
+                                                            <div *ngIf="chat?.file?.type == 'VIDEO'"
+                                                                style="position: relative;" class="replay-user-mb"
+                                                                data-target="#myModal" data-toggle="modal"
+                                                                (click)="playVideo(chat?.file?.original)">
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="common-img-class" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </div>
+                                                            <div *ngIf="chat?.file?.type == 'OTHER'" class="doc-layout"
+                                                                (click)="previewFile(chat?.file?.original)">
+                                                                <div style="display: flex;" class="replay-user-mb">
+                                                                    <div><img
+                                                                            src="assets/images/docpreview-blue-icon.svg"
+                                                                            style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="doc-name">{{chat?.file?.fileName}}
+                                                                        </div>
+                                                                        <div>{{chat?.file?.size}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </ng-template>
+                                                    </ng-template>
+                                                </ng-template>
+                                            </div>
+
+                                            <!-- user side text msgs -->
+                                            <ng-template #onlyMsg>
+                                                <div *ngIf="chat?.ref == null; else replayWithPin">
+                                                    <div *ngIf="chat?.pinnedBy.length > 0;else noReplayWithoutPin"
+                                                        class="admin-msg-pin dropbtn">
+                                                        <div style="display: flex;">
+                                                            <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                                <a [href]="chat?.content"
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                    class="link-text"
+                                                                    style="color: black;">{{chat?.content}}</a>
+                                                            </div>
+                                                            <ng-template #notMatch>
+                                                                <div>
+                                                                    <span
+                                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                        {{chat?.content}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                        </div>
+                                                    </div>
+
+                                                    <ng-template #noReplayWithoutPin>
+                                                        <div class="simple-user-msg dropbtn">
+                                                            <div *ngIf="pattern.test(chat?.content);else notMatch"
+                                                                class="msg-padding">
+                                                                <a [href]="chat?.content" style="color: black;"
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                    class="link-text">{{chat?.content}}</a>
+                                                            </div>
+                                                            <ng-template #notMatch>
+                                                                <div class="msg-padding">
+                                                                    <span
+                                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}">
+                                                                        {{chat?.content}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                        </div>
+                                                    </ng-template>
+                                                </div>
+                                            </ng-template>
+                                            <ng-template #replayWithPin>
+                                                <ng-container *ngIf="chat?.pinnedBy.length > 0;else replayWithoutPin">
+                                                    <ng-container *ngIf="chat?.ref?.file ;else textReplayWithPin">
+                                                        <div *ngIf="chat?.ref?.file?.type == 'IMAGE'"
+                                                            class="simple-admin-file">
+                                                            <div style="display: flex;" class="replay-msg-border">
+                                                                <img [src]="chat?.ref?.file?.thumbnail"
+                                                                    class="image-view-pin"
+                                                                    (click)="previewImage(chat?.ref?.file?.original)" />
+                                                            </div>
+                                                            <div>
+                                                                <ng-container
+                                                                    *ngTemplateOutlet="testRegexAndSearchPinUser">
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'AUDIO'"
+                                                            class="replay-msg-border">
+                                                            <audio controls>
+                                                                <source [src]="chat?.ref?.file?.original"
+                                                                    type="audio/mp3">
+                                                            </audio>
+                                                            <div>
+                                                                <ng-container
+                                                                    *ngTemplateOutlet="testRegexAndSearchPinUser">
+                                                                </ng-container>
+                                                            </div>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'VIDEO'"
+                                                            class="simple-admin-file">
+                                                            <div style="display: flex;position: relative;"
+                                                                data-target="#myModal" data-toggle="modal"
+                                                                (click)="playVideo(chat?.ref?.file?.original)">
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="common-img-class replay-msg-border" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchPinUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'OTHER'"
+                                                            class="simple-admin-file"
+                                                            (click)="previewFile(chat?.ref?.file?.original)">
+                                                            <div style="display: flex;padding: 4px;">
+                                                                <div><img src="assets/images/docpreview-white-icon.svg"
+                                                                        style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                </div>
+                                                                <div>
+                                                                    <div class="doc-name">{{chat?.ref?.file?.fileName}}
+                                                                    </div>
+                                                                    <div>{{chat?.ref?.file?.size}}</div>
+                                                                </div>
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchPinUser">
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-template #textReplayWithPin>
+                                                        <div style="padding: 0px;">
+                                                            <div style="padding: 6px;"
+                                                                *ngIf="pattern.test(chat?.ref?.content);else notMatch">
+                                                                <a [href]="chat?.ref?.content"
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                    class="link-text-replay replay-txt-mtn msg-padding">{{chat?.ref?.content}}</a>
+                                                            </div>
+                                                            <ng-template #notMatch>
+                                                                <div class="replay-txt-mt msg-padding">
+                                                                    <span
+                                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}">{{chat?.ref?.content}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchPinUser">
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-template>
+                                                </ng-container>
+                                                <ng-template #replayWithoutPin>
+                                                    <ng-container *ngIf="chat?.ref?.file;else textReplayWithoutPin">
+                                                        <div *ngIf="chat?.ref?.file?.type == 'IMAGE'" class="admin-msg">
+                                                            <img [src]="chat?.ref?.file?.original"
+                                                                (click)="previewImage(chat?.ref?.file?.original)"
+                                                                class="image-view-pin replay-admin-mb" />
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'AUDIO'" class="admin-msg">
+                                                            <audio controls>
+                                                                <source [src]="chat?.ref?.file?.original"
+                                                                    type="audio/mp3">
+                                                            </audio>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchUser">
+                                                            </ng-container>
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'VIDEO'" class="admin-msg">
+                                                            <div style="position: relative;" data-target="#myModal"
+                                                                data-toggle="modal"
+                                                                (click)="playVideo(chat?.ref?.file?.original)">
+                                                                <img src="assets/images/blurVideoImage.gif"
+                                                                    class="common-img-class replay-admin-mb"
+                                                                    style="margin: 0px;" />
+                                                                <img src="assets/images/video.svg" width="40px"
+                                                                    class="video-icon" />
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                        <div *ngIf="chat?.ref?.file?.type == 'OTHER'" class="admin-msg">
+                                                            <div class="replay-admin-mb"
+                                                                (click)="previewFile(chat?.ref?.file?.original)">
+                                                                <div style="display: flex;">
+                                                                    <div><img
+                                                                            src="assets/images/docpreview-blue-icon.svg"
+                                                                            style="height : 36px;margin-right:10px;margin-top: 3px;" />
+                                                                    </div>
+                                                                    <div>
+                                                                        <div class="doc-name">
+                                                                            {{chat?.ref?.file?.fileName}}
+                                                                        </div>
+                                                                        <div>{{chat?.ref?.file?.size}}</div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchUser">
+                                                            </ng-container>
+
+                                                        </div>
+                                                    </ng-container>
+                                                    <ng-template #textReplayWithoutPin>
+                                                        <div class="admin-msg">
+                                                            <div style="padding: 6px;" class="replay-msgs msg-padding"
+                                                                *ngIf="pattern.test(chat?.ref?.content);else notMatch">
+                                                                <a [href]="chat?.ref?.content"
+                                                                    [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                                    class="link-text-replay">{{chat?.ref?.content}}</a>
+                                                            </div>
+                                                            <ng-template #notMatch>
+                                                                <div class="replay-msgs msg-padding">
+                                                                    <span
+                                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}">{{chat?.ref?.content}}</span>
+                                                                </div>
+                                                            </ng-template>
+                                                            <ng-container *ngTemplateOutlet="testRegexAndSearchUser">
+                                                            </ng-container>
+                                                        </div>
+                                                    </ng-template>
+                                                </ng-template>
+                                            </ng-template>
+
+
+                                            <ng-template #testRegexAndSearchUser>
+                                                <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                    <a [href]="chat?.content"
+                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                        class="link-text">{{chat?.content}}</a>
+                                                </div>
+                                                <ng-template #notMatch>
+                                                    <div class="simple-admin-msg">
+                                                        <span
+                                                            [ngClass]="{'search-text':searchArray.includes(chat._id)}">{{chat?.content}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-template>
+
+                                            <ng-template #testRegexAndSearchPinUser>
+                                                <div *ngIf="pattern.test(chat?.content);else notMatch">
+                                                    <a [href]="chat?.content"
+                                                        [ngClass]="{'search-text':searchArray.includes(chat._id)}"
+                                                        class="link-text-pin">{{chat?.content}}</a>
+                                                </div>
+                                                <ng-template #notMatch>
+                                                    <div class="replay-msgs-pin">
+                                                        <span
+                                                            [ngClass]="{'search-text':searchArray.includes(chat._id)}">{{chat?.content}}</span>
+                                                    </div>
+                                                </ng-template>
+                                            </ng-template>
+
+                                            <span class="msg-time-user" style="margin-bottom: 10px;">
+                                                <span *ngIf="chat?.pinnedBy?.length > 0"
+                                                    style="float: right;margin-left: 10px;">
+                                                    <img src="assets/images/pin.png" width="14px" />
+                                                </span>
+                                                {{chat?.createdAt |date:'h:mm a'}}</span>
+                                            <div class="dropdown-content user-dropdown" dropdown>
+                                                <i class="fa fa-ellipsis-v" aria-hidden="true" style="cursor: pointer;"
+                                                    (click)="openDropdown(i)" (blur)="onBlur()" dropdownToggle
+                                                    aria-controls="dropdown-basic"></i>
+
+                                                <ul id="dropdown-create" *dropdownMenu class="dropdown-menu" role="menu"
+                                                    aria-labelledby="button-basic">
+                                                    <li role="menuitem" style="display: block"
+                                                        (click)="replayMsg(chat)">
+                                                        <a class="dropdown-item">
+                                                            <img src="../../../assets/images/reply.svg" width="15"
+                                                                class="groupo-img">
+                                                            <span class="ellipsis">Replay</span>
+                                                        </a>
+                                                    </li>
+                                                    <li role="menuitem" style="display: block"
+                                                        (click)="forwardselect()">
+                                                        <a class="dropdown-item">
+                                                            <img src="../../../assets/images/forward.svg" width="15"
+                                                                class="groupo-img">
+                                                            <span class="ellipsis">Forward message</span>
+                                                        </a>
+                                                    </li>
+                                                    <li role="menuitem" style="display: block"
+                                                        *ngIf="chat?.pinnedBy.length > 0" (click)="unpinMsg(chat)">
+                                                        <a class="dropdown-item">
+                                                            <img src="../../../assets/images/pin-message.svg" width="15"
+                                                                class="groupo-img">
+                                                            <span class="ellipsis">Unpin message</span>
+                                                        </a>
+                                                    </li>
+                                                    <li role="menuitem" style="display: block"
+                                                        *ngIf="chat?.pinnedBy.length == 0" (click)="pinMsg(chat)">
+                                                        <a class="dropdown-item">
+                                                            <img src="../../../assets/images/pin-message.svg" width="15"
+                                                                class="groupo-img">
+                                                            <span class="ellipsis">Pin message</span>
+                                                        </a>
+                                                    </li>
+                                                    <li role="menuitem" style="display: block"
+                                                        (click)="deleteMsg(chat)">
+                                                        <a class="dropdown-item">
+                                                            <img src="../../../assets/images/trash.svg" width="15"
+                                                                class="groupo-img">
+                                                            <span class="ellipsis">Delete message</span>
+                                                        </a>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                </div>
+                            </div>
+                        </ng-container>
+                    </div>
+
+                    <div #pop class="scroll-to-bottom" (click)="scrollToBottom()">
+                        <i class="fa fa-chevron-down" aria-hidden="true"></i>
+                    </div>
+                    <div class="msg-send-container" id="msg-send-container">
+                        <div *ngIf="allBlockUsers.includes(selectedChat?.temp?._id);else notBlockuser"
+                            style="margin-top: 10px;text-align: center;">
+                            <span (click)="sidenav.toggle();openMediaProfile();" class="unblock-txt">You
+                                blocked this contact. Tap to unblock.</span>
+                        </div>
+                        <div style="margin-top: 10px;text-align: center;" *ngIf="isBlockedBy">
+                            <span class="unblock-txt">You are blocked.</span>
+                        </div>
+                        <ng-template #notBlockuser>
+
+                            <!-- replay text -->
+                            <div *ngIf="replayFlag && replayData?.file == null" class="replay-msg">
+                                {{replayData?.content}} <span class="remove-replay-msg"
+                                    (click)="closeReplayMsg()">X</span>
+                            </div>
+                            <!-- replay image -->
+                            <div *ngIf="replayFlag && replayData?.file?.type == 'IMAGE'" class="replay-msg">
+                                <img [src]="replayData?.file?.original" class="img-replay-preview" />
+
+                                <span class="remove-replay-msg" (click)="closeReplayMsg()">X</span>
+                            </div>
+                            <div *ngIf="replayFlag && replayData?.file?.type == 'AUDIO'" class="replay-msg">
+                                <audio controls>
+                                    <source [src]="replayData?.file?.original" type="audio/mp3">
+                                </audio>
+                                <span class="remove-replay-msg" (click)="closeReplayMsg()">X</span>
+                            </div>
+                            <!-- replay video -->
+                            <div *ngIf="replayFlag && replayData?.file?.type == 'VIDEO'" class="replay-msg">
+                                <video autoplay [src]="replayData?.file?.original" class="img-replay-preview"></video>
+
+                                <span class="remove-replay-msg" (click)="closeReplayMsg()">X</span>
+                            </div>
+                            <!-- replay doc -->
+                            <div *ngIf="replayFlag && replayData?.file?.type == 'OTHER'" class="replay-msg">
+
+                                <div style="display: flex;">
+                                    <div><img src="assets/images/docpreview-blue-icon.svg"
+                                            style="height : 36px;margin-right:10px;margin-top: 3px;" /></div>
+                                    <div>
+                                        <div class="doc-name">{{replayData?.file?.fileName}}</div>
+                                        <div>{{replayData?.file?.size}}</div>
+                                    </div>
+                                </div>
+
+                                <span class="remove-replay-msg" (click)="closeReplayMsg()">X</span>
+                            </div>
+                            <!-- upload image preview -->
+                            <div *ngIf="imageArray.length > 0;" style="display: flex;align-items: center;">
+                                <div *ngIf="imageArray.length > 0;" style="display: flex;align-items: center;">
+                                    <div *ngIf="imageArray.length > 0;" class="upload-container">
+                                        <div *ngFor='let data of imageArray;let i = index'
+                                            style="margin-right: 20px;display: flex;">
+                                            <img [src]="data?.url" style="height: 90px;width: 90px;">
+                                            <div class="close-icon" (click)="deleteImage(data , i)">X</div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <span *ngIf="imageArray.length > 0;"
+                                    style="cursor: pointer;display: flex;align-items: center;padding-left: 10px;"
+                                    (click)="uploadImage()">
+                                    <img src="assets/images/send.png" width="25px" />
+                                </span>
+                            </div>
+                            <!-- upload video preview -->
+                            <div *ngIf="videoArray.length > 0;" class="upload-container">
+                                <div *ngFor='let data of videoArray;let i = index'
+                                    style="margin-right: 20px;display: flex;">
+                                    <video [src]="data?.url" style="height:90px;"></video>
+                                    <div class="close-icon" (click)="deleteVideo(data , i)">X</div>
+                                </div>
+                                <span style="cursor: pointer;display: flex;align-items: center;"
+                                    (click)="uploadVideo()">
+                                    <img src="assets/images/send.png" width="25px" />
+                                </span>
+                            </div>
+                            <!-- upload doc preview -->
+                            <div *ngIf="docArray.length > 0" style="display: flex;align-items: center;">
+                                <div *ngIf="docArray.length > 0" class="upload-container">
+                                    <div *ngFor='let data of docArray;let i = index'
+                                        style="margin-right: 20px;display: flex;">
+                                        <span class="doc-style">
+                                            <img src="assets/images/document-chat.svg"
+                                                style="margin-right: 8px;" />{{data?.file?.name}}
+                                        </span>
+                                        <div class="close-icon" (click)="deleteDoc(data , i)">X</div>
+                                    </div>
+                                </div>
+                                <span style="cursor: pointer;display: flex;align-items: center;padding-left: 10px;"
+                                    (click)="uploadDoc()">
+                                    <img src="assets/images/send.png" width="25px" />
+                                </span>
+                            </div>
+                            <!-- icons -->
+                            <ng-container *ngIf="!isBlockedBy">
+                                <div class="form-wrapper"
+                                    *ngIf="!mediaFlag && (imageArray.length == 0 || videoArray.length == 0 || docArray.length == 0)">
+                                    <div dropdown class="drop-photos-doc">
+                                        <img class="plus-icon" src="assets/images/plusblue-docside.svg"
+                                            id="button-create" dropdownToggle aria-controls="dropdown-basic" />
+                                        <ul id="dropdown-create" *dropdownMenu class="dropdown-menu chat-menu"
+                                            role="menu" aria-labelledby="button-basic" style="top: -100px;">
+                                            <li role="menuitem" style="display: block">
+                                                <a class="dropdown-item" (click)="file.click()">
+                                                    <span class="ellipsis"><img
+                                                            src="../../../assets/images/gallery-white-doc.svg" />
+                                                        Photo & Video</span>
+                                                    <input #file type="file" multiple="true"
+                                                        (change)="choosePhoto($event)" accept="image/*,Video/*"
+                                                        style="display: none;">
+                                                </a>
+                                            </li>
+                                            <li role="menuitem" style="display: block">
+                                                <a class="dropdown-item" (click)="doc.click()">
+                                                    <span class="ellipsis"><img
+                                                            src="../../../assets/images/file-white-doc.svg" />Documents</span>
+                                                    <input #doc type="file" multiple="true" (change)="chooseDoc($event)"
+                                                        accept=".doc,.docx,.txt,.pdf" style="display: none;">
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                    <div class="input-wrapper">
+                                        <input placeholder="Send a Message" [(ngModel)]="message"
+                                            (input)="textChange($event)" (keyup.enter)="sendMessage(message)" />
+                                    </div>
+
+                                    <img src="assets/images/send.svg" width="25px"
+                                        style="margin-left: 10px;cursor: pointer; width:16px" *ngIf="message.length > 0"
+                                        (click)="sendMessage(message)" />
+                                    <!-- emoji -->
+                                    <i class='attachment' (click)="toggled = !toggled" [(emojiPickerIf)]="toggled"
+                                        [emojiPickerDirection]="'top'" (emojiPickerSelect)="handleSelection($event)">
+                                        <img class="emoji-icon" src="assets/images/emoji.svg" /></i>
+                                    <img class="gallery-icon" src="assets/images/gallery-blue.svg"
+                                        (click)="fileImg.click()" />
+                                    <input #fileImg type="file" multiple="true" (change)="choosePhoto($event)"
+                                        accept="image/*" style="display: none;">
+                                    <img class="record-icon" *ngIf="!isRecordStart" (click)="recordAudio()"
+                                        src="assets/images/record.svg" />
+                                    <img class="record-icon" *ngIf="isRecordStart" (click)="stopRecord()"
+                                        src="assets/images/mute.svg" />
+                                </div>
+                            </ng-container>
+                        </ng-template>
+
+                    </div>
+                </div>
+
+                <div class="empty-state-wrapper" *ngIf="defaultScreenFlag">
+                    <div class="empty-state">
+                        <div class="image-wrapper">
+                            <img src="/assets/images/import-contacts.svg">
+                        </div>
+                        <div class="details-wrapper">
+                            <h3 class="empty-state-title">Let's start conversation.</h3>
+                            <p>Bring your contacts together for complete organization.</p>
+                        </div>
+                        <div class="slot">
+                            <div class="button-loading">
+                                <button (click)="redirectToGroup()" class="border-btn" type="button">
+                                    <span>Groups</span></button>
+                                <button class="border-btn text-button" type="button" (click)="redirectToContact()">
+                                    <span>Contact</span></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <app-placeholders *ngIf="defaultScreenFlag" [flag]="chat"></app-placeholders> -->
+
+                <!-- <app-chat-detail [chatData]="selectedChat"></app-chat-detail> -->
+            </div>
+            <!-- <app-video-call [data]="selectedChat" *ngIf="videoFlag == true"></app-video-call> -->
+
+            <!-- <app-incoming-call *ngIf="videoFlag" [data]="outgoingData"></app-incoming-call> -->
+
+
+            <!-- incoming video call -->
+            <div *ngIf="videoFlag" id="video-section" class="video-section-main">
+                <div class="inner-video-call">
+                    <div class="header-name">{{callerName?.substr(0, 1)}}</div>
+                    <div class="caller-id">{{callerName}}</div>
+                    <div class="status">Incomming Call..</div>
+                    <div class="footer-call">
+                        <div class="btn accept" style="margin: 0px auto;">
+                            <img class="call-animation" (click)="acceptVideoCall()"
+                                src="assets/images/accept-call-icon.svg">
+                        </div>
+                        <div class="btn" style="margin: 0px auto;">
+                            <img class="decline" (click)="declineVideoCall()" src="assets/images/decline-call-icon.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- incoming voice call -->
+            <div *ngIf="voiceFlag" id="video-section" class="video-section-main">
+                <div class="inner-video-call">
+                    <div class="header-name">{{callerName.substr(0, 1)}}</div>
+                    <div class="caller-id">{{callerName}}</div>
+                    <div class="status">Incomming Call..</div>
+                    <div class="footer-call">
+                        <div class="btn accept" style="margin: 0px auto;">
+                            <img class="call-animation" (click)="acceptVoiceCall()"
+                                src="assets/images/audio-call-icon.svg">
+                        </div>
+                        <div class="btn" style="margin: 0px auto;">
+                            <img class="decline" (click)="declineVoiceCall()" src="assets/images/decline-call-icon.svg">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- outgoing video call -->
+            <div [ngClass]="outgoingFlag == true ? 'show-video-view video-container' : 'hide-video-view'">
+                <div class="video-header">
+                    {{callerName}}
+                    <div class="video-call-status">
+                        {{callStatus}}
+                    </div>
+                </div>
+
+                <div id="local" #localVideo></div>
+                <div id="remote" #remoteVideo></div>
+
+                <div class="btn decline video-decline">
+                    <img src="assets/images/vintage-phone-receiver.svg" (click)="deleteVideoCall()">
+                </div>
+                <div *ngIf="!muteFlag" class="micro-phone">
+                    <img src="assets/images/microphone-black-shape.svg" (click)="muteCall()">
+                </div>
+                <div *ngIf="muteFlag" class="micro-phone un-mute-micro">
+                    <img src="assets/images/microphone-black-shape.svg" (click)="unMuteCall()">
+                </div>
+            </div>
+
+            <!-- outgoing voice call -->
+            <div [ngClass]="outgoingVoiceFlag == true ? 'show-voice-view video-container' : 'hide-voice-view'">
+                <div class="video-header">
+                    <!-- {{callerName}} -->
+                    <div class="video-call-status">
+                        {{callerName}}
+                    </div>
+                </div>
+                <!-- ----------------inner-call---------------------- -->
+                <div class="main-caller-id-div">
+
+                    <span class="call-id-first-letter skype-call-pannel">M</span>
+
+                </div>
+
+                <div class="btn decline video-decline">
+                    <img src="assets/images/vintage-phone-receiver.svg" (click)="deleteVoiceCall()">
+                </div>
+                <div *ngIf="!muteFlag" class="micro-phone">
+                    <img src="assets/images/microphone-black-shape.svg" (click)="muteCall()">
+                </div>
+                <div *ngIf="muteFlag" class="micro-phone un-mute-micro">
+                    <img src="assets/images/microphone-black-shape.svg" (click)="unMuteCall()">
+                </div>
+            </div>
+
+        </mat-sidenav-content>
+    </mat-sidenav-container>
+</div>
+
+<!-- delete box -->
+<div class="bottom-fix-bar" *ngIf="selectedContactCount > 0">
+    <div class="container">
+        <div class="item-count">{{selectedContactCount}} Selected</div>
+        <section>
+            <button type="button" class="outline-btn delet-btn" (click)="deleteChatroom()">
+                Delete
+            </button>
+        </section>
+    </div>
+</div>
+
+<!-- forward modal open -->
+<ng-template #openForwardModal>
+    <div class="med-popup add_timeline xs">
+
+        <div class="modal-header email_str_header">
+            <section id="close" class="navigation">
+                <button class="icon-only" type="button" aria-label="Close" (click)="modalRef.hide()">
+                    <img src="/assets/images/ic_close.svg">
+                </button>
+            </section>
+            <section class="text">
+                <h4>Forward Message</h4>
+            </section>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+            <div class="modal-body">
+                <div class="invoices-page-table">
+                    <div class="search-bar" style="margin-left: 1rem;max-width: 100%;">
+                        <div class="input-field no-label" style="width: 100% !important;">
+                            <input id="" type="search" name="" placeholder="Search" maxlength="232" pattern=".*"
+                                autocomplete="off" class="form-control" [formControl]="searchName"
+                                (input)="forwardSearch($event)">
+                        </div>
+                    </div>
+                </div>
+                <div class="forward-list">
+                    <app-loader [showLoader]="loader" [length]="forwardArray?.length">
+                    </app-loader>
+                    <div *ngFor="let data of forwardArray">
+                        <div style="display: flex;margin-top: 6px;">
+                            <div class="user-circle">
+                                <span *ngIf="data?.chatType == 'GROUP';else chatPrivate">
+                                    <span *ngIf="data?.profileImage;else onlyName">
+                                        <img [src]="data?.profileImage?.thumbnail" class="profile-image-list" />
+                                    </span>
+                                    <ng-template #onlyName>
+                                        {{data?.groupDetails?.name?.substr(0, 1)}}
+                                    </ng-template>
+                                </span>
+
+                                <ng-template #chatPrivate>
+                                    <span *ngIf="data?.temp?.profileImage?.thumbnail;else onlyName">
+                                        <img [src]="data?.temp?.profileImage?.thumbnail" class="profile-image-list" />
+                                    </span>
+                                    <ng-template #onlyName>
+                                        {{data?.temp?.name == undefined ? data?.temp?.fullName?.substr(0, 1) :
+                                        data?.temp?.name?.substr(0, 1)}}
+                                    </ng-template>
+                                </ng-template>
+                            </div>
+                            <span class="username-forward">
+                                {{data?.chatType == 'GROUP' ? data?.groupDetails?.name : (data?.temp?.name == undefined
+                                ? data.temp?.fullName : data?.temp?.name) }}
+                            </span>
+                            <div style="padding: 10px;">
+                                <input type="checkbox" (change)="onContactSelect(data)">
+                            </div>
+                        </div>
+                        <hr />
+                    </div>
+                </div>
+                <div class="footer-btn" style="float: right;margin-bottom: 20px;">
+                    <button class="btn btn-outline-primary" type="button"
+                        (click)="sendForwardMsg();modalRef.hide()">Send</button>
+                    <button class="btn cancel-btn" type="button" (click)="modalRef.hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+<!-- unblock user modal -->
+<ng-template #openUnBlockModal>
+    <div class="med-popup add_timeline xs">
+
+        <div class="modal-header email_str_header">
+            <section id="close" class="navigation">
+                <button class="icon-only" type="button" aria-label="Close" (click)="modalRef.hide()">
+                    <img src="/assets/images/ic_close.svg">
+                </button>
+            </section>
+            <section class="text">
+                <h4>{{ unBlockFlag ? 'Unblock User' : 'Block User'}}</h4>
+            </section>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: 30px;font-size: 16px;">
+                        Blocked contacts will no longer be able to call you or send you messages.
+                    </div>
+                </div>
+                <div class="footer-btn" style="float: right;margin-bottom: 20px;">
+                    <span *ngIf="unBlockFlag; else block">
+                        <button class="delete-btn" type="button" (click)="unblock();modalRef.hide()">Unblock</button>
+                    </span>
+                    <ng-template #block>
+                        <button class="delete-btn" type="button" (click)="blockContact();modalRef.hide()">Block</button>
+                    </ng-template>
+
+                    <button class="text-button" type="button" (click)="modalRef.hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+
+</ng-template>
+
+<!-- clear chat modal -->
+<ng-template #openClearChatModal>
+    <div class="med-popup add_timeline xs">
+
+        <div class="modal-header email_str_header">
+            <section id="close" class="navigation">
+                <button class="icon-only" type="button" aria-label="Close" (click)="modalRef.hide()">
+                    <img src="/assets/images/ic_close.svg">
+                </button>
+            </section>
+            <section class="text">
+                <h4>Clear Chat</h4>
+            </section>
+        </div>
+        <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-12" style="margin-bottom: 30px;font-size: 16px;">
+                        Are you sure want to clear chat ?
+                    </div>
+                </div>
+                <div class="footer-btn" style="float: right;margin-bottom: 20px;">
+                    <button class="btn btn-outline-primary" type="button"
+                        (click)="clearChat();modalRef.hide()">Clear</button>
+                    <button class="btn cancel-btn" type="button" (click)="modalRef.hide()">Cancel</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</ng-template>
+
+
+<!-- play video modal -->
+<div class="modal fade video-modal" id="myModal" style="z-index: 99999 !important;" tabindex="-1" role="dialog"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <button type="button" (click)=closeVideo() class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <div class="modal-content">
+
+            <div class="modal-body video-play">
+                <!-- 16:9 aspect ratio -->
+                <div class="embed-responsive embed-responsive-16by9">
+                    <iframe class="embed-responsive-item" [src]="videoURL()" id="video" allowscriptaccess="always"
+                        allow="autoplay"></iframe>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

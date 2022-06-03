@@ -1,0 +1,98 @@
+<div class="med-popup">
+
+    <div class="modal-header email_str_header">
+        <section class="text">
+            <h4>{{modalData?.email ? 'Edit' : 'Add'}} a user</h4>
+        </section>
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img [src]="'/assets/images/ic_close.svg'">
+            </button>
+        </section>
+
+    </div>
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="row margin-bottom-15">
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline"  hintLabel="Max 26 characters">
+                                <mat-label>First Name</mat-label>
+                                <input appInputRestriction="noSpecialChars" matInput type="text" formControlName="firstName" #fname
+                                       pattern="(^[a-zA-Z](.)*)$" maxlength="26">
+                                <mat-hint align="end">{{fname.value?.length || 0}}/26</mat-hint>
+                                <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+                                    Please enter first name.
+                                </mat-error>
+                                <mat-error *ngIf="form.controls['firstName'].hasError('pattern')">
+                                    Please enter valid first name.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline" hintLabel="Max 26 characters">
+                                <mat-label>Last Name</mat-label>
+                                <input appInputRestriction="noSpecialChars" matInput type="text" formControlName="lastName" #lname
+                                pattern="(^[a-zA-Z](.)*)$" maxlength="26">
+                                <mat-hint align="end">{{lname.value?.length || 0}}/26</mat-hint>
+                                <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+                                    Please enter last name.
+                                </mat-error>
+                                <mat-error *ngIf="form.controls['lastName'].hasError('pattern')">
+                                    Please enter valid last name.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            </div>
+
+            <div class="row margin-bottom-15">
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>Contact no.</mat-label>
+                                <input matInput type="tel" formControlName="phone1" appNumberOnly maxlength="15">
+            
+                                <mat-error *ngIf="form.controls['phone1'].hasError('minlength')">
+                                    Your phone must be at least 10 characters long.
+                                </mat-error>
+                            
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>E-mail</mat-label>
+                                <input matInput type="text" formControlName="email">
+                                <mat-error *ngIf="form.controls['email'].hasError('pattern')">
+                                    Please enter valid email.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+            </div>
+
+
+            <div class="form-group Associated-Contact margin-bottom-15">
+                <mat-label>Select roles</mat-label>
+                <ng-multiselect-dropdown formControlName="roles" [placeholder]="'Select roles'"
+                                         [data]="sideBar" [settings]="dropdownSettings">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="button-row add_user_btn new-class-add-user">
+                <button type="submit" class="btn btn-outline-primary" [disabled]="form.invalid">Submit</button>
+                <button type="button" class="btn btn-link text-button Cancel" (click)="http.hideModal()">Cancel
+                </button>
+                <!-- <button class="btn btn-outline-danger pull-right" type="button" *ngIf="modalData?.email"
+                        (click)="deleteFun()">Delete
+                </button> -->
+            </div>
+
+        </div>
+    </form>
+</div>

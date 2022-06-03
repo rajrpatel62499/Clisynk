@@ -1,0 +1,156 @@
+<div class="profile-section">
+
+    <div class="Clients_list_heading">
+        <h3 class="inter-page-heading">Smart Forms</h3>
+        <div class="btn-combobox">
+            <button class="back-btn" (click)="http.goBack()">Back</button>
+            <button class="add-user-btn" (click)="onCreateForm()"> Create Form</button>
+        </div>
+    </div>
+
+    <div class="search-on-tables">
+        <input type="text" [(ngModel)]="searchText" placeholder="Search Smart Forms....">
+    </div>
+
+
+
+    <!-- ---------------------table for form listing ---------------------------->
+
+    <!-- --------------------------------------------OLD CODE COMMENTED HERE---------------------------------------------- -->
+    <!-- <div class="smart-form-listing-table">
+        <table class="smart-table-list" matSort (matSortChange)="sortData($event)">
+            <thead>
+                <tr>
+                    <th class="form-name" mat-sort-header="name">Form Name</th>
+                    <th class="description">Description</th>
+                    <th class="added-on" mat-sort-header="addedOn">Added On</th>
+                    <th class="status" mat-sort-header="status">Status</th>
+                    <th class="actions-table">Actions</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!(loader)">
+                <tr *ngFor="let f of sortedData| filter:searchText; let i=index">
+                    <td class="form-name" (click)="onUpdate(f)">
+                        {{ f.name }}
+                        <span>
+                            <img src="../../../../assets/images/document-chat.svg" width="15"> {{f.submittedCount}}
+                        </span> 
+                    </td>
+                    <td class="description new-description" style="width: 500px;" (click)="onUpdate(f)">
+                        <p matTooltip="{{f.description}}" matTooltipClass="custom-tooltip">{{ f.description }}</p>
+                    </td>
+                    <td class="added-on" (click)="onUpdate(f)">{{ f.createdAt | date: 'dd/MM/y'}}</td>
+                    <td class="status" (click)="onUpdate(f)"><span *ngIf="f.status == 'DRAFT'" class="not-published">Not
+                            Published</span><span *ngIf="f.status == 'PUBLISHED'" class="published">Published</span>
+                    </td>
+                    <td class="actions-table"><button class="delete-icon" (click)="onDelete(f._id)">
+                        <img src="../../../../assets/images/trash-icon.svg" width="20"></button>
+                        <button *ngIf="f.status == 'PUBLISHED'" class="delete-icon" (click)="copyLink(f._id)"><img src="../../../../assets/images/copy.svg" alt="copy" width="28"></button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <ng-container *ngIf="loader">
+        <div class="first-section-wrapper">
+            <div class="gravatar-title">
+                <div>
+                    <ngx-skeleton-loader
+                        count="3"
+                        [theme]="{ width: '100%', 'border-radius': '0', height: '60px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+                    </ngx-skeleton-loader>
+                </div>
+            </div>
+        </div>
+    </ng-container> -->
+
+    <!-- --------------------------------------------NEW CODE---------------------------------------------- -->
+    <div class="new-table-main smart-form-listing-table">
+        <table class="genral-table">
+            <thead>
+                <tr>
+                    <th class="second-col-new">Form Name</th>
+                    <th class="third-col-new">Created On</th>
+                    <th class="fourth-col-new">Published On</th>
+                    <th class="fifth-col-new">User Submitted</th>
+                    <th class="sixth-col-new">Status</th>
+                    <th class="seventh-col-new">Action</th>
+                </tr>
+
+            </thead>
+            <tbody>
+                <ng-container *ngIf="loader">
+                    <tr *ngFor="let item of [1, 2, 3, 4, 5]">
+                        <td class="second-col-new">
+                            <div class="shimmer-table shine"></div>
+                        </td>
+                        <td class="third-col-new">
+                            <div class="shimmer-table shine"></div>
+                        </td>
+                        <td class="fourth-col-new">
+                            <div class="shimmer-table shine"></div>
+                        </td>
+                        <td class="fifth-col-new">
+                            <div class="role-icons">
+                                <div class="date-shimer shimmer-table shine"></div>
+                            </div>
+                        </td>
+                        <td class="sixth-col-new">
+                            <div class="status-shimmer shine"></div>
+                        </td>
+                        <td class="seventh-col-new">
+                            <div class="action-btn">
+                                <div class="shimmer-table shine"></div>
+                                <div class="shimmer-table shine"></div>
+                            </div>
+                        </td>
+
+                    </tr>
+                </ng-container>
+
+                <tr *ngFor="let f of sortedData| filter:searchText; let i=index">
+                    <td class="second-col-new">
+                        <div class="comman-text-field" (click)="onUpdate(f)"> {{ f.name }}</div>
+                    </td>
+                    <td class="third-col-new" (click)="onUpdate(f)">{{ f.createdAt | date: 'dd/MM/y'}}</td>
+                    <td class="fourth-col-new">
+                        <div class="comman-text-field">- </div>
+                    </td>
+                    <td class="fifth-col-new">
+                        <div class="role-icons">
+                            10
+                        </div>
+                    </td>
+                    <td class="sixth-col-new" (click)="onUpdate(f)">
+                        <div *ngIf="f.status == 'DRAFT'" class="draf-btn comman-status">Draft</div>
+                        <div *ngIf="f.status == 'PUBLISHED'" class="published comman-status">Published</div>
+
+                    </td>
+                    <td class="seventh-col-new">
+                        <div class="action-btn">
+                            <a matTooltip=" Copy" *ngIf="f.status == 'PUBLISHED'" (click)="copyLink(f._id)"> <img
+                                    src="../../../../assets/images/copy.svg"> </a>
+                            <a matTooltip="Delete" (click)="onDelete(f._id)"> <img
+                                    src="../../../../assets/images/New-ui-images/delete.svg"> </a>
+                        </div>
+                    </td>
+                </tr>
+                <tr *ngIf="sortedData?.length === 0 && !loader">
+                    <td class="no-record" colspan="6">No Smartform Found</td>
+                </tr>
+                <ng-container *ngIf="(sortedData| filter:searchText) as data">
+                    <tr *ngIf="data.length == 0 && sortedData?.length !== 0">
+                        <td class="no-record" colspan="6">No Smartform Found</td>
+                    </tr>
+                </ng-container>
+
+            </tbody>
+
+
+        </table>
+
+
+
+    </div>
+
+</div>

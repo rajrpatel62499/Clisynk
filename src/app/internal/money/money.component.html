@@ -1,0 +1,554 @@
+<div class="heading-row-main">
+    <div class="page-headings">Invoice</div>
+    <button class="comman-btn" (click)="openAddInvoice(1)">Add Invoice</button>
+</div>
+
+<div class="recent-invoice-main">
+    <div class="left-col-recent-invoice">
+            <div class="upper-row-main">
+                <div class="small-headings">Total Paid</div>
+                <!-- <div class="upper-value">$ 96,825.26</div> -->
+                <div class="upper-value">{{myModel?.allData?.paid |currency}}</div>
+            </div>
+            <div class="lower-row-main">
+                <div class="comman-grid">
+                    <div class="small-headings">Draft</div>
+                    <div class="value-of-paid">{{myModel?.allData?.draft |currency}}</div>
+                </div>
+                <div class="comman-grid">
+                    <div class="small-headings">Outstanding</div>
+                    <div class="value-of-paid">{{myModel?.allData?.outstanding |currency}}</div>
+                </div>
+            </div>
+
+    </div>
+    <div class="right-col-recent-invoice">
+            <div class="comman-headings">Recent invoices</div>
+            <!-- <app-invoive-tabs [data]="myModel?.allData?.recent"></app-invoive-tabs> -->
+            <div class="main-grids-for-invoices" >
+                    <ng-container *ngFor="let data of myModel?.allData?.recent">
+                        
+                        <div (click)="http.openInvoice('addInvoice',data)" 
+                            class="comman-grids" 
+                            [ngClass]="{
+                                'paid':data.status == 'Paid',
+                                'unpaid':data.status == 'Unpaid',
+                                'draft':data.status == 'Draft',
+                                'sent':data.status == 'Sent',
+                                'viewed':data.status == 'Viewed',
+                                'due':data.status == 'Due',
+                                'grey-back':data.status == 'Refunded'}"
+                        >
+                            <div class="card-title">{{data?.total |currency}}</div>
+                            <div class="card-holder">{{data?.contactId?.firstName}} {{data?.contactId?.lastName}}</div>
+                            <div class="date">{{data?.dueBy |date:'EEE, MMM dd,yyyy'}}</div>
+                            <div class="status">{{data?.status}}</div>
+                        </div>
+                    </ng-container>
+                    <!-- <div class="comman-grids sent draft">
+                        <div class="card-title">$1,202.36</div>
+                        <div class="card-holder">John Doe</div>
+                        <div class="date">Apr 21, 2021</div>
+                        <div class="status">Sent</div>
+                    </div> -->
+
+            </div>
+
+    </div>
+
+</div>
+
+<div class="search-bar-row-main">
+    <div class="left-col-search">
+        <div class="search-bar-field">
+            <input
+            type="search" 
+            (input)="invoiceList()"
+            maxlength="232" pattern=".*" 
+            autocomplete="off"
+            [formControl]="search"
+            placeholder="Search invoice number here..." />
+        </div>
+        <div class="all-invoice-dropdown">
+            <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                        aria-controls="dropdown-basic">
+                        All Invoice <span class="caret"></span>
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                    role="menu" aria-labelledby="button-basic">
+                  <li role="menuitem"><a class="dropdown-item headings-for-dropdown" >All Invoice</a></li>
+                  <li role="menuitem"><a class="dropdown-item" ><div class="draft comman-circle"></div> Draft</a></li>
+                  <li role="menuitem"><a class="dropdown-item" ><div class="sent comman-circle"></div>Sent</a></li>
+                  <li role="menuitem"><a class="dropdown-item" ><div class="viewed comman-circle"></div>Viewed</a></li>
+                  <li role="menuitem"><a class="dropdown-item" ><div class="unpaid comman-circle"></div>Unpaid</a></li>
+                  <li role="menuitem"><a class="dropdown-item" ><div class="due comman-circle"></div>Due</a></li>
+                  <li role="menuitem"><a class="dropdown-item" ><div class="paid comman-circle"></div>Paid</a></li>
+                </ul>
+              </div>
+        </div>
+
+    </div>
+    <div class="right-col-search">
+        <input type="text" placeholder="Daterangepicker" class="form-control" bsDaterangepicker>
+    </div>
+
+
+
+</div>
+
+<div class="invoices-main-table">
+        <table>
+            <thead>
+                <tr>
+                    <th class="first-col">#invoice</th>
+                    <th class="second-col">Contact</th>
+                    <th class="third-col">Invoice Date</th>
+                    <th class="fourth-col">Due Date</th>
+                    <th class="fifth-col">Amount</th>
+                    <th class="sixth-col">Status</th>
+                    <th class="seventh-col">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr  *ngFor="let data of myModel?.allData?.data">
+                    <td class="first-col"><div class="invoice-number">#{{data?.srNo || 0}}</div></td>
+                    <td class="second-col"><div class="comman-fonts">{{data?.contactId?.firstName}} {{data?.contactId?.lastName}}</div></td>
+                    <td class="third-col"><div class="comman-fonts">{{data?.createdAt |date:'MM/dd/yyyy'}}</div></td>
+                    <td class="fourth-col"><div class="comman-fonts">{{data?.dueBy |date:'MM/dd/yyyy'}}</div></td>
+                    <td class="fifth-col"><div class="comman-fonts">{{data?.total |currency}}</div></td>
+                    <td class="sixth-col">
+                        <div class="comman-status draft"
+                        [ngClass]="{
+                                    'paid':data.status == 'Paid',
+                                    'unpaid':data.status == 'Unpaid',
+                                    'draft':data.status == 'Draft',
+                                    'sent':data.status == 'Sent',
+                                    'viewed':data.status == 'Viewed',
+                                    'due':data.status == 'Due',
+                                    'grey-back':data.status == 'Refunded'}"
+                        >
+                            {{data?.status}}
+                        </div>
+                    </td>
+                    <td class="seventh-col">
+                        <div class="actions-buttons-row">
+                            <a  (click)="http.openInvoice('addInvoice',data)"><img src="../../../assets/images/edits-pencils.svg" /></a>
+                            <a (click)="openPreviewInvoice()"><img src="../../../assets/images/downloads.svg"  /></a>
+                            <div class="btn-group" dropdown>
+                                <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle" aria-controls="dropdown-basic">
+                                    <img src="../../../assets/images/three-dots.svg" />
+                                </button>
+                                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                                    role="menu" aria-labelledby="button-basic">
+                                  <li role="menuitem"><a class="dropdown-item" (click)="cloneInvoice(data)" >Clone Invoice</a></li>
+                                  <li role="menuitem"><a class="dropdown-item" >Print Invoice</a></li>
+                                  <li role="menuitem"><a class="dropdown-item" >Send Email</a></li>
+                                  <li role="menuitem"><a class="dropdown-item" >Share Invoice Link</a></li>
+                                </ul>
+                            </div>
+                        </div>
+                    </td>
+
+                </tr>
+                <ng-container *ngIf="myModel.loader">
+                    
+                    <tr *ngFor="let item of [1,2,3]">
+                        <td class="first-col"><div class="shimmer-invoice shine"></div></td>
+                        <td class="second-col"><div class="shimmer-invoice shine"></div></td>
+                        <td class="third-col"><div class="shimmer-invoice shine"></div></td>
+                        <td class="fourth-col"><div class="shimmer-invoice shine"></div></td>
+                        <td class="fifth-col"><div class="shimmer-invoice-value shine"></div></td>
+                        <td class="sixth-col"><div class="shimmer-invoice-status shine"></div></td>
+                        <td class="seventh-col">
+                            <div class="actions-buttons-row">
+                                <div class="comman-shine shine"></div>
+                                <div class="comman-shine shine"></div>
+                                <div class="comman-shine shine"></div>
+                            </div>
+                        </td>
+    
+                    </tr>
+                </ng-container>
+                <tr *ngIf="myModel?.allData?.data.length == 0">
+                    <td class="no-record text-center" colspan="7">No {{selectedTab === 1 ? 'Invoices' : 'Quotes'}} Found</td>
+                </tr>
+
+            </tbody>
+
+
+        </table>
+
+
+</div>
+
+
+
+
+<!-- ------------Old-Code-2/6/2021-------------------- -->
+<!-- <div class="appointments-page" id="money_container">
+    <header class="page-header">
+        <div title="Tasks" class="title">
+            <h2>Money</h2>
+        </div>
+        <div class="actions button-row text-right">
+            <button type="button" class="text-button" (click)="http.openModal('addPayment')"> Take a payment</button>
+            <div class="btn-group send-invite add-money" dropdown>
+                <button id="button-basic2" dropdownToggle type="button" class="btn-outline-primary"
+                        aria-controls="dropdown-basic">Add
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-down">
+                        <path
+                                d="M6.293 9.293a1 1 0 0 1 1.414 0L12 13.586l4.293-4.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"
+                    style="left: -103px;">
+                    <li role="menuitem" style="display: block" (click)="openAddInvoice(1)">
+                        <a class="dropdown-item">
+                            <span class="ellipsis">Invoice</span>
+                        </a>
+                    </li>
+                    <li role="menuitem" style="display: block" (click)="openAddInvoice(2)">
+                        <a class="dropdown-item">
+                            <span class="ellipsis">Quote</span>
+                        </a>
+                    </li>
+                   
+                </ul>
+            </div>
+
+        </div>
+    </header>
+
+    <div class="sales-dashboard">
+        <div class="tab-link-container">
+            <div class="tab-header-wrapper overflow-container">
+                <div class="move move-left">
+                    <svg class="icon"></svg>
+                </div>
+                <div class="move move-right">
+                    <svg class="icon"></svg>
+                </div>
+                <ul class="tablist tabs">
+                    <li class="tab" (click)="selectedTab = 1;invoiceList(true)"
+                        [ngClass]="{'router-link-exact-active router-link-active': selectedTab === 1}">
+                        <a>
+                            <span>Invoices</span>
+                        </a>
+                    </li>
+                    <li class="tab" (click)="selectedTab = 2;invoiceList(true)"
+                        [ngClass]="{'router-link-exact-active router-link-active': selectedTab === 2}">
+                        <a>
+                            <span>Quotes</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <section>
+
+            <div class="order-card-holders-main" *ngIf="selectedTab === 1">
+                <div class="invoices recent-invoices-container" style="width: 100%">
+                    <section class="card-header">
+                        <div class="row">
+                            <h3 class="col-md-10">Address List</h3>
+                            <div class="col-md-2" style="text-align: end">
+                                <a class="button_outline"
+                                   (click)="http.openModal('addAddress')">Add Address</a></div>
+                        </div>
+                    </section>
+
+                    <section class="content">
+                        <div class="order-card-holder">
+                            <div class="order-card " *ngFor="let data of myModel?.addresses"
+                                 [ngClass]="{'selected-address':data.isDefault == true}">
+
+                                <div class="money number"><span>{{data?.name | slice:0:11}}</span>
+                                    <div class="view-email" dropdown>
+                                        <button dropdownToggle type="button" class="btn dropdown-toggle"
+                                                aria-controls="dropdown-basic">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                 id="more-horizontal">
+                                                <circle cx="5" cy="12" r="2"></circle>
+                                                <circle cx="12" cy="12" r="2"></circle>
+                                                <circle cx="19" cy="12" r="2"></circle>
+                                            </svg>
+                                        </button>
+                                        <ul *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-basic">
+                                            <li role="menuitem" *ngIf="!data?.isDefault">
+                                                <a class="dropdown-item" (click)="makeDefault(data)">
+                                                    Make Default
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item" (click)="http.openModal('addAddress', data)">
+                                                    Edit
+                                                </a>
+                                            </li>
+                                            <li role="menuitem">
+                                                <a class="dropdown-item" (click)="deleteAddress(data)">
+                                                    Delete
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="name">{{data?.address1}}</div>
+                                <div class="name">{{data?.country}}</div>
+                                <div class="name">{{data?.phone}}</div>
+                                <div class="date">{{data?.createdAt |date:'EEE, MMM dd,yyyy'}}</div>
+                            </div>
+                            <span class="fold"></span>
+                        </div>
+                    </section>
+
+
+                </div>
+            </div>
+
+            <div class="sales-numbers-container" *ngIf="selectedTab === 1">
+                <div class="billing-numbers">
+                    <div class="numbers paid">
+                        <div class="amount number">{{myModel?.allData?.paid |currency}}</div>
+                        <div class="title">Paid</div>
+                    </div>
+                    <div class="numbers outstanding">
+                        <div class="amount number">{{myModel?.allData?.outstanding |currency}}</div>
+                        <div class="title">Outstanding</div>
+                    </div>
+                    <div class="numbers draft">
+                        <div class="amount number">{{myModel?.allData?.draft |currency}}</div>
+                        <div class="title">Draft</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="invoices recent-invoices-container">
+                <section class="card-header">
+                    <h3> Recent {{selectedTab === 1 ? 'invoices' : 'quotes'}}</h3>
+                </section>
+
+                <app-invoive-tabs [data]="myModel?.allData?.recent"></app-invoive-tabs>
+
+            </div>
+            <div class="invoices-page-table">
+                <header>
+                    <div class="search-bar">
+                        <div class="input-field no-label">
+                            <input id="" type="search" name=""
+                                   placeholder="Search {{selectedTab === 1 ? 'invoices' : 'quotes'}}"
+                                   maxlength="232" pattern=".*" autocomplete="off" class="" [formControl]="search"
+                                   (input)="invoiceList()">
+                        </div>
+                        <mat-paginator 
+                            [length]="this.totalInvoices"
+                            (page)="pageChange($event)"
+                            [pageSize]="this.invoiceLimit"
+                            [pageIndex]="this.invoiceSkip"
+                            [pageSizeOptions]="[1,5, 10, 25, 100]">
+                        </mat-paginator>
+                    </div>
+                </header>
+      
+                <div class="table-grid">
+                    <div class="table-wrapper">
+                        <table>
+                            <colgroup>
+                                <col name="col-th-column-7" width="100">
+                                <col name="col-th-column-8" width="300">
+                                <col name="col-th-column-9" width="120">
+                                <col name="col-th-column-10" width="100">
+                                <col name="col-th-column-11" width="150">
+                                <col name="col-th-column-12" width="100">
+                            </colgroup>
+                            <thead>
+                            <tr>
+                               
+                                <th class="sortable">
+                                    <div class="active-sortable cell" (click)="clickHeader(1)"
+                                         [ngClass]="{'active-sortable':sortType == 1}">{{selectedTab === 1 ? 'Invoices' : 'Quotes'}}
+                                        <div class="sort-arrows">
+                                            <svg class="icon active" [ngClass]="{'descending':sortValue == 1}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     id="arrow-up">
+                                                    <path d="M12.707 4.293l8 8a1 1 0 0 1-1.414 1.414L13 7.414V19a1 1 0 1 1-2 0V7.414l-6.293 6.293a1 1 0 0 1-1.414-1.414l8-8a1 1 0 0 1 1.414 0z"
+                                                          fill-rule="evenodd"></path>
+                                                </svg>
+
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th class="sortable">
+                                    <div class="cell" [ngClass]="{'active-sortable':sortType == 2}"
+                                         (click)="clickHeader(2)">Contact
+                                        <div class="sort-arrows">
+                                            <svg class="icon active" [ngClass]="{'descending':sortValue == 1}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     id="arrow-up">
+                                                    <path
+                                                            d="M12.707 4.293l8 8a1 1 0 0 1-1.414 1.414L13 7.414V19a1 1 0 1 1-2 0V7.414l-6.293 6.293a1 1 0 0 1-1.414-1.414l8-8a1 1 0 0 1 1.414 0z"
+                                                            fill-rule="evenodd"></path>
+                                                </svg>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="sortable">
+                                    <div class="cell" [ngClass]="{'active-sortable':sortType == 3}"
+                                         (click)="clickHeader(3)">Status
+                                        <div class="sort-arrows">
+                                            <svg class="icon active" [ngClass]="{'descending':sortValue == 1}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     id="arrow-up">
+                                                    <path
+                                                            d="M12.707 4.293l8 8a1 1 0 0 1-1.414 1.414L13 7.414V19a1 1 0 1 1-2 0V7.414l-6.293 6.293a1 1 0 0 1-1.414-1.414l8-8a1 1 0 0 1 1.414 0z"
+                                                            fill-rule="evenodd"></path>
+                                                </svg>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="sortable">
+                                    <div class="cell" [ngClass]="{'active-sortable':sortType == 4}"
+                                         (click)="clickHeader(4)">Due
+                                        <div class="sort-arrows">
+                                            <svg class="icon active" [ngClass]="{'descending':sortValue == 1}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     id="arrow-up">
+                                                    <path
+                                                            d="M12.707 4.293l8 8a1 1 0 0 1-1.414 1.414L13 7.414V19a1 1 0 1 1-2 0V7.414l-6.293 6.293a1 1 0 0 1-1.414-1.414l8-8a1 1 0 0 1 1.414 0z"
+                                                            fill-rule="evenodd"></path>
+                                                </svg>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+
+                                <th class="sortable">
+                                    <div class="cell" [ngClass]="{'active-sortable':sortType == 5}"
+                                         (click)="clickHeader(5)">Date created
+                                        <div class="sort-arrows">
+                                            <svg class="icon active" [ngClass]="{'descending':sortValue == 1}">
+                                               
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     id="arrow-up">
+                                                    <path
+                                                            d="M12.707 4.293l8 8a1 1 0 0 1-1.414 1.414L13 7.414V19a1 1 0 1 1-2 0V7.414l-6.293 6.293a1 1 0 0 1-1.414-1.414l8-8a1 1 0 0 1 1.414 0z"
+                                                            fill-rule="evenodd"></path>
+                                                </svg>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                                <th class="sortable">
+                                    <div class="cell" [ngClass]="{'active-sortable':sortType == 6}"
+                                         (click)="clickHeader(6)">Amount
+                                        <div class="sort-arrows">
+                                            <svg class="icon active" [ngClass]="{'descending':sortValue == 1}">
+                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                     id="arrow-up">
+                                                    <path
+                                                            d="M12.707 4.293l8 8a1 1 0 0 1-1.414 1.414L13 7.414V19a1 1 0 1 1-2 0V7.414l-6.293 6.293a1 1 0 0 1-1.414-1.414l8-8a1 1 0 0 1 1.414 0z"
+                                                            fill-rule="evenodd"></path>
+                                                </svg>
+                                            </svg>
+                                        </div>
+                                    </div>
+                                </th>
+                            </tr>
+                            </thead>
+
+                            <tbody>
+                            <tr class="selectable-row" *ngFor="let data of myModel?.allData?.data"
+                                (click)="http.openInvoice('addInvoice',data)">
+                                <td class="">
+                                    <div class="cell"><span> #{{data?.srNo || 0}} </span></div>
+                                </td>
+                                <td class="">
+                                    <div class="cell">
+                                        <span data-qa="invoice-contact-Varinder Dhawan">{{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                                        </span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div class="cell">
+                                     
+                                        <span class="order-status-pill draft " *ngIf="data?.type === 1">
+
+
+                                            <div class="chip" [ngClass]="{'red-back':todayEnd <= data?.dueBy,
+                                                                          'green-back':data.status == 'Paid',
+                                                                          'grey-back':data.status == 'Refunded'}">
+                                                <div class="text">{{data?.status}}</div>
+                                            </div>
+                                            </span>
+
+                                        <span class="order-status-pill draft" *ngIf="data?.type === 2">
+                                             <div class="chip" [ngClass]="{'green-back':data.status == 'Invoiced'}">
+                                                <div class="text">{{data?.status}}</div>
+                                            </div>
+                                        </span>
+
+
+                                    </div>
+                                </td>
+                                <td class="" *ngIf="data?.createdAt">
+                              
+
+                                    <div class="cell">
+                                    
+
+                                        <ng-container *ngIf="todayEnd <= data?.dueBy;else emptyValue">
+                                        <span title="{{data?.dueBy|date:'MMM dd,yyyy'}}" class="past-due"
+                                              *ngIf="data?.type === 1">
+                                            {{data?.dueBy |date:'MMM dd,yyyy' }}
+                                            past due
+                                            </span>
+
+                                            <span title="{{data?.dueBy|date:'MMM dd,yyyy'}}" *ngIf="data?.type === 2">
+                                                {{data?.createdAt |date:'MMM dd,yyyy' }}
+                                            </span>
+                                        </ng-container>
+
+                                        <ng-template #emptyValue>
+                                            <label class="text-center">-</label>
+                                        </ng-template>
+
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div class="cell"><span
+                                    >{{data?.createdAt |date:'MMM dd,yyyy'}} </span>
+                                    </div>
+                                </td>
+                                <td class="">
+                                    <div class="cell">
+                                        <div class="table-number">{{data?.total |currency}}</div>
+                                    </div>
+                                </td>
+                            </tr>
+                            <tr *ngIf="myModel?.allData?.data.length == 0">
+                                <td class="no-record text-center" colspan="6">No {{selectedTab === 1 ? 'Invoices' : 'Quotes'}} Found</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <div style="width: 100%;" *ngIf="myModel.loader">
+                        <ngx-skeleton-loader
+                            count="1"
+                            [theme]="{ width: '100%', 'border-radius': '0', height: '60px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+                        </ngx-skeleton-loader>
+                    </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div> -->
+
+
+

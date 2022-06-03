@@ -1,0 +1,42 @@
+.main {
+    .header {
+        border-bottom: 2px solid #DCDCDC;
+        padding: 10px 20px;
+    }
+    .form{
+        padding: 20px;
+        padding-bottom: 10px;
+        width: 100%;
+        mat-form-field{
+            width: 100%;
+        }
+        .red{
+            color: red;
+        }
+    }
+
+    .action {
+        display: flex;
+        justify-content: center;
+        margin-bottom: 25px;
+        button.cancel-btn {
+            border: 1px solid #4776E6;
+            box-sizing: border-box;
+            border-radius: 5px;
+            padding: 10px 40px;
+            margin-right: 20px;
+            background: #fff;
+            color: #4776e6;
+        }
+        
+        button.save-btn {
+            border: 1px solid #4776E6;
+            box-sizing: border-box;
+            border-radius: 5px;
+            padding: 10px 40px;
+            background: #4776E6;
+            color: #fff;
+        }
+    }
+
+}

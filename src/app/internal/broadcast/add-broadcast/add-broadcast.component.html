@@ -1,0 +1,36 @@
+
+<div class="select-a-starting-main">
+    <div class="heading-file">Select a starting point for your templates</div>
+</div> 
+
+<!-- ------------Tabs-main---------------------- -->
+
+<div class="tabs-add-broadcast">
+
+    <nav>
+        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a (click)="changeTab('custom-mail')" class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Custom Email</a>
+            <a (click)="changeTab('themes')" class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Themes</a>
+            <a (click)="changeTab('code-your-own')" class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Code your own</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+            
+            <custom-mail [currentTab]="currentTab"></custom-mail>
+         
+
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+            
+            <choose-theme [currentTab]="currentTab"></choose-theme>
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">
+            <code-your-own [currentTab]="currentTab"></code-your-own>
+
+        </div>
+    </div>
+
+
+
+</div>

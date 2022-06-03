@@ -1,0 +1,1214 @@
+<!-- top header section -->
+<div class="row header-container">
+  <div style="margin-left: 20px; flex-grow: 1">
+    <div class="doc-header-left">
+      <div style="display: flex">
+        <div>
+          <a [routerLink]="['/documents']"
+            ><img src="assets/images/back-arrow.svg" class="arrow-icon"
+          /></a>
+        </div>
+        <div style="line-height: initial">
+          <span class="approval-text">
+            <input
+              matTooltip="Rename"
+              type="text"
+              class="doc-name"
+              maxlength="50"
+              [(ngModel)]="documentDetail['title']"
+              [value]="documentDetail['title']"
+            />
+          </span>
+          <div class="row-set">
+            <span
+              *ngIf="documentDetail?.status === 'PUBLISHED'"
+              class="viewed-color"
+            ></span>
+            <span
+              *ngIf="documentDetail?.status === 'DRAFT'"
+              class="draft-color"
+            ></span>
+            <span
+              *ngIf="documentDetail?.status === 'APPROVED'"
+              class="approval-color"
+            ></span>
+            {{ documentDetail.status }}
+            <img
+              src="assets/images/document_folder.svg"
+              style="width: 20px; margin: 0px 10px"
+            />
+            Project folder
+            <span class="header-text" matTooltip="Version History"
+              >Updated {{ documentDetail.updatedAt | timeAgo }}</span
+            >
+            <!-- <span class="header-text" matTooltip="Version History">Updated 7 minutes ago</span> -->
+            <span style="margin-left: 10px"
+              ><button
+                matTooltip="Reset Page"
+                (click)="clearLS()"
+                style="border: none; padding: 5px 10px"
+                type="button"
+                class="add-receipients"
+              >
+                Reset Page
+              </button></span
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div style="margin-right: 20px; margin-top: -10px">
+    <div class="doc-header-right">
+      <span dropdown style="position: relative">
+        <img
+          src="assets/images/dropdown_menu_ic.svg"
+          style="width: 30px"
+          type="button"
+          id="button-create2"
+          dropdownToggle
+          aria-controls="dropdown-basic2"
+        />
+        <ul
+          id="dropdown-create2"
+          *dropdownMenu
+          class="dropdown-menu header-dropdown"
+          role="menu"
+          aria-labelledby="button-basic2"
+        >
+          <li role="menuitem">
+            <a class="dropdown-item">
+              <span class="ellipsis"
+                ><img src="assets/images/info-doc-icon.svg" />Document
+                info</span
+              >
+            </a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item">
+              <span class="ellipsis"
+                ><img src="assets/images/back-doc-icon.svg" />Transfer data
+                to</span
+              >
+            </a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item">
+              <span class="ellipsis"
+                ><img src="assets/images/upload-doc-icon.svg" />Download</span
+              >
+            </a>
+          </li>
+          <li role="menuitem">
+            <a class="dropdown-item">
+              <span class="ellipsis"
+                ><img src="assets/images/print-doc-icon.svg" />Print</span
+              >
+            </a>
+          </li>
+        </ul>
+      </span>
+      <button
+        class="btn add-receipients"
+        type="button"
+        (click)="clickAddRecipient()"
+      >
+        Add Recipients
+      </button>
+      <span dropdown style="position: relative">
+        <button
+          class="btn send-document"
+          type="button"
+          id="button-create4"
+          dropdownToggle
+          aria-controls="dropdown-basic4"
+        >
+          Send Document
+        </button>
+        <ul
+          id="dropdown-create4"
+          *dropdownMenu
+          class="dropdown-menu header-dropdown"
+          role="menu"
+          aria-labelledby="button-basic4"
+        >
+          <li role="menuitem" style="display: block">
+            <a class="dropdown-item" (click)="sentDocumentViaEmail()">
+              <span class="ellipsis"
+                ><img src="assets/images/email-doc-icon.svg" />Share via
+                email</span
+              >
+            </a>
+          </li>
+          <li role="menuitem" style="display: block">
+            <a class="dropdown-item">
+              <span class="ellipsis"
+                ><img src="assets/images/link-doc-icon.svg" />Share via
+                link</span
+              >
+            </a>
+          </li>
+        </ul>
+      </span>
+    </div>
+  </div>
+</div>
+<div class="row">
+  <div
+    [className]="
+      hideSidebarFlag == false ? 'col-lg-9 col-sm-11' : 'col-lg-11 col-sm-11'
+    "
+    style="padding-right: 0px; height: 100vh"
+  >
+    <div class="row-set m-t-10">
+      <div
+        [ngStyle]="{ display: editWidgetIndex != -1 ? 'block' : 'none' }"
+        id="text-propertires"
+      ></div>
+    </div>
+    <gridster [options]="options">
+      <div
+        *ngIf="false"
+        class="row"
+        style="margin-bottom: 10px; max-width: 650px; width: 100%; margin: auto"
+      >
+        <div class="col-4">
+          <label class="design-label">CONTENT</label>
+        </div>
+        <div class="col-4" style="text-align: center" dropdown>
+          <img
+            src="assets/images/plus-icon-gray.svg"
+            type="button"
+            id="button-create"
+            dropdownToggle
+            aria-controls="dropdown-basic"
+            class="hover-color"
+          /><br />
+          <ul
+            id="dropdown-create"
+            *dropdownMenu
+            class="dropdown-menu show"
+            role="menu"
+            aria-labelledby="button-basic"
+            style="width: 200px"
+          >
+            <div>
+              <li role="menuitem" style="display: block">
+                <a class="dropdown-item">
+                  <span class="ellipsis"
+                    ><img src="assets/images/coverpage-doc-icon.svg" /> Cover
+                    page</span
+                  >
+                </a>
+              </li>
+              <li role="menuitem" style="display: block">
+                <a (click)="addPage()" class="dropdown-item">
+                  <span class="ellipsis"
+                    ><img src="assets/images/sidebar-doc.svg" /> Blank
+                    page</span
+                  >
+                </a>
+              </li>
+              <li role="menuitem" style="display: block">
+                <a class="dropdown-item">
+                  <span class="ellipsis"
+                    ><img src="assets/images/landscape-doc-icon.svg" />
+                    Landscape</span
+                  >
+                </a>
+              </li>
+              <li role="menuitem" style="display: block">
+                <a class="dropdown-item">
+                  <span class="ellipsis"
+                    ><img src="assets/images/add-upload.svg" /> Upload
+                    file</span
+                  >
+                </a>
+              </li>
+            </div>
+          </ul>
+        </div>
+
+        <div class="col-4" style="text-align: right" dropdown>
+          <img
+            src="assets/images/menu-doc.svg"
+            type="button"
+            id="button-create1"
+            dropdownToggle
+            aria-controls="dropdown-basic1"
+            class="hover-color"
+          /><br />
+          <ul
+            id="dropdown-create1"
+            *dropdownMenu
+            class="dropdown-menu show drop2"
+            role="menu"
+            aria-labelledby="button-basic1"
+          >
+            <li role="menuitem" style="display: block">
+              <a class="dropdown-item">
+                <span class="ellipsis"
+                  ><img src="assets/images/add-document.svg" />Page
+                  property</span
+                >
+              </a>
+            </li>
+            <li role="menuitem" style="display: block">
+              <a class="dropdown-item">
+                <span class="ellipsis"
+                  ><img src="assets/images/add-folder.svg" />Duplicate</span
+                >
+              </a>
+            </li>
+            <li role="menuitem" style="display: block">
+              <a (click)="deletePage(item)" class="dropdown-item">
+                <span class="ellipsis"
+                  ><img src="assets/images/add-upload.svg" />Delete</span
+                >
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+      <div
+        class="main-page-editor"
+        style="margin: auto; width: 100%; max-width: 860px"
+      >
+        <gridster-item
+          class="g-page"
+          #gridsterItem
+          [item]="item"
+          *ngFor="let item of dashboard"
+        >
+          <div
+            *ngIf="item.type === 'option'"
+            class="row"
+            style="
+              background-color: #e5e5e5 !important;
+              display: flex;
+              align-items: center;
+              height: 100%;
+              padding-top: 50px !important;
+            "
+          >
+            <div class="col-4">
+              <label class="design-label">CONTENT</label>
+            </div>
+            <div
+              class="col-4"
+              style="text-align: center; position: unset"
+              dropdown
+            >
+              <img
+                src="assets/images/plus-icon-gray.svg"
+                type="button"
+                id="button-create2"
+                dropdownToggle
+                aria-controls="dropdown-basic2"
+                class="hover-color"
+              /><br />
+              <ul
+                id="dropdown-create2"
+                *dropdownMenu
+                class="dropdown-menu show first-dropdown"
+                role="menu"
+                aria-labelledby="button-basic2"
+                style="align-items: center; width: 200px"
+              >
+                <div style="display: flex">
+                  <li role="menuitem" style="display: block">
+                    <a
+                      (click)="addPage()"
+                      class="dropdown-item doc"
+                      matTooltip="Blank Page"
+                    >
+                      <span class="ellipsis"
+                        ><img src="assets/images/sidebar-doc-copy.svg"
+                      /></span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a class="dropdown-item doc" matTooltip="Cover Page">
+                      <span class="ellipsis"
+                        ><img src="assets/images/coverpage-doc-icon-copy.svg"
+                      /></span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a class="dropdown-item doc" matTooltip="Landscape">
+                      <span class="ellipsis"
+                        ><img src="assets/images/landscape-doc-icon-copy.svg"
+                      /></span>
+                    </a>
+                  </li>
+                  <li role="menuitem" style="display: block">
+                    <a class="dropdown-item doc" matTooltip="Upload file">
+                      <span class="ellipsis"
+                        ><img src="assets/images/add-upload-copy.svg"
+                      /></span>
+                    </a>
+                  </li>
+                </div>
+              </ul>
+            </div>
+            <div class="col-4" style="text-align: right" dropdown>
+              <img
+                src="assets/images/menu-doc.svg"
+                type="button"
+                id="button-create8"
+                dropdownToggle
+                aria-controls="dropdown-basic8"
+                class="hover-color"
+              /><br />
+              <ul
+                id="dropdown-create8"
+                *dropdownMenu
+                class="dropdown-menu show second-dropdown"
+                role="menu"
+                aria-labelledby="button-basic8"
+                style="width: 120x !important; left: 225px !important"
+              >
+                <li role="menuitem" style="display: block">
+                  <a
+                    (click)="deletePage(item)"
+                    class="dropdown-item"
+                    matTooltip="Delete"
+                  >
+                    <span class="ellipsis"
+                      ><img src="assets/images/delete-doc-icon12.svg"
+                    /></span>
+                  </a>
+                </li>
+                <li role="menuitem" style="display: block">
+                  <a class="dropdown-item" matTooltip="Page Property">
+                    <span class="ellipsis"
+                      ><img src="assets/images/info-doc-icon12.svg"
+                    /></span>
+                  </a>
+                </li>
+                <li role="menuitem" style="display: block">
+                  <a class="dropdown-item" matTooltip="Duplicate">
+                    <span class="ellipsis"
+                      ><img src="assets/images/duplicate-doc-icon12.svg"
+                    /></span>
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div
+            style="margin: 40px 90px; z-index: 1"
+            (click)="clickedPage()"
+            *ngIf="item.layerIndex === 1"
+            class="button-holder fhw"
+          ></div>
+          <div
+            (dblclick)="clickedHeader(item)"
+            [ngStyle]="{ display: !item.isEdit ? 'block' : 'none' }"
+            *ngIf="item.layerIndex === 2"
+            id="{{ item.id }}"
+            matTooltip="Double click to edit {{ item.type }}"
+            class="button-holder header-div fhw"
+          ></div>
+          <div
+            style="margin-bottom: 0px"
+            [ngStyle]="{ display: item.isEdit ? 'block' : 'none' }"
+            class="page-option"
+          >
+            <div class="floting-panel">
+              <span
+                ><i
+                  class="fa fa-clone doc-icon line"
+                  aria-hidden="true"
+                  (click)="copyItem(item)"
+                ></i
+              ></span>
+              <span><i class="fa fa-tasks doc-icon"></i></span>
+              <span
+                ><i
+                  class="fa fa-trash doc-icon"
+                  (click)="removeItem($event, item)"
+                ></i
+              ></span>
+            </div>
+          </div>
+          <div
+            class="text-block"
+            *ngIf="item.layerIndex === 2"
+            (dblclick)="clickedHeader(item)"
+          >
+            <ckeditor
+              (change)="editorOnChange($event, item)"
+              [(ngModel)]="item.value"
+              [ngStyle]="{ display: item.isEdit ? 'block' : 'none' }"
+              [config]="ckeConfig"
+              [readonly]="false"
+              debounce="500"
+            >
+            </ckeditor>
+          </div>
+          <div
+            class="file-upload-block"
+            *ngIf="item.layerIndex === 3"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-fileselect
+              (select)="imageSelectEventHandler($event)"
+              [multiple]="false"
+            ></kendo-fileselect>
+          </div>
+          <div
+            class="video-upload-block"
+            *ngIf="item.layerIndex === 4"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-upload
+              [saveUrl]="uploadSaveUrl"
+              [removeUrl]="uploadRemoveUrl"
+              [multiple]="false"
+              (success)="successEventHandler($event)"
+            >
+            </kendo-upload>
+          </div>
+          <div
+            class="table-row-col"
+            *ngIf="item.layerIndex === 5"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-editor [value]="insertDefaultTable">
+              <kendo-toolbar>
+                <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                <kendo-toolbar-buttongroup>
+                  <kendo-toolbar-button
+                    kendoEditorAddColumnBeforeButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddColumnAfterButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddRowBeforeButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddRowAfterButton
+                  ></kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+              </kendo-toolbar>
+            </kendo-editor>
+          </div>
+          <div
+            class="table-pricing-row-col"
+            *ngIf="item.layerIndex === 6"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-editor [value]="insertDefaultPriceTable">
+              <kendo-toolbar>
+                <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                <kendo-toolbar-buttongroup>
+                  <kendo-toolbar-button
+                    kendoEditorAddColumnBeforeButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddColumnAfterButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddRowBeforeButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddRowAfterButton
+                  ></kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+              </kendo-toolbar>
+            </kendo-editor>
+          </div>
+          <div
+            class="table-content-row-col"
+            *ngIf="item.layerIndex === 7"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-editor [value]="insertDefaultTable">
+              <kendo-toolbar>
+                <kendo-editor-insert-table-button></kendo-editor-insert-table-button>
+                <kendo-toolbar-buttongroup>
+                  <kendo-toolbar-button
+                    kendoEditorAddColumnBeforeButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddColumnAfterButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddRowBeforeButton
+                  ></kendo-toolbar-button>
+                  <kendo-toolbar-button
+                    kendoEditorAddRowAfterButton
+                  ></kendo-toolbar-button>
+                </kendo-toolbar-buttongroup>
+              </kendo-toolbar>
+            </kendo-editor>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 8"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-textbox
+              placeholder="Type your message here"
+              [clearButton]="true"
+            >
+              <ng-template kendoTextBoxPrefixTemplate>
+                <button kendoButton look="clear" icon="image"></button>
+                <button kendoButton look="clear" [icon]="'calendar'"></button>
+                <kendo-textbox-separator></kendo-textbox-separator>
+              </ng-template>
+              <ng-template kendoTextBoxSuffixTemplate>
+                <kendo-textbox-separator></kendo-textbox-separator>
+                <button kendoButton look="clear" class="send-button">
+                  Send
+                </button>
+              </ng-template>
+            </kendo-textbox>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 8"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-textbox
+              placeholder="Type your message here"
+              [clearButton]="true"
+            >
+              <ng-template kendoTextBoxPrefixTemplate>
+                <button kendoButton look="clear" icon="image"></button>
+                <button kendoButton look="clear" [icon]="'calendar'"></button>
+                <kendo-textbox-separator></kendo-textbox-separator>
+              </ng-template>
+              <ng-template kendoTextBoxSuffixTemplate>
+                <kendo-textbox-separator></kendo-textbox-separator>
+                <button kendoButton look="clear" class="send-button">
+                  Send
+                </button>
+              </ng-template>
+            </kendo-textbox>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 9"
+            (dblclick)="clickedHeader(item)"
+          >
+            <h2>Thanks & Regards,</h2>
+            <br />
+            <h3>Geek</h3>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 10"
+            (dblclick)="clickedHeader(item)"
+          >
+            <kendo-textbox
+              placeholder="Type your initials here"
+              [clearButton]="true"
+            >
+              <ng-template kendoTextBoxPrefixTemplate>
+                <button kendoButton look="clear" icon="image"></button>
+                <button kendoButton look="clear" [icon]="'calendar'"></button>
+                <kendo-textbox-separator></kendo-textbox-separator>
+              </ng-template>
+              <ng-template kendoTextBoxSuffixTemplate>
+                <kendo-textbox-separator></kendo-textbox-separator>
+                <button kendoButton look="clear" class="send-button">
+                  Send
+                </button>
+              </ng-template>
+            </kendo-textbox>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 11"
+            (dblclick)="clickedHeader(item)"
+          >
+            <div class="row example-config">
+              <div class="col-xs-12 col-md-3 example-col">
+                <p>Please select date</p>
+                <kendo-datepicker
+                  id="currentDate"
+                  [(value)]="currentDate"
+                ></kendo-datepicker>
+              </div>
+            </div>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 12"
+            (dblclick)="clickedHeader(item)"
+          >
+            <div class="section">
+              <div class="wrap">
+                <label class="k-checkbox-label" for="terms"
+                  >I accept Terms & Conditions of clisynk</label
+                >
+                <input type="checkbox" id="terms" kendoCheckBox />
+              </div>
+            </div>
+          </div>
+          <div
+            class="text-field-row-col"
+            *ngIf="item.layerIndex === 13"
+            (dblclick)="clickedHeader(item)"
+          >
+            <div class="example-wrapper">
+              <p>Workspace:</p>
+              <kendo-dropdownlist [data]="listItemsDropDown">
+              </kendo-dropdownlist>
+            </div>
+          </div>
+          <div
+            [ngStyle]="{ display: item.isEdit ? 'block' : 'none' }"
+            *ngIf="
+              (item.type === 'header' || item.type === 'footer') &&
+              item.layerIndex === 2 &&
+              item.isEdit &&
+              ((lastHeaderY === item.y && item.page === 1) ||
+                (item.page != 1 &&
+                  item.y ===
+                    (item.page - 1) * 8 + lastHeaderY + item.page - 1) ||
+                (firstFooterY === item.y && item.page === 1) ||
+                (item.page != 1 &&
+                  item.y ===
+                    (item.page - 1) * 8 + firstFooterY + item.page - 1))
+            "
+            class="header-prop"
+          >
+            <div class="inner-header">
+              <span class="heading">{{ item.type }}</span>
+              <span class="setting-icon"
+                ><img
+                  src="assets/images/ic_setting.svg"
+                  width="20px"
+                  (click)="clickSetting()"
+              /></span>
+            </div>
+          </div>
+        </gridster-item>
+      </div>
+    </gridster>
+  </div>
+  <!-- side bar actions -->
+  <div
+    [className]="
+      hideSidebarFlag == false
+        ? 'col-lg-3 col-sm-6 sidebar'
+        : 'col-lg-1 col-sm-1 sidebar'
+    "
+  >
+    <!-- <div class="col-md-1 col-sm-6 sidebar"> -->
+    <div class="row right-part">
+      <div
+        [className]="
+          hideSidebarFlag == false ? 'col-2 side-col' : 'col-10 side-col'
+        "
+      >
+        <!-- approval condition -->
+        <div *ngIf="approval; else approvalElse">
+          <img
+            src="assets/images/plusblue-docside.svg"
+            class="col-icon"
+            (click)="clickApproval()"
+          /><br />
+        </div>
+        <ng-template #approvalElse>
+          <img
+            src="assets/images/plusblack-docside.svg"
+            class="col-icon"
+            (click)="clickApproval()"
+          /><br />
+        </ng-template>
+        <!-- setting condition -->
+        <div *ngIf="setting; else settingElse">
+          <img
+            src="assets/images/settingblue-docside.svg"
+            class="col-icon"
+            (click)="clickSetting()"
+          /><br />
+        </div>
+        <ng-template #settingElse>
+          <img
+            src="assets/images/settingblack-docside.svg"
+            class="col-icon"
+            (click)="clickSetting()"
+          /><br />
+        </ng-template>
+        <!-- theme condition -->
+        <div *ngIf="theme; else themeElse">
+          <img
+            src="assets/images/themeblue-docside.svg"
+            class="col-icon"
+            (click)="clickTheme()"
+          /><br />
+        </div>
+        <ng-template #themeElse>
+          <img
+            src="assets/images/themeblack-docside.svg"
+            class="col-icon"
+            (click)="clickTheme()"
+          /><br />
+        </ng-template>
+
+        <!-- comment condition -->
+        <div *ngIf="comment; else commentElse">
+          <img
+            src="assets/images/commentblue-docside.svg"
+            class="col-icon"
+            (click)="clickComment()"
+          /><br />
+        </div>
+        <ng-template #commentElse>
+          <img
+            src="assets/images/commentblack-docside.svg"
+            class="col-icon"
+            (click)="clickComment()"
+          /><br />
+        </ng-template>
+      </div>
+      <!-- if approval true -->
+      <div
+        [className]="
+          hideSidebarFlag == false
+            ? 'col-10 design-section'
+            : 'display-none design-section'
+        "
+        *ngIf="approval"
+      >
+        <div class="design-title">
+          Content
+          <span (click)="closeSidebar()">
+            <img
+              src="assets/images/ic_close.svg"
+              class="close-icon"
+              width="25px"
+            />
+          </span>
+        </div>
+        <label class="design-label">BLOCKS</label>
+        <div class="row sidebar-row">
+          <div class="col-6 col-left">
+            <div
+              draggable="true"
+              (dragstart)="addWidget($event, 'TEXT_BLOCK')"
+              (dragstop)="dragStopHandler($event)"
+              class="gray-box"
+            >
+              <span class="gray-box-text" draggable="true">Text</span>
+              <span class="gray-box-icon"
+                ><img src="assets/images/text-docicon.svg" width="30px"
+              /></span>
+            </div>
+          </div>
+          <div class="col-6 col-right">
+            <div
+              draggable="true"
+              (dragstart)="addWidget($event, 'IMAGE_BLOCK')"
+              (dragstop)="dragStopHandler($event)"
+              class="gray-box"
+            >
+              <span class="gray-box-text" draggable="true">Image</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/image-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <div class="row sidebar-row">
+          <div class="col-6 col-left">
+            <div
+              draggable="true"
+              (dragstart)="addWidget($event, 'VIDEO_BLOCK')"
+              (dragstop)="dragStopHandler($event)"
+              class="gray-box"
+            >
+              <span class="gray-box-text" draggable="true">Video</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/video-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+          <div class="col-6 col-right">
+            <div
+              draggable="true"
+              (dragstart)="addWidget($event, 'TABLE_BLOCK')"
+              (dragstop)="dragStopHandler($event)"
+              class="gray-box"
+            >
+              <span class="gray-box-text" draggable="true">Table</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/table-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <div class="row sidebar-row">
+          <div class="col-6 col-left">
+            <div
+              draggable="true"
+              (dragstart)="addWidget($event, 'PRICING_TABLE')"
+              (dragstop)="dragStopHandler($event)"
+              class="gray-box"
+            >
+              <span class="gray-box-text" draggable="true"
+                >Pricing<br />
+                Table</span
+              >
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/pricingtable-docicon.svg"
+                  class="sidebar-box-icon"
+                  style="margin-top: -40px"
+              /></span>
+            </div>
+          </div>
+          <div class="col-6 col-right">
+            <div
+              draggable="true"
+              (dragstart)="addWidget($event, 'TABLE_OF_CONTENTS')"
+              (dragstop)="dragStopHandler($event)"
+              class="gray-box"
+            >
+              <span class="gray-box-text" draggable="true"
+                >Table of<br />
+                contents</span
+              >
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/table1-docicon.svg"
+                  class="sidebar-box-icon"
+                  style="margin-top: -40px"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <label class="design-label2">FIELDS</label>
+        <div class="row sidebar-row">
+          <div class="col-6 col-left">
+            <div
+              class="blue-box"
+              draggable="true"
+              (dragstart)="addWidget($event, 'TEXT_FIELD')"
+              (dragstop)="dragStopHandler($event)"
+            >
+              <span class="gray-box-text" draggable="true">Text Field</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/textfield-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+          <div class="col-6 col-right">
+            <div
+              class="blue-box"
+              draggable="true"
+              (dragstart)="addWidget($event, 'SIGNATURE')"
+              (dragstop)="dragStopHandler($event)"
+            >
+              <span class="gray-box-text">Signature</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/signature-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <div class="row sidebar-row">
+          <div class="col-6 col-left">
+            <div
+              class="blue-box"
+              draggable="true"
+              (dragstart)="addWidget($event, 'INITIALS')"
+              (dragstop)="dragStopHandler($event)"
+            >
+              <span class="gray-box-text" draggable="true">Initials</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/IN-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+          <div class="col-6 col-right">
+            <div
+              class="blue-box"
+              draggable="true"
+              (dragstart)="addWidget($event, 'DATE')"
+              (dragstop)="dragStopHandler($event)"
+            >
+              <span class="gray-box-text" draggable="true">Date</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/calender-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+        </div>
+        <div class="row sidebar-row">
+          <div class="col-6 col-left">
+            <div
+              class="blue-box"
+              draggable="true"
+              (dragstart)="addWidget($event, 'TERM_CONDITION')"
+              (dragstop)="dragStopHandler($event)"
+            >
+              <span class="gray-box-text">Checkbox</span>
+              <span class="gray-box-icon"
+                ><img
+                  src="assets/images/checkbox-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+          <div class="col-6 col-right">
+            <div
+              class="blue-box"
+              draggable="true"
+              (dragstart)="addWidget($event, 'DROP_DOWN')"
+              (dragstop)="dragStopHandler($event)"
+            >
+              <span class="gray-box-text" draggable="true">Dropdown</span>
+              <span class="gray-box-icon">
+                <img
+                  src="assets/images/checkbox-docicon.svg"
+                  class="sidebar-box-icon"
+              /></span>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--if setting true  -->
+      <div
+        [className]="
+          hideSidebarFlag == false
+            ? 'col-10 design-section'
+            : 'display-none design-section'
+        "
+        *ngIf="setting"
+      >
+        <div class="setting">
+          <div>
+            <label class="setting-label">Header & Footer</label>
+            <span class="cross-icon" (click)="closeSidebar()">
+              <img
+                src="assets/images/ic_close.svg"
+                style="float: right; cursor: pointer"
+                width="25px"
+              />
+            </span>
+          </div>
+          <div class="design-title">TYPOGRAPHY</div>
+          <div class="setting-content">
+            <span class="setting-text">Color</span>
+            <span class="setting-value black-color"></span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Font size</span>
+            <span class="setting-value">
+              <mat-form-field>
+                <mat-label>11</mat-label>
+                <mat-select>
+                  <mat-option [value]="10"> 10 </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Text style</span>
+            <span class="setting-value">
+              <i class="fa fa-bold" style="font-size: 15px"></i
+              >&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-italic" style="font-size: 15px"></i
+              >&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-underline" style="font-size: 15px"></i>
+            </span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Capitalization</span>
+            <span class="setting-value">
+              <mat-form-field>
+                <mat-label>None</mat-label>
+                <mat-select>
+                  <mat-option [value]="10"> 10 </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Line spacing</span>
+            <span class="setting-value">
+              <mat-form-field>
+                <mat-label>1.5</mat-label>
+                <mat-select>
+                  <mat-option [value]="2"> 2 </mat-option>
+                </mat-select>
+              </mat-form-field>
+            </span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Text alignment</span>
+            <span class="setting-value">
+              <i class="fa fa-align-left" style="font-size: 15px"></i
+              >&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-align-center" style="font-size: 15px"></i
+              >&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-align-right" style="font-size: 15px"></i
+              >&nbsp;&nbsp;&nbsp;
+              <i class="fa fa-align-justify" style="font-size: 15px"></i>
+            </span>
+          </div>
+          <hr />
+          <div class="design-title">HEADER</div>
+          <div class="setting-content">
+            <span class="setting-text">Background color</span>
+            <span class="setting-value">
+              <i class="fa fa-ban" style="font-size: 22px"></i>
+            </span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Show border</span>
+            <span class="setting-value">
+              <div class="custom-control custom-switch">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customSwitches1"
+                />
+                <label
+                  class="custom-control-label"
+                  for="customSwitches1"
+                ></label>
+              </div>
+            </span>
+          </div>
+          <hr />
+          <div class="design-title">Footer</div>
+          <div class="setting-content">
+            <span class="setting-text">Background color</span>
+            <span class="setting-value">
+              <i class="fa fa-ban" style="font-size: 22px"></i>
+            </span>
+          </div>
+          <div class="setting-content">
+            <span class="setting-text">Show border</span>
+            <span class="setting-value">
+              <div class="custom-control custom-switch">
+                <input
+                  type="checkbox"
+                  class="custom-control-input"
+                  id="customSwitches"
+                />
+                <label
+                  class="custom-control-label"
+                  for="customSwitches"
+                ></label>
+              </div>
+            </span>
+          </div>
+        </div>
+      </div>
+      <!-- if theme true -->
+      <div class="col-10 design-section" *ngIf="theme">
+        <div class="setting">
+          <label class="setting-label">Design</label>
+          <span class="cross-icon" (click)="closeSidebar()">
+            <img
+              src="assets/images/ic_close.svg"
+              style="float: right; cursor: pointer"
+              width="25px"
+            />
+          </span>
+          <div class="design-title">THEME AND STYLES</div>
+          <div class="theme-box">
+            <div class="modern-text">Modern</div>
+          </div>
+          <div>
+            <button class="apply-theme">APPLY THEME</button>
+          </div>
+          <hr />
+          <div>
+            <div class="design-title">
+              LAYOUT
+              <span style="float: right; cursor: pointer"
+                ><i class="fa fa-chevron-right"></i
+              ></span>
+            </div>
+            <b style="font-size: 16px; margin-bottom: 10px">A4</b>
+            <div>8.27"x11.67"</div>
+          </div>
+        </div>
+      </div>
+      <!--if comment true  -->
+      <div class="col-10 design-section" *ngIf="comment">
+        <div class="setting">
+          <label class="setting-label">Comments</label>
+          <span class="cross-icon" (click)="closeSidebar()">
+            <img
+              src="assets/images/ic_close.svg"
+              style="float: right; cursor: pointer"
+              width="25px"
+            />
+          </span>
+          <div class="comment-section">
+            <span class="comment-text">No comments</span>
+          </div>
+          <div class="comment-box">
+            <span class="comment-text">You can @mention colleagues...</span>
+            <div>
+              <button class="comment-button">Post private comment</button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!--if add receipent true  -->
+      <div
+        [className]="
+          hideSidebarFlag == false
+            ? 'col-10 design-section'
+            : 'display-none design-section'
+        "
+        *ngIf="addRecipients"
+      >
+        <div class="receipent">
+          <label class="setting-label">Recipients</label>
+          <span class="cross-icon" (click)="closeSidebar()">
+            <img
+              src="assets/images/ic_close.svg"
+              class="close-icon"
+              width="25px"
+            />
+          </span>
+          <div class="recipient-text">
+            Please add receipents you are sending the document to
+          </div>
+        </div>
+        <label class="rec-label">ADD RECIPIENTS</label><br />
+        <mat-form-field style="width: 100%; padding-right: 35px">
+          <mat-label>Start typing name or email</mat-label>
+          <mat-select>
+            <mat-option [value]="10"> Add Contacts </mat-option>
+            <mat-option [value]="10">
+              <div class="rec-option">
+                <span class="username-rec">DR</span>
+                <span class="option-txt1">Add me as receipent</span>
+                <div class="option-txt2">geeky.dhruval@gmail.com</div>
+              </div>
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</div>

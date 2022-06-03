@@ -1,0 +1,35 @@
+<div class="med-popup Manage-pipelines-popup">
+
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="finalClose()">
+                <img [src]="'/assets/images/ic_close.svg'" alt="">
+            </button>
+        </section>
+        <section class="text">
+            <h4>Manage pipelines</h4>
+            <button class="btn-outline-primary" type="button" style="float: right"
+                    (click)="finalClose()"> Save
+            </button>
+        </section>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-md-12">
+                <h4>Pipelines</h4>
+                <p>Rename or delete your pipelines.</p>
+            </div>
+        </div>
+        <div class="row" *ngFor="let data of modalData?.pipelines;let i=index">
+            <div class="col-md-7">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Pipeline Name</mat-label>
+                    <input type="text" matInput placeholder="Name" [(ngModel)]="data.name" (blur)="onBlurSubmit(i)">
+                </mat-form-field>
+            </div>
+            <div class="col-md-5">
+                <button class="text-button button-negative" (click)="deleteItem(i)"> Delete pipeline</button>
+            </div>
+        </div>
+    </div>
+</div>

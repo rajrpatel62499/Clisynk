@@ -1,0 +1,90 @@
+<div class="main-build-automation">
+    <div class="build-automation-header-main">
+        <div class="left-col">
+            <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()" width="50">
+            <span>Build automation</span>
+        </div>
+        <div class="right-col">
+            <button class="send-test-main">
+                <img src="../../../../assets/images/blue-email.svg" width="30">
+                Send test
+            </button>
+            <button class="next-btn">Publish</button>
+        </div>
+
+
+    </div>
+    <!-------------------------------Build-automation-------------------------->
+    <div class="when-build-main-wrapper">
+        <!-- ------------error-messages--------------------- -->
+        <!-- <div class="error-messages">
+            Please resolve errors before publishing.
+        </div> -->
+        <div class="create-tags-filed">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label class="required">Automation name</mat-label>
+                <input matInput placeholder="Free consulation" type="text"  #input1>
+            </mat-form-field>
+        </div>
+
+        <div class="card-main" [routerLink]="['/automation/free-consulation-when']">
+                <div class="inner-card-main">
+                    <div class="when-heading">
+                        <img src="../../../assets/images/cloud-green.svg" width="20">
+                        <span>When</span>
+                    </div>
+                    <div class="short-description">Lead form is submitted</div>
+                </div>
+               
+        </div>
+        <img [src]="'/assets/images/back-arrow.svg'" width="50" class="down-arrow">
+        <div class="card-main" [routerLink]="['/automation/free-consulation-then']">
+            <div class="inner-card-main">
+                <div class="when-heading">
+                    <img src="../../../assets/images/blue-flash.svg" width="20">
+                    <span>Then</span>
+                </div>
+            </div>
+            <div class="short-description send-free-email">Send (Free consulation) email</div>
+            <!-- <div class="main-expansion-panal">
+                <mat-accordion>
+                    <mat-expansion-panel hideToggle>
+                      <mat-expansion-panel-header>
+                        <mat-panel-title>
+                            <div class="error-icon"></div>
+                            Add a tag
+                        </mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <p>This is the primary content of the panel.</p>
+                    </mat-expansion-panel>
+                     
+                        <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="error-icon"></div>
+                                    Send notification
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>This is the primary content of the panel.</p>
+                      </mat-expansion-panel>
+                    
+                       <mat-expansion-panel hideToggle>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>
+                                    <div class="error-icon"></div>
+                                    Create task
+                                </mat-panel-title>
+                            </mat-expansion-panel-header>
+                            <p>This is the primary content of the panel.</p>
+                        </mat-expansion-panel>
+                  </mat-accordion> 
+                  
+            </div> -->
+           
+        </div>
+        
+
+    </div>
+</div>
+
+

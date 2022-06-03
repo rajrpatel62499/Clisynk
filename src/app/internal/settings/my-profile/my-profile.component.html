@@ -1,0 +1,346 @@
+<div class="profile-section">
+
+    <div class="contact-header">
+
+        <div class="Clients_list_heading">
+            <h3 class="inter-page-heading">Personal Details</h3>
+            <div class="btn-combobox">
+                <button class="back-btn" (click)="http.goBack()" [disabled]="isUpdating" >Back</button>
+                <button class="add-user-btn" (click)="finalSubmit()" [disabled]="isUpdating">
+                    <i class="fa " [ngClass]="{'fa-spinner fa-spin': isUpdating}" aria-hidden="true"></i>
+                    Update
+                </button>
+            </div>
+        </div>
+
+        <!-- <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off" class="my-prof"> -->
+        <form [formGroup]="form" autocomplete="off" class="my-prof">
+            <div class="modal-body">
+                <div class="uploaded-img text-center" *ngIf="form.value.imageUrl">
+                  <span class="clear-icon"
+                        (click)="form.controls.imageUrl.patchValue('')">
+                        <img src="assets/images/ic_close.svg">
+                  </span>
+                    <img [src]="form?.value?.imageUrl?.thumbnail" class="thumb-img">
+                </div>
+
+                <div class="file-upload clickable" style="margin-bottom: 11px;"
+                     *ngIf="!form.value.imageUrl">
+                    <section class="no-pointer-events">
+                        <div class="circle">
+                            <svg class="icon-upload icon">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                     id="upload-cloud">
+                                    <path
+                                            d="M12 10.998a1 1 0 0 1 .707.293l4 4.002a1 1 0 0 1-1.414 1.414L13 14.413V21a1 1 0 1 1-2 0v-6.587l-2.293 2.294a1 1 0 0 1-1.414-1.414l4-4.002a1 1 0 0 1 .707-.293zM9 3c2.935 0 5.5 1.581 6.89 3.933.02.032.041.051.056.06A.071.071 0 0 0 15.96 7H17a6 6 0 0 1 3.601 10.8 1 1 0 0 1-1.201-1.6A4 4 0 0 0 17 9h-1.042c-.788 0-1.439-.457-1.79-1.049A6 6 0 1 0 4.8 15.286a1 1 0 1 1-1.399 1.428A8 8 0 0 1 9 3z"
+                                            fill-rule="evenodd"></path>
+                                </svg>
+                            </svg>
+                        </div>
+                        <div class="file-type" style="display: none;"></div>
+                    </section>
+                    <section *ngIf="!loading" id="initial-info" class="no-pointer-events">
+                        <h4 class="label semibold"> Upload Image </h4>
+                        <h6 class="instructions"> Drag &amp; drop here or
+                            browse </h6>
+                        <h6 class="allowedFilesLabel"> jpeg, png files are acceptable </h6>
+                    </section>
+                    <section *ngIf="loading" class="no-pointer-events">
+                        <h4 class="label semibold"> Uploading... </h4>
+                    </section>
+
+                    <input accept="image/x-png,image/gif,image/jpeg" multiple="" type="file"
+                           (change)="uploadImage($event.target.files[0])">
+                </div>
+                <div class="form-label">Genral information</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="btn-group add-btn select-opt">
+                            <mat-form-field appearance="outline" class="select-height">
+                                <mat-label>Title</mat-label>
+                                <mat-select formControlName="title">
+                                    <mat-option *ngFor="let title of http.CONSTANT.titles" [value]="title">
+                                        {{title}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline"  hintLabel="Max 26 characters">
+                                <mat-label class="required">First Name</mat-label>
+                                <input matInput type="text" maxlength="26" #fname 
+                                       appInputRestriction="noSpecialChars"
+                                       formControlName="firstName">
+                                <mat-error *ngIf="form.controls['firstName'].hasError('required')">
+                                    Please enter first name.
+                                </mat-error>
+                                <mat-hint align="end">{{fname.value?.length || 0}}/26</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline" hintLabel="Max 26 characters">
+                                <mat-label>Middle Name</mat-label>
+                                <input matInput type="text" maxlength="26" #mname
+                                       appInputRestriction="noSpecialChars"
+                                       formControlName="middleName">
+                                <mat-error *ngIf="form.controls['middleName'].hasError('required')">
+                                    Please enter middle name.
+                                </mat-error>
+                                <mat-hint align="end">{{mname.value?.length || 0}}/26</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline" hintLabel="Max 26 characters">
+                                <mat-label>Last Name</mat-label>
+                                <input matInput type="text" maxlength="26" #lname
+                                       appInputRestriction="noSpecialChars"
+                                       formControlName="lastName">
+                                <mat-error *ngIf="form.controls['lastName'].hasError('required')">
+                                    Please enter last name.
+                                </mat-error>
+                                <mat-hint align="end">{{lname.value?.length || 0}}/26</mat-hint>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <!-- --------------add-phone-number-------------- -->
+                 <div class="form-label">Phone and Email</div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Personal Phone <span class="red">*</span> </mat-label>
+                                <input matInput type="text" appNumberOnly maxlength="15"
+                                       formControlName="phone1">
+                                <mat-error *ngIf="form.controls['phone1'].hasError('required')">
+                                    Please enter phone.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- <div class="btn-group add-btn select-opt">
+                            <mat-form-field appearance="outline" class="select-height">
+                                <mat-label class="required">Type</mat-label>
+                                <mat-select formControlName="phone1Type">
+                                    <mat-option *ngFor="let type of http.CONSTANT.phoneTypes"
+                                                [value]="type">{{type}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Personal Email<span class="red">*</span> </mat-label>
+                                <input matInput type="text">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>Business Phone</mat-label>
+                                <input matInput type="text" appNumberOnly maxlength="15"
+                                       formControlName="phone2">
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <!-- <div class="btn-group add-btn select-opt">
+                            <mat-form-field appearance="outline" class="select-height">
+                                <mat-label>Type</mat-label>
+                                <mat-select formControlName="phone2Type">
+                                    <mat-option *ngFor="let type of http.CONSTANT.phoneTypes"
+                                                [value]="type">{{type}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div> -->
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Business Email</mat-label>
+                                <input matInput type="text"
+                                    formControlName="email">
+                                <mat-error *ngIf="form.controls['email'].hasError('required')">
+                                    Please enter email.
+                                </mat-error>
+                                <mat-error
+                                        *ngIf="form.controls['email'].hasError('pattern')">
+                                    Please enter valid email.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">Business Email</mat-label>
+                        <input matInput type="text"
+                               formControlName="email">
+                        <mat-error *ngIf="form.controls['email'].hasError('required')">
+                            Please enter email.
+                        </mat-error>
+                        <mat-error
+                                *ngIf="form.controls['email'].hasError('pattern')">
+                            Please enter valid email.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label>Website</mat-label>
+                        <input matInput type="text"
+                               formControlName="website">
+                        <mat-error
+                                *ngIf="form.controls['website'].hasError('pattern')">
+                            Please enter valid website link.
+                        </mat-error>
+                    </mat-form-field>
+                </div> -->
+
+                <!-- -----------------End-add-phone-number---------- -->
+
+                <div class="form-label">Address</div>
+                <div class="input-field">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">Address 1</mat-label>
+                        <input matInput type="text" autocomplete="off"
+                               formControlName="address1" #address (addressSelect)="addressDetails($event)"
+                               appGoogleplace onkeydown="return (event.keyCode!==13);">
+                        <mat-error *ngIf="form.controls['address1'].hasError('required')">
+                            Please enter Address 1.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+
+                <div class="row">
+
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Country</mat-label>
+                                <input matInput type="text" id="myId"
+                                       formControlName="country">
+                                <mat-error *ngIf="form.controls['country'].hasError('required')">
+                                    Please enter country.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">City</mat-label>
+                                <input matInput type="text" id="myId"
+                                       formControlName="city">
+                                <mat-error *ngIf="form.controls['city'].hasError('required')">
+                                    Please enter city.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">State</mat-label>
+                                <input matInput type="text"
+                                        formControlName="state">
+                            </mat-form-field>
+                            <mat-error *ngIf="form.controls['state'].hasError('required')">
+                                Please enter state.
+                            </mat-error>
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="input-field">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Zip code</mat-label>
+                                <input matInput type="text"
+                                       formControlName="postalCode" maxlength="8" appNumberOnly>
+                                <mat-error *ngIf="form.controls['postalCode'].hasError('required')">
+                                    Please enter zip code.
+                                </mat-error>
+                                <mat-error *ngIf="form.controls['postalCode'].hasError('maxlength')">
+                                    Zip code can not exceeds 8 character.
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+
+           
+            </div>
+            <div class="preview-signature">
+                <div class="form-label">Email & Signature Preview</div>
+                <div class="email-box">
+                    <h2>{{form.controls['firstName'].value}} {{form.controls['lastName'].value}}</h2>
+                    <p>{{form.controls['email'].value}}</p>
+                    <p>{{form.controls['phone1'].value}}</p>
+                </div>
+                <!-- <div class="shimmer-main-preview email-box">
+                        <div class="shimmer-heading shine"></div>
+                        <div class="email-id-shimmer shine"></div>
+                        <div class="mobile-num-shimmer shine"></div>
+                </div> -->
+                <!-- <div class="button-row">
+                    <button type="submit" class="btn btn-outline-primary">Update</button>
+                </div> -->
+               
+                <!-- <section class="contact-details-section profile-bottom">
+                    <h5>Login Id</h5>
+                    <div class="field-grid">
+                        <div class="view-field">
+                            <small>First name</small>
+                            <span>
+                                {{form.controls['firstName'].value}}
+                            </span>
+                        </div>
+                        <div class="view-field">
+                            <small>Last name</small>
+                            <span>
+                                {{form.controls['lastName'].value}}
+                            </span>
+                        </div>
+
+                        <div class="view-field">
+                            <small>Email</small>
+                            <span>
+                                {{form.controls['email'].value}}
+                            </span>
+                        </div>
+
+                        <div class="view-field">
+                            <small>Phone1</small>
+                            <span>
+                                {{form.controls['phone1'].value}}
+                            </span>
+                        </div>
+
+                    </div>
+                </section> -->
+
+            </div>
+        </form>
+    </div>
+</div>
+
+

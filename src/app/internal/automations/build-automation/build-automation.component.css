@@ -1,0 +1,112 @@
+.main-build-automation {
+    background: #fafafa;
+    height: 100vh;
+}
+
+.main-build-automation .build-automation-header-main {
+    background: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 20px 18px;
+    border-bottom: 1px solid #e6e6e8;
+}
+
+.main-build-automation .build-automation-header-main .left-col img {
+    width: 30px;
+    margin-right: 20px;
+    cursor: pointer;
+}
+
+.main-build-automation .build-automation-header-main .left-col {
+    display: flex;
+    align-items: center;
+}
+
+.main-build-automation .build-automation-header-main .left-col span {
+    font-size: 22px;
+}
+
+.main-build-automation .build-automation-header-main .right-col button.next-btn {
+    background: #0042db;
+    color: #fff;
+    border: none;
+    padding: 9px 25px;
+    font-size: 16px;
+    border-radius: 4px;
+}
+
+.when-build-main-wrapper {
+    width: 500px;
+    margin: auto;
+    margin-top: 40px;
+    text-align: center;
+}
+
+
+
+
+.when-build-main-wrapper .card-main {
+    background: #fff;
+    padding: 30px;
+    text-align: center;
+    border: 1px solid #e6e6e8;
+    border-radius: 10px;
+}
+.when-build-main-wrapper .card-main .when-heading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom:5px;
+    position: relative;
+}
+
+.when-build-main-wrapper .card-main .when-heading span {
+    font-size: 28px;
+    font-weight: 400;
+    color: #000;
+}
+
+.when-build-main-wrapper .card-main .when-heading img {
+    display: flex;
+    margin-right: 5px;
+    position: absolute;
+    left: -120px;
+    right: 0;
+    margin: auto;
+    width: 30px !important;
+    height: 30px !important;
+}
+
+.when-build-main-wrapper .card-main .short-description {
+    color: #a09fa4;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.when-build-main-wrapper .card-main .add-icon-blue {
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-top: 15px;
+}
+
+.when-build-main-wrapper .card-main .add-icon-blue button.btn {
+    width: 31px;
+    height: 31px;
+    background: #4f7ddc;
+    font-size: 25px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 100%;
+    color: #fff;
+    padding: 10px 7px;
+}
+
+.when-build-main-wrapper .down-arrow {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    transform: rotate(270deg);
+    width: 25px;
+}

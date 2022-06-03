@@ -1,0 +1,66 @@
+.notes-hader-main {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid #ccc;
+}
+
+.notes-hader-main .lef-col-main-head {
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+    font-weight: 500;
+}
+
+.notes-hader-main button.btn.add-notes {
+    background: #4776E6 !important;
+    color: #fff;
+    padding: 9px 20px;
+}
+
+.add-notes-main {
+    width: 28px;
+    height: 28px;
+    position: absolute;
+    left: 0;
+    border-radius: 100%;
+    background: #FFEED8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.add-notes-main svg {
+    width: 18px;
+    height: 15px;
+    left: 2px !important;
+    position: relative;
+    top: 1px !important;
+}
+
+.notes-no-added {
+    text-align: center;
+    margin-top: 40px;
+    margin-bottom: 40px;
+}
+
+.notes-no-added img {
+    width: 160px;
+    margin-bottom: 30px;
+}
+
+.notes-no-added h1.no-head-title {
+    font-size: 25px;
+    margin-bottom: 20px;
+}
+
+.notes-no-added p {
+    font-size: 15px;
+    width: 50%;
+    margin: auto;
+    color: #979797;
+    font-weight: 500;
+}

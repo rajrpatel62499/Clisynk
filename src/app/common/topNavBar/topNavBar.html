@@ -1,0 +1,251 @@
+<div class="row top-height">
+  <div class="col-md-12">
+    <nav class="navbar navbar-static-top" role="navigation" style="padding: 0">
+      <div class="col-4 col-md-2 navbar-header">
+        <div class="row">
+          <i class="fas fa-times visible-md visible-xs side-close-btn d-none d-sm-block d-md-none"
+            (click)="toggleNavigation()">
+          </i>
+          <img src="../../../assets/images/New-ui-images/clisynk-logo.svg" class="top-width" />
+          <a class="minimalize-styl-2 cursor" (click)="toggleNavigation()">
+            <img [src]="'assets/images/ic_menu.svg'" />
+          </a>
+          <!--                    <button (click)="testPush()" class="btn btn-outline-primary">test</button>-->
+        </div>
+      </div>
+
+      <div class="col-md-7">
+        <section class="home-search">
+          <div class="global-search">
+            <div class="search-menu" style="position: relative">
+              <div class="input-container">
+                <span class="search-icon-desktop">
+                  <img [src]="'assets/images/ic_search.svg'" />
+                </span>
+
+                <div class="input-field search-input no-label">
+                  <input class="new-input" type="text" placeholder="Search contacts" [formControl]="searchName"
+                    (input)="searchChange()" />
+                </div>
+                <span class="clear-icon" *ngIf="showClose" (click)="searchName.patchValue('')">
+                  <img [src]="'assets/images/ic_close.svg'" />
+                </span>
+              </div>
+
+              <div class="results-container" *ngIf="searchName?.value?.length">
+                <div class="results">
+                  <ul class="results-list">
+                    <li class="result-item" *ngFor="let data of contacts" (click)="finalSelected(data)">
+                      <div class="avatar-img default">
+                        <h3>
+                          {{data?.firstName?.substr(0,
+                          1)}}{{data?.lastName?.substr(0, 1)}}
+                        </h3>
+                      </div>
+                      <div class="avatar-text">
+                        <h2>
+                          <span>{{data?.firstName}} {{data?.lastName}}</span>
+                        </h2>
+                        <p class="select-p">{{data?.email}}</p>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                <app-loader [showLoader]="loader" [length]="contacts?.length"></app-loader>
+
+                <section class="results-empty" *ngIf="contacts?.length === 0 && !loader">
+                  <p class="empty-results">
+                    You have no contacts that match the search
+                    "{{searchName?.value}}"
+                  </p>
+                  <button class="btn btn-outline-primary add-contact" (click)="openAddContact(searchName.value)">
+                    Add "{{searchName?.value}}" now
+                  </button>
+                </section>
+              </div>
+            </div>
+            <div class="dropdown global-add-button">
+              <div class="btn-group add-btn" dropdown>
+                <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle"
+                  aria-controls="dropdown-basic">
+                  <i class="fas fa-plus"></i>New
+                </button>
+                <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                  <li role="menuitem" *ngIf="http.checkAcl('contacts')">
+                    <a class="dropdown-item" (click)="openAddContact()">
+                      <img [src]="'/assets/images/user.svg'" /> Contact</a>
+                  </li>
+
+                  <li role="menuitem" *ngIf="http.checkAcl('appointments')">
+                    <a class="dropdown-item" (click)="http.openModal('appointment')">
+                      <img [src]="'/assets/images/calendar.svg'" />
+                      Appointment</a>
+                  </li>
+
+                  <li role="menuitem" *ngIf="http.checkAcl('tasks')">
+                    <a class="dropdown-item" (click)="http.openModal('addTask')">
+                      <img [src]="'/assets/images/tasks.svg'" />
+                      Task</a>
+                  </li>
+
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="openSendEmail()"><img [src]="'/assets/images/email.svg'" />
+                      Email</a>
+                  </li>
+
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="http.openModal('addNote')"><img
+                        [src]="'/assets/images/note.svg'" /> Note</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="http.openModal('addDocument')"><img
+                        [src]="'/assets/images/document.svg'" /> Document</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="http.openModal('addPipeline')"><img
+                        [src]="'/assets/images/pipeline.svg'" /> Pipeline</a>
+                  </li>
+                  <li role="menuitem">
+                    <a class="dropdown-item" (click)="http.openModal('addInvoice')"><img
+                        [src]="'/assets/images/money.svg'" /> Invoice</a>
+                  </li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </section>
+      </div>
+
+      <div class="col-5 btn-group header-links col-md-3 new-header-group-main">
+        <div class="dropdown global-add-button ping-dr-notification manage-workspace-dropdown">
+          <div class="btn-group add-btn workspace-drop-main" dropdown>
+            <div class="first-letter-div-main">{{ selectedWorkspace?.name?.toUpperCase().charAt(0)}}</div>
+            <button id="button-basic1" *ngIf="workspaces?.length != 0" dropdownToggle type="button"
+              class="btn dropdown-toggle" style="color: #0040db !important;white-space: nowrap;  max-width: 180px; overflow: hidden; text-overflow: ellipsis;" aria-controls="dropdown-basic">
+              {{selectedWorkspace?.name}}
+            </button>
+            <span *ngIf="workspaces?.length != 0"> <i class="fas fa-angle-down" style="margin: 0 0 0 5px !important;"></i></span>
+            <button id="button-basic1" *ngIf="workspaces?.length === 0" type="button" class="btn dropdown-toggle"
+              aria-controls="dropdown-basic">
+              {{selectedWorkspace?.name}}
+            </button>
+            <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu drop-work-menu" role="menu"
+              aria-labelledby="button-basic">
+              <li role="menuitem" *ngFor="let workspace of workspaces" class="workspace-list"
+                (click)="activeWorkspace(workspace)">
+                <div class="main-workspace-notification">
+                  <!-- <div class="left-col" style="background: #5a6079;">
+                    {{ workspace?.name.toUpperCase().charAt(0) }}
+                    <span class="badge-red">1</span>
+                  </div> -->
+                  <div class="right-col">
+                    <span class="workspace-name" style="color: #2A2A2A !important;white-space: nowrap;
+                    max-width: 200px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;">{{workspace?.name}}</span>
+                    <!-- <span class="second-row">
+                      <img src="../../../assets/images/users-bunch.svg" width="15" />
+                      {{workspace?.contacts}}
+                    </span> -->
+                  </div>
+                </div>
+              </li>
+              <li role="menuitem" class="new-add-workspace">
+                  <a (click)="http.openModal('createWorkspace')" title="New Space">
+                    
+                  <svg width="17" height="17" viewBox="0 0 17 17" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M16.3359 7.83594H9.16406V0.664062C9.16406 0.297301 8.86676 0 8.5 0C8.13324 0 7.83594 0.297301 7.83594 0.664062V7.83594H0.664062C0.297301 7.83594 0 8.13324 0 8.5C0 8.86676 0.297301 9.16406 0.664062 9.16406H7.83594V16.3359C7.83594 16.7027 8.13324 17 8.5 17C8.86676 17 9.16406 16.7027 9.16406 16.3359V9.16406H16.3359C16.7027 9.16406 17 8.86676 17 8.5C17 8.13324 16.7027 7.83594 16.3359 7.83594Z" fill="#4776E6"/>
+                    </svg>
+                    New Space
+                  </a>
+
+              </li>
+            </ul>
+          </div>
+        </div>
+
+        <ul>
+          <li>
+            <button class="btn notifications ripple" type="button" (click)="openNav()">
+              <i class="far fa-bell"></i>
+              <span class="badge" *ngIf="unreadCount">{{unreadCount}}</span>
+            </button>
+          </li>
+          <div class="btn-group nav-profile-outter1 new-profile-avatar-main" dropdown>
+            <button id="button-basic3" dropdownToggle type="button" class="btn" aria-controls="dropdown-basic">
+                  <div class="avtar-main-char">{{http?.loginData?.firstName?.substr(0,
+                    1)}}{{http?.loginData?.lastName?.substr(0, 1)}}</div>
+            </button>
+            <ul id="dropdown-basic3" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic"
+              style="left: -103px">
+              <li role="menuitem" style="display: block" [routerLink]="['/settings/my-profile']">
+                <a class="dropdown-item">
+                    <img src="../../../assets/images/New-ui-images/profile-icon.svg" alt="profile" title="profile">
+                    Profile
+                </a>
+              </li>
+              <li role="menuitem" style="display: block" [routerLink]="['/settings']">
+                <a class="dropdown-item">
+                  <img src="../../../assets/images/New-ui-images/settings-header-icon.svg" alt="settings">
+                  Settings</a>
+              </li>
+              <!--                            <li role="menuitem" style="display: block" (click)="http.openModal('changePassword')">-->
+              <!--                                <a class="dropdown-item"><img src="assets/images/ic_setting.svg">Change password</a>-->
+              <!--                            </li>-->
+              <li role="menuitem" style="display: block">
+                <a class="dropdown-item" (click)="logout()">
+                  <img src="../../../assets/images/New-ui-images/logout-header-icon.svg" alt="Logout">
+                  Logout</a>
+              </li>
+            </ul>
+          </div>
+          <li></li>
+        </ul>
+        <!-- <button class="subscribe-btn" type="button">Subscribe</button> -->
+
+        <!--                <div dropdown>-->
+        <!--                    <button id="button-basic" dropdownToggle type="button"-->
+        <!--                            class="btn btn-link dropdown-toggle full-width"-->
+        <!--                            aria-controls="dropdown-basic" style="font-size: 14px">-->
+        <!--                        <img src="/assets/images/FullColor_IconOnly_1280x1024_72dpi.jpg"-->
+        <!--                             style="height: 20px;width: 26px;">-->
+        <!--                    </button>-->
+        <!--                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"-->
+        <!--                        role="menu" aria-labelledby="button-basic" style="right:0">-->
+        <!--                        <li role="menuitem"><a class="dropdown-item" (click)="openChangeFun()">Change-->
+        <!--                            password</a></li>-->
+        <!--                        <li role="menuitem"><a class="dropdown-item" (click)="logout()">Logout</a></li>-->
+        <!--                    </ul>-->
+        <!--                </div>-->
+      </div>
+    </nav>
+  </div>
+</div>
+
+<section id="notifications-panel" class="notifications-panel">
+  <header>
+    <button type="button" (click)="closeNav()" class="icon-only">
+      <img [src]="'/assets/images/ic_close.svg'" />
+    </button>
+    <h2>Notification center</h2>
+
+    <section class="send-invite add-money read-all" *ngIf="unreadCount">
+      <div class="view-email" dropdown>
+        <button dropdownToggle type="button" class="btn dropdown-toggle" aria-controls="dropdown-basic">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="more-horizontal">
+            <circle cx="5" cy="12" r="2"></circle>
+            <circle cx="12" cy="12" r="2"></circle>
+            <circle cx="19" cy="12" r="2"></circle>
+          </svg>
+        </button>
+        <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+          <li role="menuitem" (click)="notificationList(true)">
+            <a class="dropdown-item"> Mark as read</a>
+          </li>
+        </ul>
+      </div>
+    </section>
+  </header>
+  <app-notifications [allData]="notifications"></app-notifications>
+</section>

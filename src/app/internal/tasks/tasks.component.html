@@ -1,0 +1,280 @@
+<div class="page-header-main">
+    <div class="heading-txt">Tasks</div>
+    <div class="heading-right-side">
+        <div class="search-fields">
+            <input type="text" [(ngModel)]="headerSearchText" placeholder="Search task or project here..." />
+        </div>
+        <button class="btn share-btn">
+            <img src="../../../assets/images/shares-icons.svg">
+            Share</button>
+        <button class="btn add-btn" (click)="openEditTask()">+ Add Task</button>
+    </div>
+
+
+</div>
+
+<div class="second-row-main-content">
+    <div class="inner-wrappersmain">
+        <div class="first-task-drops">
+            <button (click)="this.http.showModal(deletePopup, 'xs')" class="mr-3" *ngIf="this.selectedTasks?.length > 0" id="button-basic" type="button" class="btn btn-primary">
+                <img  style="height: 19px; width:24px" src="../../../assets/images/trash-icon.svg" > 
+                Delete All
+            </button>
+
+            <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-basic">
+                    <img src="../../../assets/images/tick-marks-main.svg"> All Task
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                    <li role="menuitem" [ngClass]="{'selected': this.myModel.status == TaskStatus.INCOMPLETE }">
+                        <a class="dropdown-item" (click)="this.myModel.status = TaskStatus.INCOMPLETE; taskList()">
+                            Incomplete tasks
+                        </a>
+                    </li>
+                    <li role="menuitem" [ngClass]="{'selected': this.myModel.status == TaskStatus.COMPLETED }">
+                        <a class="dropdown-item" (click)="this.myModel.status = TaskStatus.COMPLETED; taskList()">
+                            Completed tasks
+                        </a>
+                    </li>
+                    <li role="menuitem" [ngClass]="{'selected': this.myModel.status == TaskStatus.ALL }">
+                        <a class="dropdown-item" (click)="this.myModel.status = TaskStatus.ALL; taskList()">
+                            All tasks
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="date-pickres-main">
+            <input type="text" placeholder="Daterangepicker" class="form-control" bsDaterangepicker>
+        </div>
+        <div class="priority-drops">
+            <div class="btn-group" dropdown>
+                <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                    aria-controls="dropdown-basic">
+                    <img src="../../../assets/images/filter-vector.svg">Priority
+                </button>
+                <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                    <li role="menuitem"><a class="dropdown-item">
+                            <div class="high-dot comman-dot"></div> High
+                        </a></li>
+                    <li role="menuitem"><a class="dropdown-item">
+                            <div class="low-dot comman-dot"></div> Low
+                        </a></li>
+                    <li role="menuitem"><a class="dropdown-item">
+                            <div class="med-dot comman-dot"></div> Medium
+                        </a></li>
+                </ul>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<!-- -----------------Tabs------------------------------------------------------------ -->
+<div class="tabs-main-tasks">
+    <nav>
+        <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+            <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab"
+                aria-controls="nav-home" aria-selected="true">List</a>
+            <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab"
+                aria-controls="nav-profile" aria-selected="false">Timeline</a>
+            <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab"
+                aria-controls="nav-contact" aria-selected="false">Calender</a>
+            <a class="nav-item nav-link" id="nav-about-tab" data-toggle="tab" href="#nav-about" role="tab"
+                aria-controls="nav-about" aria-selected="false">Files</a>
+        </div>
+    </nav>
+    <div class="tab-content" id="nav-tabContent">
+        <div class="list-tab-main tab-pane fade show active" id="nav-home" role="tabpanel"
+            aria-labelledby="nav-home-tab">
+            <div class="main-table-for-list-area">
+                <table>
+                    <thead>
+                        <tr>
+                            <th class="task-name">
+                                <mat-checkbox [checked]="this.selectedTasks?.length > 0 && this.selectedTasks?.length == this.tasks?.length" (change)="selectDeselectAllTasks($event)" class="example-margin"></mat-checkbox>Task Name
+                            </th>
+                            <th class="task-description">Task Description</th>
+                            <th class="assignee">Assignee</th>
+                            <th class="start-date">Start Date</th>
+                            <th class="due-date">Due Date</th>
+                            <th class="priority">Priority</th>
+                            <th class="action">Action</th>
+                        </tr>
+
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let task of (tasks|filter:headerSearchText)">
+                            <td class="task-name"
+                                [ngStyle]="{ 'background' : task?.status == TaskStatus.COMPLETED ? '#D9F6E0': ''}">
+                                <div class="task-name-in-wrap">
+                                    <div class="checkbox" [ngClass]="{'selected': this.selectedTasks.includes(task)}">
+                                        <mat-checkbox [checked]="this.selectedTasks.includes(task)" (change)="onTaskSelectionChange(task)" class="example-margin"></mat-checkbox>
+                                    </div>
+                                    <div class="task-name">{{task?.title}}</div>
+                                </div>
+                            </td>
+                            <td class="task-description">
+                                {{task?.note}}
+                            </td>
+                            <td class="assignee">
+                                <div class="grid-names">
+                                    <div class="comman-grid" data-toggle="tooltip" data-placement="top"
+                                        [title]="task?.contactId?.fullName">
+                                        {{task?.contactId?.firstName?.substr(0,1)}}{{task?.contactId?.lastName?.substr(0,1)}}
+                                    </div>
+                                    <!-- <div class="comman-grid">JD</div>
+                                                <div class="comman-grid">+5</div>
+                                                <div class="comman-grid last-person">
+                                                    <img src="../../../assets/images/task-person.svg">
+                                                </div> -->
+
+                                </div>
+
+                            </td>
+                            <!-- <td class="start-date">23/04/2021</td> -->
+                            <!-- <td class="due-date">23/04/2021</td> -->
+                            <td class="start-date">{{task?.startDateTime|date: 'dd/MM/yyyy'}}</td>
+                            <td class="due-date">{{task?.dueDateTime|date: 'dd/MM/yyyy'}}</td>
+                            <td class="priority">
+                                <div [ngClass]="{
+                                        'high': task?.priority == 'High',
+                                        'low': task?.priority == 'Low',
+                                        'med': task?.priority == 'Medium'
+                                    }" class="high-dot prio-comman-tag">{{task?.priority}}</div>
+                            </td>
+                            <td class="action">
+                                <div class="actions-main-button">
+                                    <a>
+                                        <img src="../../../assets/images/edit-icons.svg" (click)="openEditTask(task)">
+                                    </a>
+                                    <a>
+                                        <img src="../../../assets/images/trash-icon.svg" (click)="deleteTask(task)">
+                                    </a>
+                                </div>
+
+                            </td>
+                        </tr>
+                        <ng-container *ngIf="!tasks">
+                            
+                            <tr class="shimmer-row" *ngFor="let task of [1,2]">
+    
+                                <td class="task-name"><div class="commanname-shine shine"></div></td>
+                                <td class="task-description"><div class="commanname-shine shine"></div></td>
+                                <td class="assignee">
+                                    <div class="extra-added ">
+                                        <div class="round-shine shine"></div>
+                                        <div class="round-shine shine"></div>
+                                        <div class="round-shine shine"></div>
+                                    </div>
+                                </td>
+                                <td class="start-date"><div class="commanname-shine shine"></div></td>
+                                <td class="due-date"><div class="commanname-shine shine"></div></td>
+                                <td class="priority"><div class="commanname-shine shine"></div></td>
+                                <td class="action">
+                                    <div class="actions-btn">
+                                        <div class="comman-shine shine"></div>
+                                        <div class="comman-shine shine"></div>
+                                        <div class="comman-shine shine"></div>
+                                    </div>
+                                </td>
+    
+                            
+                               
+                                
+                            </tr>
+
+                        </ng-container>
+
+
+
+
+                    </tbody>
+
+
+
+                </table>
+            </div>
+        </div>
+        <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+
+            <app-timeline-view></app-timeline-view>
+
+        </div>
+        <div class="tab-pane fade caldeder-main-tasks" id="nav-contact" role="tabpanel"
+            aria-labelledby="nav-contact-tab">
+            <app-calender-view [tasks]="tasks"></app-calender-view>
+
+        </div>
+        <div class="tab-pane fade" id="nav-about" role="tabpanel" aria-labelledby="nav-about-tab">
+           
+            <task-files [tasks]="tasks"></task-files>
+        </div>
+    </div>
+
+
+
+
+</div>
+
+
+
+<ng-template #deletePopup>
+    <div class="delete-comp xs">
+      <div class="delete-comp-inner">
+        <h4>Delete task</h4>
+        <p>Are you sure you want to delete these tasks?</p>
+        <div class="button-row form-group">
+          <button class="delete-btn" type="submit" [disabled]="loader" (click)="deleteSelectedTasks()">
+            <i [ngClass]="{'fa fa-spinner fa-spin':loader}" aria-hidden="true"></i>
+            Delete
+          </button>
+          <button class="text-button" type="button" [disabled]="loader" aria-label="Close" (click)="http.hideModal()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- --------------Old-code-commented--(6-5-2021)------------- -->
+<!-- <div class="tasks-page">
+    <header class="page-header">
+        <div title="Tasks" class="title">
+            <h2>Tasks</h2>
+        </div>
+        <div class="actions button-row text-right">
+            <button type="button" class="text-button" *ngIf="this.myModel.status ===1"
+                (click)="this.myModel.status = 2;taskList()"> Show completed
+            </button>
+            <button type="button" class="text-button" *ngIf="this.myModel.status ===2"
+                (click)="this.myModel.status = 1;taskList()"> Hide completed show incomplete
+            </button>
+            <button type="button" class="btn-outline-primary" (click)="http.openModal('addTask')"> Add a task</button>
+        </div>
+    </header>
+
+    <section>
+        <app-placeholders [flag]="5" *ngIf="!myModel?.allData?.length && !myModel?.loader"></app-placeholders>
+        <app-loader [showLoader]="myModel?.loader"></app-loader>
+        <app-task-list [allData]="myModel?.allData"></app-task-list>
+    </section>
+</div> -->

@@ -1,0 +1,56 @@
+<div (click)="updateEventType(EventType.WHEN)"
+[ngClass]="{'first-card-filled': ($whenEvent|async)?.value}"
+class="card-main first-card">
+    <div class="when-heading">
+        <img src="../../../assets/images/cloud-green.svg" width="20">
+        <span>When</span>
+    </div>
+    <div class="short-description">
+        {{ ($whenEvent|async)?.value?.eventDescription ? ($whenEvent|async)?.value?.eventDescription : '...this occurs, start my automation.'}}
+    </div>
+</div>
+
+<div class="text-center center-down-img">
+    <img [src]="'/assets/images/back-arrow.svg'" width="50" class="down-arrow">
+</div>
+<ng-container *ngIf="((($thenTasks|async)?.length == 0) || (!($thenTasks|async))); else addThenTask">
+    <div class="then-add-card">
+        <div class="when-heading">
+            <img src="../../../assets/images/blue-flash.svg" width="20">
+            <span>Then</span>
+        </div>
+        <div class="short-description">...this will be automated.</div>
+        <div class="add-icon-blue">
+            <button (click)="updateEventType(EventType.THEN)" class="btn">+</button>
+        </div>
+    </div>
+</ng-container>
+<ng-template #addThenTask>
+    <div (click)="updateEventType(EventType.THEN)" class="then-card choose-tag-then">
+
+        <div class="then-main-inner-card">
+            <div class="when-heading">
+                <img src="../../../assets/images/blue-flash.svg" width="20">
+                <span>Then</span>
+            </div>
+            <div class="short-description">Send (Free consulation) email</div>
+        </div>
+        <div class="main-expansion-panal">
+            <mat-accordion>
+                <ng-container *ngFor="let item of ($thenTasks|async)?.controls">
+                    <mat-expansion-panel hideToggle>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>
+                                {{item.value.eventDescription}}
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <p>This is the primary content of the panel.</p>
+                    </mat-expansion-panel>
+                </ng-container>
+            </mat-accordion>
+
+        </div>
+
+
+    </div>
+</ng-template>

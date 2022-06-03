@@ -1,0 +1,58 @@
+.main-popup-submit-feedback .header-part {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ccc;
+    padding: 18px 20px;
+}
+
+.main-popup-submit-feedback .header-part .heading {
+    font-size: 22px;
+    margin-left: 20px;
+}
+.main-popup-submit-feedback .header-part button.icon-only {
+    padding: 0;
+}
+
+.main-popup-submit-feedback .body-content-main-feedback {
+    padding: 30px 60px;
+    
+}
+
+.main-popup-submit-feedback .body-content-main-feedback .short-description {
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 18px;
+    font-weight: 400;
+}
+
+.main-popup-submit-feedback .body-content-main-feedback .text-area-main textarea {
+    width: 100%;
+    height: 120px;
+    border: 1px solid #ccc;
+    padding: 16px;
+    font-size: 15px;
+    border-radius: 10px;
+}
+
+.last-button-row {
+    margin-top: 20px;
+}
+
+.last-button-row .submit-btn {
+    margin-right: 20px;
+    background: #e8e8e8;
+    padding: 8px 20px;
+    border-radius: 6px;
+    color: #bdbdbd;
+    transition: 0.2s all ease;
+}
+
+.last-button-row .submit-btn:hover {
+    background: #4d5fb9;
+    color: #fff;
+    transition: 0.2s all ease;
+}
+
+.last-button-row .cancel-btn {
+    color: #4d5fb9;
+}

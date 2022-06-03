@@ -1,0 +1,234 @@
+<div class="quote-card">
+    <div class="ds-card-body">
+        <div class="invoice-edit">
+            <section>
+                <div class="header-section editing">
+                    <div class="logo-container">
+                        <div class="logo"
+                             *ngIf="allData?.addressId?.imageUrl?.thumbnail">
+                            <img [src]="allData?.addressId?.imageUrl?.thumbnail" class="logo-img" alt="">
+                        </div>
+                        <div  class="contact-name" >{{allData?.addressId?.name}}</div>
+                        <div class= "contact-email desktop">{{allData?.addressId?.email}}</div>
+                        <div class="address contact-address fs-block editing">
+                            <div>{{allData?.addressId?.address1}}</div>
+                            <div> {{allData?.addressId?.city}}
+                                , {{allData?.addressId?.country}}</div>
+                            <div>{{allData?.addressId?.postalCode}}</div>
+                            <div>{{allData?.addressId?.phone}}</div>
+                            <div>{{allData?.addressId?.website}}</div>
+                        </div>
+                    </div>
+
+                    <div class="number-container">
+                        <div class="invoice-number-title">{{showText}} #</div>
+                        <div class="invoice-number">{{allData?.srNo}}</div>
+
+                        <ng-container *ngIf="!removePrint">
+                            <div *ngIf="allData?.status == 'Sent' || allData?.status == 'Viewed'">
+                                <div class="button-loading large accept-quote" (click)="acceptQuote()">
+                                    <button class="btn btn-outline-primary"> Accept {{showText}}</button>
+                                </div>
+                            </div>
+                        </ng-container>
+
+                        <div *ngIf="allData?.status === 'Accepted' || allData?.status === 'Paid' ||allData?.status === 'Refunded'"
+                             class="quote-accepted">
+                            {{showText}} {{allData?.status}}
+                        </div>
+                        <!--                        <div *ngIf="myModel?.status === 'Accepted'" class="quote-accepted">-->
+                        <!--                            {{showText}} Accepted-->
+                        <!--                        </div>-->
+                        <div class="download-pdf" *ngIf="!removePrint">
+                            <a (click)="printFile()"
+                               class="small">Print {{showText}}</a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-information editing">
+                    <div class="contact-info">
+                        <div class="column-header"> Billed to</div>
+                        <div class="invoice-choose-contact">
+                        </div>
+                        <div class="contact-name-email editing">
+                            <div class="contact-name">
+                                <a style="text-decoration: none">{{allData?.contactId?.firstName}} {{allData?.contactId?.lastName}}</a>
+                            </div>
+                            <div class="contact-email desktop"> {{allData?.contactId?.email}}</div>
+                            <div class="contact-phone"></div>
+                            <div class="address contact-address fs-block rec-address" disabled
+                                 *ngIf="allData?.contactId?.billingAddress">
+                                <div> {{allData?.contactId?.billingAddress.address}}</div>
+                                <div> {{allData?.contactId?.billingAddress.state}}</div>
+                                <div> {{allData?.contactId?.billingAddress.city}}
+                                    ,  {{allData?.contactId?.billingAddress.zipCode}}</div>
+                                <div> {{allData?.contactId?.billingAddress.country}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="due-date">
+                        <div class="column-header"> Due by</div>
+                        <div class="due-date-picker">
+                            <span class="date-input">{{allData.dueBy |date}}</span>
+
+                        </div>
+                    </div>
+                    <div class=" due-amount">
+                        <div class="column-header"> Total due</div>
+                        <div class="total-due-number">{{allData.total | currency}}</div>
+                    </div>
+                </div>
+
+            </section>
+            <section>
+
+                <div class="line-item-container">
+                    <div class="table">
+                        <div class="table-row header">
+                            <div class="title-description"> Description</div>
+                            <div class="column"> Price</div>
+                            <div class="column"> Quantity</div>
+                            <div class="column"> Amount</div>
+                        </div>
+                        <div class="line-item-body">
+                            <ng-container *ngFor="let data of allData?.items">
+                                <div class="line-item table-row editing" dropdown>
+                                    <div class="line-items" id="basic-link" dropdownToggle
+                                         aria-controls="basic-link-dropdown">
+                                        <div class="title-description">
+                                            <div class="line-item-title second-color">{{data?.name}}</div>
+                                            <div class="line-item-description">{{data?.description}}</div>
+                                            <!--                                                            <div class="mobile-description"> 1 x $0.11</div>-->
+                                        </div>
+                                        <div class="column price">{{data?.price|currency}}</div>
+                                        <div class="column quantity">{{data?.quantity}}</div>
+                                        <div class="column">{{data?.price * data?.quantity |currency}}</div>
+                                    </div>
+                                </div>
+
+                            </ng-container>
+                        </div>
+                        <!-- <div class="mobile-description line-item-description"> Large </div> -->
+                    </div>
+                </div>
+
+
+            </section>
+
+            <section>
+                <div class="review-container">
+                    <div class="review-totals">
+                        <div class="review-row">
+                            <div>Subtotal</div>
+                            <div>{{subTotal | currency}}</div>
+                        </div>
+                        <div class="review-row" *ngIf="allData?.isDiscount && myModel?.type == 1">
+                            <div>
+                                <ng-container *ngIf="allData?.discountType == 1">
+                                    {{allData?.discountValue}} %
+                                </ng-container>
+                                Discount
+                            </div>
+                            <div>{{showDiscount}}</div>
+                        </div>
+                        <div class="review-row" *ngIf="myModel?.type == 1">
+                            <div>Amount paid</div>
+                            <div>{{amountPaid | currency}}</div>
+                        </div>
+                        <div class="review-row">
+                            <div>Total</div>
+                            <div>{{allData?.total | currency}}</div>
+                        </div>
+                        <div class="review-row" *ngIf="allData?.isDeposit && myModel?.type == 1">
+                            <div>
+                                <ng-container *ngIf="allData?.depositType == 1">
+                                    {{allData?.depositValue}} %
+                                </ng-container> Deposit Due
+                            </div>
+                            <div *ngIf="allData?.isDeposit">{{showDeposit | currency}}</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section class="invoice-take-payments">
+
+                <div class="take-payments" *ngIf="allData?.bankDetails">
+                    <div class="setup-text">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="credit-card">
+                                <path d="M21 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 6H3v8h18zm0-4H3v3h18z"
+                                      fill-rule="evenodd"></path>
+                            </svg>
+                        </svg>
+                        <span class="text">Bank details</span>
+                    </div>
+                    <div class="show-options">
+                        <section class="Signature-toggle cc-toggle">
+                            <span class="label">
+                                <span>{{allData?.bankDetails}}</span>
+                            </span>
+                        </section>
+                    </div>
+                </div>
+
+            </section>
+            <section class="order-terms mb-30">
+                <div class="notes" *ngIf="allData?.notes">
+                    <div class="title">Notes</div>
+                    <div>
+                        {{allData?.notes}}
+                    </div>
+                </div>
+                <div class="notes" *ngIf="allData?.terms">
+                    <div class="title"> Terms</div>
+                    <div>
+                        {{allData?.terms}}
+                    </div>
+                </div>
+            </section>
+            <!--            <section class="order-terms-payments">-->
+            <!--                <div class="title-container desktop">-->
+            <!--                    <h3>Payments for this invoice #71</h3>-->
+            <!--                </div>-->
+            <!--                <div class="table-grid">-->
+            <!--                    <div class="table-wrapper">-->
+            <!--                        <table>-->
+            <!--                            <thead>-->
+            <!--                            <tr>-->
+            <!--                                &lt;!&ndash;&ndash;&gt;-->
+            <!--                                <th class="">-->
+            <!--                                    <div class="cell">Date</div>-->
+            <!--                                </th>-->
+            <!--                                <th class="">-->
+            <!--                                    <div class="cell">Type</div>-->
+            <!--                                </th>-->
+            <!--                                <th class="">-->
+            <!--                                    <div class="cell">Amount</div>-->
+            <!--                                </th>-->
+            <!--                            </tr>-->
+            <!--                            </thead>-->
+            <!--                            <tbody>-->
+            <!--                            <tr class="">-->
+            <!--                                &lt;!&ndash;&ndash;&gt;-->
+            <!--                                <td class="">-->
+            <!--                                    <div class="cell"> May 10, 2020</div>-->
+            <!--                                </td>-->
+            <!--                                <td class="">-->
+            <!--                                    <div class="cell"><span class=""> Manual payment-->
+            <!--                                                made </span></div>-->
+            <!--                                </td>-->
+            <!--                                <td class="">-->
+            <!--                                    <div class="cell"><span class=""> $0.11 </span>-->
+            <!--                                    </div>-->
+            <!--                                </td>-->
+            <!--                            </tr>-->
+            <!--                            </tbody>-->
+            <!--                        </table>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </section>-->
+        </div>
+    </div>
+</div>

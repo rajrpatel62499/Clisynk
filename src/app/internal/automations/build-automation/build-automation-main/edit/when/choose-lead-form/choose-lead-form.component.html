@@ -1,0 +1,57 @@
+<div class="right-col choose-form-right-col-body">
+    <div class="inner-row-main-vc">
+        <button class="btn" (click)="openCreateSmartForm()">Create new form <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+        <div class="search-filed">
+            <input [(ngModel)]="searchText" type="text" class="search" placeholder="Search Smart Form">
+        </div>
+    </div>
+    <div class="formlisting-body">
+            <div *ngIf="!(loadingService.loader$|async)" class="any-lead-form-main">
+                    <span class="heading-form">{{leadForm.name}}</span>
+                    <span class="sub-task-main">When lead form is submitted </span>
+            </div>
+            <app-loading [length]="1"></app-loading>
+    </div>
+    <div class="smart-form-listing-table">
+        <table class="smart-table-list" matSort (matSortChange)="sortData($event)">
+            <thead>
+                <tr>
+                    <th class="form-name" mat-sort-header="name">Smart Forms</th>
+                    <!-- <th class="description">Description</th> -->
+                    <th class="added-on" mat-sort-header="addedOn">Created On</th><!-- <button class="down-arrow"><img src="../../../../assets/images/down-blue-arrow.svg" width="20"></button> -->
+                    <th class="status" mat-sort-header="status">Status</th>
+                    <!-- <th class="actions-table">Actions</th> -->
+                </tr>
+            </thead>
+            <tbody *ngIf="!(loadingService.loader$|async)">
+                <tr (click)="onSelectForm(f)" *ngFor="let f of sortedData| filter:searchText; let i=index">
+                    <td class="form-name">
+                        {{ f.name }}
+                        <span>
+                            <img src="../../../../assets/images/document-chat.svg" width="15"> {{f.submittedCount}}
+                        </span> 
+                    </td>
+                    <!-- <td class="description new-description" style="width: 500px;">
+                        <p  matTooltipClass="custom-tooltip"></p>
+                    </td> -->
+                    <td class="added-on">{{ f.createdAt | date: 'dd/MM/y'}}</td>
+                    <td class="status" ><span *ngIf="f.status == 'DRAFT'" class="not-published">Not
+                        Published</span><span *ngIf="f.status == 'PUBLISHED'" class="published">Published</span>
+                </td>
+                    <!-- <td class="actions-table"><button class="delete-icon" >
+                        <img src="../../../../assets/images/trash-icon.svg" width="20"></button>
+                        <button  class="delete-icon" ><img src="../../../../assets/images/copy.svg" alt="copy" width="28"></button>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <div class="first-section-wrapper">
+            <div class="gravatar-title">
+                <div>
+                    <app-loading [length]="3"></app-loading>
+                </div>
+            </div>
+        </div>
+</div>  
+

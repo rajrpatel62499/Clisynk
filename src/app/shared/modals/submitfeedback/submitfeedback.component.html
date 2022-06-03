@@ -1,0 +1,28 @@
+<div class="main-popup-submit-feedback">
+    <div class="header-part">
+        <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+            <img src="/assets/images/ic_close.svg">
+        </button>
+        <div class="heading">
+            Submit Feedback
+        </div>
+    </div>
+    <div class="body-content-main-feedback">
+        <div class="short-description">
+            Help us create an amazing automation experience! <br/>
+            Give us feedback or let us know what you'd like to be able to automate.
+        </div>
+        <div class="text-area-main">
+            <textarea placeholder="Tell us what you'd like to automate"></textarea>
+        </div>
+        <div class="last-button-row">
+            <button class="icon-only submit-btn" type="button" >
+                Submit
+            </button>
+            <button class="icon-only cancel-btn" type="button" aria-label="Close" (click)="http.hideModal()">
+                Cancel
+            </button>
+        </div>
+
+    </div>
+</div>

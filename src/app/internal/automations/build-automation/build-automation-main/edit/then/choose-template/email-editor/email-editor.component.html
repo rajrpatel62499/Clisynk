@@ -1,0 +1,70 @@
+<div [formGroup]="form" class="right-col create-email-body-main">
+    <div class="email-main-row">
+            <div class="title-email">Email title:</div>
+            <div class="edit-title">
+                    <input type="text" formControlName="name">
+            </div>
+    </div>
+    <div class="email-main-row">
+        <div class="title-email">From:</div>
+        <div style="width: 70%">
+            <ng-multiselect-dropdown
+                [placeholder]="'Select Contacts'"
+                [data]="contacts"
+                [formControl]="form.controls['fromEmails']"
+                [settings]="dropdownSettings"
+                >
+                <!-- (onSelect)="onItemSelect($event)" -->
+                <!-- [ngModelOptions]="{ standalone: true}" -->
+                <!-- [(ngModel)]="selectedContacts" -->
+          </ng-multiselect-dropdown>
+        </div>
+        <!-- <mat-error
+            *ngIf="
+            form.controls['contactId']?.hasError('required') &&
+            form.controls?.contactId.touched
+            "
+        >
+            Please select contact.
+        </mat-error> -->
+        <!-- <div class="edit-title">
+            <input type="text" >
+        </div> -->
+    </div>
+    <div class="email-main-row">
+        <div class="title-email">Subject:</div>
+        <div class="edit-title">
+            <input type="text" formControlName="subject">
+        </div>
+    </div>
+    <div class="email-template">
+        <ckeditor  [formControl]="form.controls['html']" debounce="500" [config]="ckeConfig">
+        </ckeditor>
+  
+    </div>
+    <section class="signature-preview" *ngIf="signStatus?.value">
+        <h4>{{loginData?.name}}</h4>
+        <p>{{loginData?.email}}</p>
+        <p>{{loginData?.countryCode}} {{loginData?.phoneNumber}}</p>
+    </section>
+    <section class="toggle-switch">
+       
+        <div class="Signature">
+            <span>Signature</span>
+        </div>
+        <div class="Signature-toggle">
+            <label class="switch">
+                <input type="checkbox" [formControl]="signStatus">
+                <span class="slider round"></span>
+            </label>
+        </div>
+    </section>
+    <div class="like-and-calender-button">
+        <button class="btn">
+            <img src="../../../../assets/images/gray-calendar.svg" width="20">
+        </button>
+        <button class="btn">
+            <img src="../../../../assets/images/like.svg" width="20">
+        </button>
+    </div>
+</div>

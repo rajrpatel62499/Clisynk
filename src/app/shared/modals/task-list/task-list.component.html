@@ -1,0 +1,38 @@
+<ng-container *ngFor="let data of allData">
+    <p class="task-date"><span>{{data?._id | date:http.CONSTANT.dateFormat}}</span></p>
+    <div class="task-day" *ngFor="let val of data?.data">
+        <section class="task-container" [ngClass]="{'completed':val.status == 2}">
+            <div class="task-item checkbox-item task">
+                <label class="checkbox-button-container">
+                    <input type="checkbox" checked="checked" (change)="changeStatus(val,3)" *ngIf="val.status == 2">
+                    <input type="checkbox" (change)="changeStatus(val,2)" *ngIf="val.status == 1 || val.status == 3">
+                    <span class="checkmark-button"></span>
+                </label>
+            </div>
+            <div class="task-details">
+                <div class="task-info" (click)="openEditTask(val)">
+                    <span class="task-label info-line">{{val?.title}}
+                    </span>
+                    <span class="due-date info-line"
+                          *ngIf="todayDate < val?.dueDateTime"> {{val?.dueDateTime |date: 'dd/MM/yy, hh:mm a'}}</span>
+                    <span class="due-date info-line late"
+                          *ngIf="todayDate > val?.dueDateTime"> Due {{val?.dueDateTime |timeAgo}}</span>
+                </div>
+                <div class="task-info" *ngIf="!hideContactName">
+                    <div class="info-line">Contact:
+                        <a class="task-info-contact"
+                           (click)="openContactDetails(val)">{{val?.contactId?.firstName}}
+                            {{val?.contactId?.lastName}}</a>
+                    </div>
+                    <div class="empty-div" (click)="openEditTask(val)"></div>
+                </div>
+
+            </div>
+        </section>
+    </div>
+</ng-container>
+
+
+
+
+

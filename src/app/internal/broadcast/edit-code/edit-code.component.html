@@ -1,0 +1,29 @@
+<div class="header-edit">
+    <div class="edit-head">Edit</div>
+    <button class="back-btn" (click)="changeView('paste-in')"> Back</button>
+</div>
+
+
+<div class="edits-code-main">
+    <div class="left-code-main">
+        <ngx-codemirror style="height:1100px"
+            (ngModelChange)="contentChange($event)"
+            [(ngModel)]="content"
+            [options]="{
+                lineNumbers: true,
+                theme: 'material',
+                mode: 'markdown'
+            }">
+        </ngx-codemirror>
+    </div>
+
+    <div class="right-code-main-preview">
+        <div class="iframe-preview-inner">
+            <dynamic-html [content]="content"></dynamic-html>
+        </div>
+        <div class="btn-row-main-preview">
+            <button class="save-btn comman-btn" (click)="openSaveTemplate()">Save</button>
+            <button class="send-template-btn comman-btn" (click)="changeView('mail')">Send Template</button>
+        </div>
+    </div>
+</div>

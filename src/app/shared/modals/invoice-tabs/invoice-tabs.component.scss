@@ -1,0 +1,62 @@
+.order-card-holder {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 10px;
+    grid-row-gap: 10px;
+}
+
+.order-card-holder .order-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    padding: 20px 20px !important;
+    margin: auto !important;
+    height: auto !important;
+}
+
+.order-card-holder .order-card .money {
+    padding-top: 0px;
+    margin-bottom: 30px;
+    font-weight: 500;
+    font-size: 17px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+}
+
+.order-card-holder .order-card .name {
+    font-size: 15px;
+    line-height: 20px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+    font-weight: 400;
+    margin-bottom: 16px;
+}
+
+.order-card-holder .order-card .date {
+    margin-top: 10px !important;
+    margin-bottom: 40px !important;
+}
+
+.order-card.late.drafts {
+    border-radius: 10px 10px 0px 0px;
+    border-top: 10px solid #DCECEC;
+}
+
+.order-card.late.drafts .drafts {
+    background: #DCECEC !important;
+    font-weight: 500;
+}
+
+.order-card.late.Sent {
+    border-top: 10px solid #FADDAC;
+    border-radius: 10px 10px 0px 0px;
+}
+.order-card.late.Sent .Sent {
+    background: #faddac !important;
+}
+
+@media (max-width:1600px){
+    .contact-invoices .order-card-holder {
+        grid-template-columns: repeat(4, 1fr) !important;
+    }
+}

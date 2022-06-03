@@ -1,0 +1,107 @@
+.dropdown-menu {
+    background-color: #fff;
+    box-shadow: 0px 0px 1px #ccc;
+    min-width: 140px !important;
+    background: #FFFFFF;
+    border: 1px solid #DCDCDC;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 5px 0px;
+    li{
+        a{
+            padding: 10px 20px;
+            margin: 0;
+            font-size: 14px;
+            img{
+                display:none;
+            }
+        }
+    }
+}
+
+.new-profile-avatar-main{
+    .btn{
+        .avtar-main-char {
+            background: #4776E6;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 100%;
+            font-size: 14px;
+            text-transform: uppercase;
+            color: #fff;
+        }
+    }
+    .dropdown-menu {
+        min-width: 160px !important;
+        width: 150px;
+        top: 40px !important;
+        left: -100px !important;
+        border: 1px solid #DCDCDC;
+        box-sizing: border-box;
+        box-shadow: 0px 4px 4px #e2e2e2;
+        border-radius: 5px;
+        li{
+            a{
+                display:flex;
+                align-items: center;
+                &:hover{
+                    background: #f5f5f5;
+                }
+                img{
+                    display: block;
+                    width: 20px;
+                    margin-right: 10px;
+                    height: 20px;
+                    object-fit: scale-down;
+                }
+            }
+        }
+    }
+
+}
+
+@media (max-width:1300px){
+    .header-links ul li .btn i::before{
+        top: -8px;
+    }
+    .ripple:before{
+        top: 80%;
+    }
+
+}
+
+
+.manage-workspace-dropdown li.workspace-list {
+    padding: 6px 30px !important;
+}
+
+.top-height .new-header-group-main .manage-workspace-dropdown ul.dropdown-menu {
+    min-width: 170px !important;
+    left: -20px !important;
+    border: 1px solid #DCDCDC !important;
+    border-radius: 2px !important;
+}
+
+.new-header-group-main .ping-dr-notification ul li.new-add-workspace {
+    border-top: 1px solid #DCDCDC;
+    margin-top: 9px;
+    padding-top: 10px;
+    padding-bottom: 0;
+    text-align: center;
+    background: none !important;
+}
+.new-header-group-main .ping-dr-notification ul li.new-add-workspace a {
+    padding: 0 !important;
+    background: none !important;
+    letter-spacing: 0.02em;
+    color: #4776E6;
+}
+
+.new-header-group-main .ping-dr-notification ul li.new-add-workspace a svg {
+    margin-right: 6px;
+    width: 15px;
+    height: 15px;
+}

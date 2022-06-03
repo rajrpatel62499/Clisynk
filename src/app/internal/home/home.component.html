@@ -1,0 +1,453 @@
+<div class="wrapper wrapper-content">
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-6">
+        </div>
+    </div>
+
+    <div class="lifecycle-dashboard">
+
+        <app-loader [showLoader]="myModel?.loader" [length]="myModel?.contacts?.length"></app-loader>
+
+        <div class="lifecycle-widget" *ngIf="!myModel?.loader">
+            <h3>Get organized</h3>
+            <div class="stats" routerLink="/contacts" [queryParams]="{type: 1}">
+                <div class="number">
+                    <span class="value">{{allData?.newLeads || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>New Leads</p>
+                    <span class="desc">Last 30 days</span>
+                </div>
+            </div>
+            <div class="stats" routerLink="/contacts">
+                <div class="number">
+                    <span class="value">{{allData?.totalContacts || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>Total contacts</p>
+                    <span class="desc">All time</span>
+                </div>
+            </div>
+            <div class="lifecycle-widget-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="arrow-right">
+                    <path
+                            d="M11.707 3.293l8 8c.029.028.055.059.08.09l-.08-.09a1.008 1.008 0 0 1 .292.675L20 12v.033l-.004.052L20 12a1.008 1.008 0 0 1-.213.617l-.007.008-.073.082-8 8a1 1 0 0 1-1.414-1.414L16.585 13H5a1 1 0 1 1 0-2h11.585l-6.292-6.293a1 1 0 1 1 1.414-1.414z"
+                            fill-rule="evenodd"></path>
+                </svg>
+            </div>
+            <div class="cta-btn text-center">
+                <a (click)="checkLink('contacts')" class="link-btn">Add your contacts</a>
+            </div>
+        </div>
+
+        <app-loader [showLoader]="myModel?.loader" [length]="myModel?.contacts?.length"></app-loader>
+
+        <div class="lifecycle-widget" *ngIf="!myModel?.loader">
+            <h3>Get the job</h3>
+            <div class="stats" (click)="openMoney(2, 'sent')">
+                <div class="number">
+                    <span class="value">{{allData?.quoteSent || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>Quotes sent</p>
+                    <span class="desc">Last 30 days</span>
+                </div>
+            </div>
+            <div class="stats" (click)="openMoney(2, 'accepted')">
+                <div class="number">
+                    <span class="value">0</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>Quotes accepted</p>
+                    <span class="desc">Last 30 days</span>
+                </div>
+            </div>
+            <div class="lifecycle-widget-arrow" (click)="openMoney()">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="arrow-right">
+                    <path
+                            d="M11.707 3.293l8 8c.029.028.055.059.08.09l-.08-.09a1.008 1.008 0 0 1 .292.675L20 12v.033l-.004.052L20 12a1.008 1.008 0 0 1-.213.617l-.007.008-.073.082-8 8a1 1 0 0 1-1.414-1.414L16.585 13H5a1 1 0 1 1 0-2h11.585l-6.292-6.293a1 1 0 1 1 1.414-1.414z"
+                            fill-rule="evenodd"></path>
+                </svg>
+            </div>
+
+            <div class="cta-btn text-center">
+                <a (click)="checkLink('money','addQuote')" class="link-btn">Send a quote </a>
+            </div>
+
+        </div>
+
+        <app-loader [showLoader]="myModel?.loader" [length]="myModel?.contacts?.length"></app-loader>
+
+        <div class="lifecycle-widget" *ngIf="!myModel?.loader">
+            <h3>Get paid</h3>
+            <div class="stats" (click)="openMoney(1, 'sent')">
+                <div class="number">
+                    <span class="value">${{allData?.invoiceSent || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>Invoices Sent</p>
+                    <span class="desc">Last 30 days</span>
+                </div>
+            </div>
+            <div class="stats" (click)="openMoney(1, 'paid')">
+                <div class="number">
+                    <span class="value">${{allData?.invoicePaid || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>Invoice paid</p>
+                    <span class="desc">Last 30 days</span>
+                </div>
+            </div>
+            <div class="lifecycle-widget-arrow">
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="arrow-right">
+                    <path
+                            d="M11.707 3.293l8 8c.029.028.055.059.08.09l-.08-.09a1.008 1.008 0 0 1 .292.675L20 12v.033l-.004.052L20 12a1.008 1.008 0 0 1-.213.617l-.007.008-.073.082-8 8a1 1 0 0 1-1.414-1.414L16.585 13H5a1 1 0 1 1 0-2h11.585l-6.292-6.293a1 1 0 1 1 1.414-1.414z"
+                            fill-rule="evenodd"></path>
+                </svg>
+            </div>
+            <div class="cta-btn text-center">
+                <a (click)="checkLink('money','addInvoice')" class="link-btn">Send an invoice </a>
+            </div>
+        </div>
+
+        <app-loader [showLoader]="myModel?.loader" [length]="myModel?.contacts?.length"></app-loader>
+
+        <div class="lifecycle-widget" *ngIf="!myModel?.loader">
+            <h3>Stay connected</h3>
+            <div class="stats" routerLink="/broadcast">
+                <div class="number">
+                    <span class="value">{{allData?.totalBroadcast || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>All</p>
+                    <span class="desc">Total Broadcast</span>
+                </div>
+            </div>
+            <div class="stats" routerLink="/broadcast">
+                <div class="number">
+                    <span class="value">{{allData?.sentBroadcast || 0}}</span>
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="external-link">
+                        <path
+                                d="M10 5a1 1 0 1 1 0 2H4v13h13v-6a1 1 0 1 1 2 0v6a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V7a2 2 0 0 1 2-2zm11-3a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0V5.414L9.707 15.707a1 1 0 0 1-1.414-1.414L18.586 4H15a1 1 0 1 1 0-2z"
+                                fill-rule="evenodd"></path>
+                    </svg>
+                </div>
+                <div class="stat-desc">
+                    <p>Sent</p>
+                    <span class="desc">Sent Broadcast</span>
+                </div>
+            </div>
+            <div class="cta-btn text-center">
+                <a  (click)="checkLink('broadcast')" class="link-btn"> Create email broadcast </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="dashboard-grid">
+        <div class="row">
+            <div class="col-md-3">
+                <div class="new-card">
+                    <div class="new-card-header">
+                        <h2>Appointments</h2>
+                    </div>
+                    <div class="new-card-content">
+                        <div class="invite-buttons-container" *ngIf="allData?.appointmentTypes?.length > 0">
+                            <div clas="send-invite-button">
+                                <div>
+                                    <header class="with-copy-button">
+                                        <div class="button-dropdown booking-invite-action">
+                                            <div class="filter-status">
+                                                <div class="btn-group" dropdown>
+                                                    <button id="button-basic2" dropdownToggle type="button"
+                                                            class="text-button" aria-controls="dropdown-basic">
+                                                        Copy link
+                                                        <svg class="filter-icon icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                                 id="chevron-down">
+                                                                <path
+                                                                        d="M6.293 9.293a1 1 0 0 1 1.414 0L12 13.586l4.293-4.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414z"
+                                                                        fill-rule="evenodd"></path>
+                                                            </svg>
+                                                        </svg>
+
+                                                    </button>
+                                                    <ul id="dropdown-basic2" class="dropdown-menu copy_link_dropdown" role="menu"
+                                                        aria-labelledby="button-basic">
+                                                        <li style="display: block"
+                                                            *ngFor="let data of allData?.appointmentTypes"
+                                                            [appCopyClipboard]="appoint.getBookingLink(data.name)"
+                                                            (copied)="appoint.copied($event)">
+                                                            <a class="dropdown-item">
+                                                                <span>{{data?.name}}
+                                                                    <ng-container
+                                                                            *ngIf="data?.duration"> | {{data?.duration}}
+                                                                        min</ng-container>
+                                                                </span>
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="button-dropdown booking-invite-action" style="margin-left:auto !important;">
+                                            <div class="filter-status">
+                                                <div class="btn-group" dropdown>
+                                                    <button id="button-basic2" dropdownToggle type="button"
+                                                            class="text-button" aria-controls="dropdown-basic">
+                                                        Send Invite
+                                                        <svg class="filter-icon icon">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                                 id="chevron-down">
+                                                                <path
+                                                                        d="M6.293 9.293a1 1 0 0 1 1.414 0L12 13.586l4.293-4.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414z"
+                                                                        fill-rule="evenodd"></path>
+                                                            </svg>
+                                                        </svg>
+
+                                                    </button>
+                                                    <ul id="dropdown-basic2" class="dropdown-menu" role="menu"
+                                                        aria-labelledby="button-basic">
+                                                        <li style="display: block"
+                                                            *ngFor="let data of allData?.appointmentTypes"
+                                                            (click)="appoint.sendInvite(data)">
+                                                            <a class="dropdown-item">
+                                                                <span>{{data?.name}}
+                                                                    <ng-container
+                                                                            *ngIf="data?.duration"> | {{data?.duration}}
+                                                                        min</ng-container>
+                                                                </span></a>
+                                                        </li>
+
+                                                    </ul>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </header>
+                                </div>
+                            </div>
+                        </div>
+
+                        <section style="margin-top:50px">
+                            <div class="empty-state" *ngIf="allData?.appointments?.length === 0">
+
+                                <div class="image-wrapper">
+                                    <img src="/assets/images/empty-appointments-widget-not-connected-gray.svg" style="width:75px !important" >
+                                </div>
+                                <div class="details-wrapper">
+                                    <h3 class="empty-state-title">Easily book appointments<br> online</h3>
+                                </div>
+                                <!--<div class="action-wrapper">-->
+                                    <!--<div class="button-loading">-->
+                                        <!--<button class="border-btn" type="button"><span>Get started</span></button>-->
+                                    <!--</div>-->
+                                <!--</div>-->
+                            </div>
+
+                        </section>
+
+                        <section class="appt-list"  *ngIf="allData?.appointments?.length > 0">
+                            <div *ngFor="let data of allData?.appointments">
+                                <div class="activity-date">
+                                    <span>{{data?._id}}</span>
+                                </div>
+
+                                <div class="appt" *ngFor="let val of data?.data">
+                                    <div class="appt-avatar">
+                                        <div class="xs avatar default"
+                                             style="height: 40px; width: 40px; font-size: 18px;">
+                                            <div class="letter">
+                                                {{val?.contactId?.firstName | firstChar:val?.contactId?.lastName}}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="appt-details">
+                                        <div class="appt-summary"> {{val?.appointmentId?.name}} with
+                                            {{val?.contactId?.firstName}} {{val?.contactId?.lastName}}
+                                        </div>
+                                        <div class="appt-attendee">
+                                            {{val?.contactId?.firstName}} {{val?.contactId?.lastName}}
+                                        </div>
+                                        <div class="appt-time"> {{val?.startTime |time}} - {{val?.endTime |time}}
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </section>
+                    </div>
+
+                    <section class="new-card-footer">
+                        <div class="footer-action" (click)="http.navigate('appointments')">
+                            <label class="footer-label" *ngIf="http.checkAcl('appointments')">
+                                View all appointments</label>
+                        </div>
+                    </section>
+                </div>
+
+            </div>
+            <div class="col-md-3" *ngIf="allData?.tasks?.length === 0">
+                <div class="card" >
+                    <div class="card-header">
+                        <h3>Tasks</h3>
+                    </div>
+                    <div class="content recent-activity">
+                        <div class="empty-state" style="margin-top: 30px;">
+                            <div class="image-wrapper">
+                                <img src="/assets/images/empty-appointments-widget-not-connected-gray.svg">
+                            </div>
+                            <div class="details-wrapper">
+                                <h3 class="empty-state-title">No tasks due. <br>You're all caught</h3>
+                            </div>
+                            <div class="action-wrapper">
+                                <div class="button-loading">
+                                    <button (click)="checkLink('tasks')" class="border-btn" type="button">
+                                        <span>Add a task</span></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-3" *ngIf="allData?.tasks?.length">
+                <div class="new-card">
+                    <section class="new-card-header">
+                        <h2>Tasks</h2>
+                    </section>
+
+                    <section class="new-card-content">
+                        <app-loader [showLoader]="myModel?.loader"></app-loader>
+                        <app-task-list [allData]="allData?.tasks" *ngIf="!myModel?.loader" style=" width: 100%;">
+                        </app-task-list>
+                    </section>
+
+                    <section class="new-card-footer">
+                        <div class="footer-action" (click)="http.navigate('tasks')">
+                            <label class="footer-label">View all tasks</label>
+                        </div>
+                        <div class="footer-action" (click)="http.openModal('addTask')">
+                            <label class="footer-label">Add a task</label>
+                        </div>
+                    </section>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="Recent-activity-box">
+                    <h2>Recent activity</h2>
+
+                    <div class="content recent-activity" *ngIf="allData?.recentActivity?.length === 0">
+                        <div class="empty-state">
+                            <div class="image-wrapper new-stat-blanks">
+                                <img src="/assets/images/empty-appointments-widget-not-connected-gray.svg">
+                            </div>
+                            <div class="details-wrapper">
+                                <h3 class="empty-state-title">No activity yet. <br>You're all caught</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <cdk-virtual-scroll-viewport itemSize="12" class="recent-activity" *ngIf="allData?.recentActivity?.length > 0">
+                        <app-activity-list [allData]="allData?.recentActivity"></app-activity-list>
+                    </cdk-virtual-scroll-viewport>
+                </div>
+            </div>
+
+            <!--            wanted-->
+            <!--            <div class="col-md-4">-->
+            <!--                <div class="card">-->
+            <!--                    <div class="card-header">-->
+            <!--                        <h3>Share your lead form</h3>-->
+            <!--                    </div>-->
+            <!--                    <div class="content">-->
+            <!--                        <div class="empty-state">-->
+            <!--                            <div class="image-wrapper">-->
+            <!--                                <img src="../../../assets/images/empty-hosted-forms.svg">-->
+            <!--                            </div>-->
+            <!--                            <div class="action-wrapper">-->
+            <!--                                <div class="button-loading">-->
+            <!--                                    <button class="custom-btn" (click)="copyLink()"-->
+            <!--                                            type="button">-->
+            <!--                                        <span>Copy link</span>-->
+            <!--                                    </button>-->
+            <!--                                    <button class="custom-btn" type="button"><span>View help</span></button>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+
+            <!--                </div>-->
+            <!--                <div class="card">-->
+            <!--                    <div class="card-header">-->
+            <!--                        <h3>Always on the go?</h3>-->
+            <!--                        <p>Download the new mobile app.</p>-->
+            <!--                    </div>-->
+            <!--                    <div class="content">-->
+            <!--                        <div class="empty-state">-->
+            <!--                            <div class="image-wrapper">-->
+            <!--                                <img src="../../../assets/images/mobile-app.svg">-->
+            <!--                            </div>-->
+            <!--                            <div class="action-wrapper">-->
+            <!--                                <div class="button-loading">-->
+            <!--                                    <button type="button" class="custom-btn">Check it out</button>-->
+            <!--                                </div>-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            wanted ended-->
+        </div>
+        <div class="row dashboard-recent">
+
+            <!--            wanted-->
+            <!--            <div class="col-md-4">-->
+            <!--                <div class="google-review">-->
+            <!--                    <h2>Get more reviews on Google</h2>-->
+            <!--                    <p>Share a link to your Google listing and build your online presence</p>-->
+            <!--                    <div class="button-loading">-->
+            <!--                        <button type="button" class="custom-btn w-100" (click)="http.openModal('reviewPopup')">-->
+            <!--                            Try it now-->
+            <!--                        </button>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--            wanted ended-->
+        </div>
+    </div>
+
+</div>

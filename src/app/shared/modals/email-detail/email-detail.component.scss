@@ -1,0 +1,31 @@
+.desktop-mobile-view {
+    border: none;
+    background: #F8F8F8;
+    display: flex;
+    align-items: center;
+    justify-content:center;
+}
+
+.desktop-mobile-view a {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 100%;
+    background: #ccc;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-right: 15px;
+}
+
+
+
+.mobile-view{
+    overflow: auto;
+    overflow-y: scroll;
+    word-break: break-all;
+}
+.desktop-preview{
+    overflow: auto;
+    overflow-y: scroll;
+    word-break: break-all;
+}

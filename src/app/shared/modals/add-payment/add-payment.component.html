@@ -1,0 +1,149 @@
+<div class="add-remove-popup">
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4>Add a client payment</h4>
+        </section>
+    </div>
+
+    <form [formGroup]="form" novalidate (ngSubmit)="finalSubmit()">
+
+        <div class="modal-body">
+
+            <div class="input-field" *ngIf="modalData?.contactData?.firstName">
+                <mat-form-field class="full-width my-form-field" appearance="outline">
+                    <mat-label>Contact</mat-label>
+                    <input matInput type="text" readonly
+                           formControlName="firstName">
+                </mat-form-field>
+            </div>
+
+
+            <div class="btn-group add-btn select-opt" dropdown *ngIf="!modalData?.contactData?.firstName">
+                <mat-form-field appearance="outline" class="select-height">
+                    <mat-label>Choose contact</mat-label>
+                    <mat-select formControlName="contactId">
+                        <mat-option (click)="openAddContact()"><i class="fas fa-plus"></i>Add</mat-option>
+                        <mat-option *ngFor="let data of myModel.contacts" [value]="data">
+                            {{data?.firstName}} {{data?.lastName}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+
+
+            <div class="actions button-row add-payment-option payment-refrence">
+
+                <div class="tooltip-reference">
+
+
+                    <div class="btn-group fileter-dropdown" dropdown [autoClose]="false" [insideClick]="true"
+                         #dropdown="bs-dropdown">
+
+                        <button id="button-basic2" dropdownToggle type="button" class="btn "
+                                aria-controls="dropdown-basic2">
+                            {{nameHeading}}
+                        </button>
+                        <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="dropdown-basic2" style="left: -103px;">
+
+                            <ng-container *ngFor="let data of addPaymentOptions">
+                                <li *ngIf="dropdownType == 'main' && data?.dropdownType == 'main'"
+                                    (click)="dropdownType = data.goTo">
+                                    <span class="category-label">{{data?.name}}</span>
+                                    <svg class="chevron category-arrow icon rtl-flip">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                             id="chevron-right">
+                                            <path
+                                                    d="M9.293 6.293a1 1 0 0 1 1.414 0l5 5a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414-1.414L13.586 12 9.293 7.707a1 1 0 0 1 0-1.414z"
+                                                    fill-rule="evenodd"></path>
+                                        </svg>
+                                    </svg>
+                                </li>
+
+                                <li *ngIf="dropdownType == 'product' && data?.dropdownType == 'product'"
+                                    [ngClass]="{'set-heading':data?.isHeading == true}"
+                                    (click)="changeFilter(data);(data?.isHeading == true)?'':dropdown.hide()">
+                                        <span class="category-label">
+                                            <ng-container *ngIf="data?.isHeading == true">
+                                                <svg class="chevron category-arrow icon rtl-flip">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                         id="chevron-left">
+                                                        <path
+                                                                d="M14.707 6.293a1 1 0 0 1 0 1.414L10.414 12l4.293 4.293a1 1 0 0 1-1.414 1.414l-5-5a1 1 0 0 1 0-1.414l5-5a1 1 0 0 1 1.414 0z"
+                                                                fill-rule="evenodd"></path>
+                                                    </svg>
+                                                </svg>
+                                            </ng-container>
+                                            {{data?.name}}
+                                        </span>
+                                </li>
+
+                                <li *ngIf="dropdownType == 'invoice' && data?.dropdownType == 'invoice'"
+                                    [ngClass]="{'set-heading':data?.isHeading == true}"
+                                    (click)="changeType(data);dropdown.hide()">
+                                        <span class="category-label">
+                                            <ng-container *ngIf="data?.isHeading == true">
+                                                <svg class="chevron category-arrow icon rtl-flip">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                         id="chevron-left">
+                                                        <path
+                                                                d="M14.707 6.293a1 1 0 0 1 0 1.414L10.414 12l4.293 4.293a1 1 0 0 1-1.414 1.414l-5-5a1 1 0 0 1 0-1.414l5-5a1 1 0 0 1 1.414 0z"
+                                                                fill-rule="evenodd"></path>
+                                                    </svg>
+                                                </svg>
+                                            </ng-container>
+                                            {{data?.name}}
+                                        </span>
+                                </li>
+
+                            </ng-container>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+
+
+            <!--            <div class="btn-group add-btn select-opt" dropdown>-->
+            <!--                <mat-form-field appearance="outline" class="select-height">-->
+            <!--                    <mat-label>Choose products</mat-label>-->
+            <!--                    <mat-select formControlName="id">-->
+            <!--                        <mat-option (click)="openAddProduct()"><i class="fas fa-plus"></i>Add</mat-option>-->
+            <!--                        <mat-option *ngFor="let data of myModel.products" [value]="data">-->
+            <!--                            {{data?.name}}-->
+            <!--                        </mat-option>-->
+            <!--                    </mat-select>-->
+            <!--                </mat-form-field>-->
+            <!--            </div>-->
+
+            <ng-container *ngIf="amount">
+                <p>Payment amount</p>
+                <h3 class="payment-price">{{amount |currency}}</h3>
+            </ng-container>
+
+            <div class="checkbox">
+                <label>
+                    <input type="checkbox" value="true" formControlName="sendReceipt">
+                    Send receipt
+                    to {{form?.value?.contactId?.firstName || modalData?.contactData?.firstName}} {{form?.value?.contactId?.lastName}}
+                </label>
+            </div>
+
+        </div>
+        <div class="modal-footerr">
+            <div class="button-row">
+                <button type="button" class="btn btn-outline-primary" [disabled]="form.invalid" (click)="finalSubmit()">
+                    Add
+                </button>
+                <button type="reset" class="text-button" (click)="http.hideModal()">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </form>
+</div>

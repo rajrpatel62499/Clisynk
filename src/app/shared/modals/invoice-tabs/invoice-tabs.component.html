@@ -1,0 +1,73 @@
+<section class="content">
+    <div class="order-card-holder">
+        <!--                        local test-->
+        <!--                        late-->
+        <!-- <div class="order-card" *ngFor="let data of myData"
+             [ngClass]="{'late':(data.dueBy < today && data.type ===  1)}">
+            <div (click)="http.openInvoice('addInvoice',data)">
+                <div class="money number">{{data?.total |currency}}</div>
+                <div class="name">{{data?.contactId?.firstName}} {{data?.contactId?.lastName}}</div>
+                <div class="date">{{data?.dueBy |date:'EEE, MMM dd,yyyy'}}</div>
+                <div class="overdue"> 7 days past due </div>
+                <ng-container *ngIf="data.type ===  1">
+                <span class="order-status-pill draft">
+                      <div class="chip" [ngClass]="{'red-back':data.dueBy < today,
+                                                    'green-back':data.status == 'Paid',
+                                                    'grey-back':data.status == 'Refunded'
+                                                    }">
+                          <div class="text">{{data?.status}}</div>
+                      </div>
+                </span>
+                </ng-container>
+
+
+                <ng-container *ngIf="data.type ===  2">
+                <span class="order-status-pill draft">
+                      <div class="chip" [ngClass]="{'green-back':data.status == 'Invoiced'}">
+                          <div class="text">{{data?.status}}</div>
+                      </div>
+                </span>
+                </ng-container>
+            </div>
+            <span class="fold"></span>
+        </div> -->
+
+        <div class="order-card" *ngFor="let data of myData"
+            [ngClass]="{'late':(data.dueBy < today && data.type ===  1),
+            'drafts' : data.status == 'Draft', 
+            'Sent': data.status == 'Sent'}">
+            <div (click)="http.openInvoice('addInvoice',data)">
+                <div class="money number">{{data?.total |currency}}</div>
+                <div class="name">{{data?.contactId?.firstName}} {{data?.contactId?.lastName}}</div>
+                <div class="date">{{data?.dueBy |date:'EEE, MMM dd,yyyy'}}</div>
+                <!-- <div class="overdue"> 7 days past due </div> -->
+                <ng-container *ngIf="data.type ===  1">
+                    <span class="order-status-pill">
+                        <div class="chip" [ngClass]="{'red-back':data.dueBy < today,
+                                                            'green-back':data.status == 'Paid',
+                                                            'grey-back':data.status == 'Refunded',
+                                                            'drafts' : data.status == 'Draft', 
+                                                            'Sent': data.status == 'Sent'
+                                                            }">
+                            <div class="text">{{data?.status}}</div>
+                        </div>
+                    </span>
+                </ng-container>
+
+
+                <ng-container *ngIf="data.type ===  2">
+                    <span class="order-status-pill">
+                        <div class="chip" [ngClass]="{
+                        'green-back':data.status == 'Invoiced', 
+                        'drafts' : data.status == 'Draft', 
+                        'Sent': data.status == 'Sent'}">
+                            <div class="text">{{data?.status}}</div>
+                        </div>
+                    </span>
+                </ng-container>
+            </div>
+            <span class="fold"></span>
+        </div>
+
+    </div>
+</section>

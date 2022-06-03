@@ -1,0 +1,44 @@
+.modal-body.email_str_body {
+    margin: 0px 20px;
+    margin-top: 20px;
+    margin-bottom: 30px;
+}
+
+.input-row {
+    position: relative;
+    display: flex;
+    border: 1px solid #e6e6e8;
+    align-items: center;
+    padding: 13px 20px;
+    height: auto;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    font-size: 14px;
+}
+
+.email-content {
+    border: 1px solid #CFD0D1;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    border-bottom: 0;
+}
+
+section.toggle-switch {
+    border-top: 0;
+    padding-top: 0;
+    border: 1px solid #cccc;
+    border-top: 0;
+}
+
+.send_email_footer {
+    border: 1px solid #cccc;
+    padding: 10px 7px;
+    border-top: 0;
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.signature-preview {
+    border-left: 1px solid #ccc;
+    border-right: 1px solid #ccc;
+}

@@ -1,0 +1,10 @@
+<div class="delete-comp xs">
+    <div class="delete-comp-inner">
+        <h4>{{modalData?.title}}</h4>
+        <p>{{modalData?.message}}</p>
+        <div class="button-row form-group">
+            <button class="delete-btn" type="submit" (click)="http.hideModal();onClose.next(true)">Confirm</button>
+            <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">Cancel</button>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,76 @@
+<div class="add-build-automation-main">
+    <!-----------------header-main-------------------->
+    <div class="build-automation-header-main">
+        <div class="left-col">
+            <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()" width="50">
+            <span>Build automation</span>
+        </div>
+        <div class="right-col">
+            <span class="color-change">When</span>
+            <img [src]="'/assets/images/back-arrow.svg'" width="50">
+            <span>Then</span>
+        </div>
+    </div>
+   <!-------------------------------------end of header--------------------------------->
+   <div class="inner-add-build-main">
+        <div class="left-col">
+            <div class="card-main first-card">
+                <div class="when-heading">
+                    <img src="../../../assets/images/cloud-green.svg" width="20">
+                    <span>When</span>
+                </div>
+                <div class="short-description">Lead form is submitted</div>
+            </div>
+            <div class="text-center center-down-img">
+                <img [src]="'/assets/images/back-arrow.svg'" width="50" class="down-arrow">
+            </div>
+    
+            <div class="card-main first-card then-card-second">
+                <div class="when-heading">
+                    <img src="../../../assets/images/blue-flash.svg" width="20">
+                    <span>Then</span>
+                </div>
+                <div class="short-description">...this will be automated.</div>
+            </div>
+            
+        </div>
+        <div class="right-col">
+            <div class="right-inner-wrapper-first">
+                <!-- -------------------------suggested-option----------- -->
+                <div class="label-option">
+                    <span>Suggested options</span>
+                </div>
+                <div class="select-option-four-grid-wrapper">
+                    <div class="inner-grid-col">
+                        <span>Send an email </span>
+                        <img src="../../../../assets/images/send-an-email-blue.svg" width="60">
+                    </div>
+                    <div class="inner-grid-col">
+                        <span>Send notification</span>
+                        <img src="../../../../assets/images/send-notification-blue.svg" width="60">
+                    </div>
+                    <div class="inner-grid-col">
+                        <span>Add a tag </span>
+                        <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+                    </div>
+                    <div class="inner-grid-col">
+                        <span>Create a task </span>
+                        <img src="../../../../assets/images/create-a-task-blue.svg" width="60">
+                    </div>
+
+                </div>
+                <div class="not-see-auto-description">
+                    Not seeing something you wish to  automate? <br/>
+                    Let us know!
+                </div>
+                <div class="submit-feedback-main">
+                    <button class="btn" (click)="openSubmitfeedback()">Submit feedback</button>
+                </div>
+                
+            </div>
+          
+        </div>
+
+   </div>
+  
+</div>

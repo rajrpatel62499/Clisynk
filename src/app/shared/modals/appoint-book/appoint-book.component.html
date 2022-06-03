@@ -1,0 +1,238 @@
+<div class="med-popup" *ngIf='!dateSelected'>
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4>New appointment</h4>
+            <!-- <p>Select a contact and appointment type</p> -->
+        </section>
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="firstSubmit()" autocomplete="off">
+        <div class="modal-body new_appoitment_popup_inner">
+
+            <div class="form-group Associated-Contact" >
+                <mat-label class="required">Search for a contact to meet with us <span class="red">*</span></mat-label>
+                <ng-multiselect-dropdown formControlName="contactId" 
+                [placeholder]="'Select Contact'" [data]="contacts"
+                  [settings]="myModel.contactSettings">
+                </ng-multiselect-dropdown>
+                <mat-error *ngIf="
+                    form.controls['contactId'].hasError('required') &&
+                    form.controls.contactId.touched
+                  ">
+                  Please select contact.
+                </mat-error>
+              </div>
+            <div class="row">
+                <div class="col-md-12 input-group btn-group add-btn select-opt">
+                    <!-- <mat-form-field class="select-height full-width max-height-drop" appearance="outline">
+                        <mat-label class="required">Search for a contact to meet with us</mat-label>
+                        <input matInput class="form-control py-2" type="search" value="" placeholder="Search contacts"
+                               [formControl]="myControl" [matAutocomplete]="auto"
+                               (input)="contactList($event.target.value)" (blur)="clearSearch()"
+                               (click)="myControl.patchValue('')">
+                        <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete"
+                                          (optionSelected)="finalSelected()">
+                            <mat-option *ngFor="let val of contacts" [value]="val">
+                                {{val?.firstName}} {{val?.lastName}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <mat-icon matSuffix>keyboard_arrow_down</mat-icon>
+                        <mat-error *ngIf="myControl.hasError('required')">
+                            Please select contact.
+                        </mat-error>
+                    </mat-form-field> -->
+
+                </div>
+            </div>
+
+            <div class="row" style="margin-top: 1.0em">
+                <div class="col-md-12">
+                    <div class="input-field btn-group add-btn select-opt">
+                        <mat-form-field class="full-width select-height" appearance="outline">
+                            <mat-label>Appointment Type</mat-label>
+                            <mat-select formControlName="appointmentId" (selectionChange)="changeAppoint()">
+                                <mat-option *ngFor="let val of myModel?.appointmentTypes" [value]="val">
+                                    {{val?.name}} | {{val?.duration}}
+                                </mat-option>
+                            </mat-select>
+                            <mat-error *ngIf="form.controls['appointmentId'].hasError('required')">
+                                Please select appointment.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row demo01" *ngIf="selectedType?.radioSelected == '1'  && form.controls['extrakey']">
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">{{selectedType?.placeholder}}</mat-label>
+                        <input matInput placeholder="{{selectedType?.placeholder}}" formControlName="extrakey">
+                        <mat-error *ngIf="form.controls['extrakey'].hasError('required')">
+                            Please enter meeting link.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row demo01" *ngIf="(selectedType?.radioSelected == '4')  && form.controls['extrakey']">
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">{{selectedType.placeholder}}</mat-label>
+                        <input matInput placeholder="{{selectedType?.placeholder}}" type="tel"  formControlName="extrakey"
+                               appNumberOnly maxlength="15" minlength="10">
+                        <mat-error *ngIf="form.controls['extrakey'].hasError('required')">
+                            Please enter phone number.
+                        </mat-error>
+                    
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row demo01" *ngIf="selectedType?.radioSelected == '5' && form.controls['extrakey']">
+                <div class="col-md-12">
+                    <mat-form-field class="full-width" appearance="outline">
+                        <mat-label class="required">{{selectedType.placeholder}}</mat-label>
+                        <input matInput placeholder="{{selectedType.placeholder}}" formControlName="extrakey">
+                        <mat-error *ngIf="form.controls['extrakey'].hasError('required')">
+                            Please select location.
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="modal-footer footer-btn text-left">
+                <button type="submit" class="btn btn-outline-primary">Continue & Select Time</button>
+            </div>
+        </div>
+    </form>
+</div>
+
+<ng-container *ngIf="dateSelected">
+    <div class="selectedsloats book-slots">
+        <div class="row">
+            <div class="col-md-12">
+                <header class="appt-picker-header">
+                    <!-- <button type="button" class="button icon-only">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="calendar">
+                                <path
+                                        d="M16 1a1 1 0 0 1 1 1v1h3a2 2 0 0 1 2 2v15a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h3V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 1-1zm4 10H4v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1zM7 5H4v4h16V5h-3v1a1 1 0 1 1-2 0V5H9v1a1 1 0 0 1-2 0z"
+                                        fill-rule="evenodd"></path>
+                            </svg>
+                        </svg>
+                    </button> -->
+                    <div class="header">
+                        <p class="title"> Select Date & Time </p>
+                        <!-- <p>{{allData?.name}} With {{http.loginData.name}}</p> -->
+                    </div>
+                    <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                        <img src="/assets/images/ic_close.svg">
+                    </button>
+                </header>
+            </div>
+        </div>
+
+        <div class="select-appointment-container">
+            <div class="row second-row-custom select-times-appointment">
+                <div class="col-md-6">
+                    <div class="comman-title">Select Date</div>
+                    <div class="calendar" style="display: flex;flex-direction: column;">
+                        <full-calendar style="width: 400px;height: 400px;" #calendar defaultView="dayGridMonth"
+                                       id="full-calendar" deepChangeDetection="true" [events]="calendarEvents"
+                                       [plugins]="calendarPlugins" [validRange]="validRange"
+                                       (dateClick)="handleDateClick($event)"></full-calendar>
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+                    <div class="comman-title">Select Time Slot</div>
+                    <div class="time-picker-wrapper">
+                        <!-- <div class="day-picker">
+                            <h5>{{todayDate.value | date}}</h5>
+                            <div class="button-group">
+                                <button class="" (click)="next(1)">
+                                    <svg class="icon-only">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-left">
+                                            <path
+                                                    d="M14.707 6.293a1 1 0 0 1 0 1.414L10.414 12l4.293 4.293a1 1 0 0 1-1.414 1.414l-5-5a1 1 0 0 1 0-1.414l5-5a1 1 0 0 1 1.414 0z"
+                                                    fill-rule="evenodd"></path>
+                                        </svg>
+                                    </svg>
+                                </button>
+                                <button class="" (click)="next(2)">
+                                    <svg class="icon-only">
+                                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-right">
+                                            <path
+                                                    d="M9.293 6.293a1 1 0 0 1 1.414 0l5 5a1 1 0 0 1 0 1.414l-5 5a1 1 0 0 1-1.414-1.414L13.586 12 9.293 7.707a1 1 0 0 1 0-1.414z"
+                                                    fill-rule="evenodd"></path>
+                                        </svg>
+                                    </svg>
+                                </button>
+                            </div>
+                        </div> -->
+
+                        <div class="row">
+                            <div class="date-slots">
+                                <!-- <ul class="slots-ul">
+                                    <app-loader [showLoader]="myModel.loader"></app-loader>
+                                    <label *ngIf="myModel?.slots?.length === 0 && !myModel.loader" class="no-slot">
+                                        No Slots Available</label>
+
+                                    <li *ngFor="let data of myModel?.slots;let i =index">
+                                        {{data?.start |time}} - {{data?.end | time}}
+                                        <span *ngIf="selectedtIndex != i"
+                                              (click)="selectedtIndex = i">Book now</span>
+                                        <span class="btn-outline-primary slot-confirm" *ngIf="selectedtIndex == i"
+                                              (click)="finalSubmit(data);selectedtIndex = undefined">
+                                            Confirm
+                                        </span>
+                                    </li>
+
+                                </ul> -->
+                                
+                                <ng-container *ngIf="myModel?.slots?.length === 0 && !myModel.loader; else showSlots" >
+                                    <div class="no-slots-here-main">
+                                            <img src="../../../../assets/images/no-slot-time.svg">
+                                            <div class="no-title">No time slot available!</div>
+
+                                    </div>
+                                </ng-container>
+
+                                <ng-template #showSlots>
+                                    <div class="main-grid-area">
+                                        <ng-container *ngFor="let data of myModel?.slots;let i =index" >
+                                            <div class="comman-grids-area" (click)="onSelectSlot(data)" [ngClass]="{'selected' : data == selectedSlot}">
+                                                {{data?.start |time}} - {{data?.end | time}}
+                                            </div>
+                                            <!-- <div class="comman-grids-area">09:00 AM - 9:30 AM</div>
+                                            <div class="comman-grids-area">09:00 AM - 9:30 AM</div>
+                                            <div class="comman-grids-area">09:00 AM - 9:30 AM</div> -->
+                                        </ng-container>
+                                    </div>
+                                </ng-template>
+
+
+                                    
+                            </div>
+                            <div class="confirm-btn" *ngIf="selectedSlot">
+                                <button (click)="finalSubmit(selectedSlot)" [disabled]="isLoading">
+                                    <i [ngClass]="{'fa fa-spinner fa-spin' : isLoading}" aria-hidden="true"></i>
+                                    Confirm
+                                </button>
+                            </div>
+
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-container>
+

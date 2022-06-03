@@ -1,0 +1,142 @@
+<div class="edit-task-main-area">
+    <div class="left-mark-complete"
+     (click)="(modalData?.status && modalData?.status == TaskStatus.INCOMPLETE) ? 
+        changeStatus(TaskStatus.COMPLETED) : ''" >
+        <img src="../../../../assets/images/tick-mark.svg" *ngIf="modalData?.status == TaskStatus.INCOMPLETE"  >
+        {{ (modalData?.status && modalData?.status != TaskStatus.COMPLETED) ? 
+            'Mark complete' : 'Completed'}}
+    </div>
+
+    <div class="right-mark-complete">
+        <div class="comman-grids-back">
+            <img src="../../../../assets/images/pins-attach.svg">
+        </div>
+        <div class="comman-grids-back">
+            <img src="../../../../assets/images/vertical-pin.svg">
+        </div>
+        <div class="comman-grids-back" (click)="deleteTask(deletePopup)">
+            <img src="../../../../assets/images/delete-one.svg">
+        </div>
+        <div (click)="close(false)" class="close-icon">
+            <img src="../../../../assets/images/close-icons-main.svg">
+        </div>
+
+    </div>
+</div>
+
+
+<div [formGroup]="form" class="body-content-for-tasks">
+    <!-- <div class="task-name">  -->
+    <div> 
+        <!-- Task Name -->
+        <!-- {{this.modalData?.title}} -->
+        <mat-form-field style="width: 100%;" appearance="outline">
+            <mat-label>Task Name<span style="color: red;">*</span></mat-label>
+            <input matInput  formControlName="title" placeholder="Task Name">
+        </mat-form-field>
+    </div>
+
+    <div class="comman-rows-main">
+        <div class="comman-labal-main">Assignee:</div>
+        <ng-container *ngIf="this.modalData?.contactId; else elseTemplate">
+            <div class="assignee-round" data-toggle="tooltip" data-placement="top" [title]="this.modalData?.contactId?.fullName">
+                {{this.modalData?.contactId?.firstName?.substr(0,1)}}{{this.modalData?.contactId?.lastName?.substr(0,1)}}
+            </div>
+        </ng-container>
+        <ng-template #elseTemplate>
+            <div class="right-col-main">
+                <img src="../../../../assets/images/no-assigneed.svg">
+                No assignee
+            </div>
+        </ng-template>
+        
+    </div>
+    <div class="comman-rows-main">
+        <div class="comman-labal-main">Start Date :</div>
+        <div class="right-col-main">
+            <img src="../../../../assets/images/calander-icon.svg">
+            {{this.modalData?.startDateTime|date: 'dd/MM/yyyy'}}
+        </div>
+    </div>
+    <div class="comman-rows-main">
+        <div class="comman-labal-main">Due Date :</div>
+        <div class="right-col-main">
+            <img src="../../../../assets/images/calander-icon.svg">
+            {{this.modalData?.dueDateTime|date: 'dd/MM/yyyy'}}
+        </div>
+    </div>
+    <div class="comman-rows-main">
+        <div class="comman-labal-main">Priority :</div>
+        <div class="comman-status-main">
+                <div class="inner-status"
+                [ngClass]="{
+                    'high': this.modalData?.priority == 'High',
+                    'low': this.modalData?.priority == 'Low',
+                    'med': this.modalData?.priority == 'Medium'
+                }"
+                >
+                    {{this.modalData?.priority}} 
+                </div>
+        </div>
+    </div>
+    <div class="comman-rows-main">
+        <div class="comman-labal-main">Reminder :</div>
+        <div class="comman-day-before">
+               <!-- 1 day before -->
+               {{remainderType?.name}}
+               <!-- {{this.modalData?.reminderType}} -->
+        </div>
+    </div>
+    <div class="comman-rows-main comman-description">
+        <div class="comman-labal-main">Description :</div>
+        <div class="comman-day-textarea">
+            <textarea
+            formControlName="note"
+            placeholder="Add more ddetails to this task..."></textarea>
+        </div>
+    </div>
+    <div class="comman-rows-main">
+        <div class="comman-labal-main">Attachment :</div>
+        <div class="attachment-stripe" *ngIf="imageObj">
+              <div class="left-col-main">
+                  <img src="../../../../assets/images/pdf-main.svg">
+                  <!-- QR code file.pdf <span class="size">(120K)</span> -->
+                  {{imageObj?.fileName}}<span class="size">({{imageObj?.size}})</span>
+              </div> 
+              <div class="right-col-close">
+                <img src="../../../../assets/images/close-icons-main.svg" (click)="deleteFile()">
+              </div>
+        </div>
+        <div *ngIf="!imageObj" class="no-file">
+            No File
+        </div>
+    </div>
+
+    <div class="btns-rows">
+            <button class="btn update-btn" (click)="finalSubmit()" [disabled]="this.myModel.loader">
+            <i [ngClass]="{ 'fa fa-spinner fa-spin' : this.myModel.loader }" aria-hidden="true"></i>
+                Update
+            </button>
+            <button class="btn cancel-btn" (click)="this.close(false)" [disabled]="this.myModel.loader">Cancel</button>
+    </div>
+
+
+
+</div>
+
+<ng-template #deletePopup>
+    <div class="delete-comp xs">
+      <div class="delete-comp-inner">
+        <h4>Delete task</h4>
+        <p>Are you sure you want to delete this task?</p>
+        <div class="button-row form-group">
+          <button class="delete-btn" type="submit" (click)="http.hideModal(); changeStatus(4)">
+            Delete
+          </button>
+          <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">
+            Cancel
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

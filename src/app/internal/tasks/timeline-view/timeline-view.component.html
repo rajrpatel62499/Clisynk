@@ -1,0 +1,30 @@
+<div class="time-line-main-task">
+    <full-calendar id="calendar" #calendarEl defaultView="resourceTimelineMonth"
+        id="full-calendar" deepChangeDetection="true" 
+        [height]="'auto'"
+        [editable]="true"
+        [weekends]="calendarWeekends"
+        events="https://fullcalendar.io/demo-events.json?with-resources"
+        resources="https://fullcalendar.io/demo-resources.json?max=4"
+        
+        [plugins]="calendarPlugins" [validRange]="validRange"
+        (eventDragStart)="onEventDragStart($event)"
+        (eventDragStop)="onEventDragStop($event)"
+        (datesRender)="dateRender($event)"
+        (dateClick)="handleDateClick($event)"
+        (eventClick)="onEventClick($event)" 
+        (eventRender)="onEventRender($event)"
+        [header]="{
+            left: 'today prev,next',
+            center: 'title',
+            right: 'resourceTimelineDay,resourceTimelineWeek,resourceTimelineMonth'
+        }"
+        >   
+    </full-calendar>   
+    
+</div>
+
+
+<!-- [resourceGroupField]="'building'"
+[resources]="resources"
+[events]="calendarEvents" -->

@@ -1,0 +1,19 @@
+.cancel-btn {
+  background: #aaaaaa;
+  border-radius: 5px;
+  color: white;
+  font-family: "Sul Sans";
+  width: 100%;
+  max-width: 125px;
+  font-size: 16px;
+}
+.create-btn {
+  background: #0040dc;
+  border-radius: 5px;
+  float: right;
+  color: white;
+  font-family: "Sul Sans";
+  width: 100%;
+  max-width: 125px;
+  font-size: 16px;
+}

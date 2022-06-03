@@ -1,0 +1,54 @@
+<form [formGroup]="formInfo" (ngSubmit)="onUpdate()">
+    <div class="header-for-smart-form-builder-main">
+        <div class="left-col">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal(); onDraft();">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+            <span>Edit form</span>        
+        </div>
+        <div class="right-col">
+            <span class="all-changes-saved">All changes saved</span>
+            <button type="submit" class="btn-save btn-outline-primary" [disabled]="!formInfo.valid">Update the Design</button>
+        </div>
+    </div>
+    
+    <div class="details-and-preview-main">
+        <div class="details-main-left">
+            <label class="comman-label">Details</label>
+            <span>This lead form can be seen by anyone with its URL.</span>
+            <div class="this-form-will">
+                <div class="alert-icon"></div>
+                <div class="message-alert-in">This form will appear as a choice in the Add Contact dropdown</div>
+            </div>
+            <div class="short-description-of-form">
+                Form name and description will both appear on the form itself and as a way to identify this form within Keap. The
+                intended audience will determine what type of form you're building.
+             </div>
+             <div class="workspace-input">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label class="required">Business Name</mat-label>
+                    <input matInput maxlength="50" type="text" formControlName="formName" #input>
+                    <mat-hint align="end">{{input.value?.length || 0}}/50</mat-hint>
+                </mat-form-field>
+              </div>
+              <div class="text-area-for-that">  
+              <mat-form-field class="full-width" appearance="outline">
+                <mat-label>Form Description or Instructions</mat-label>
+                <textarea matInput rows="5" type="text" formControlName="formDescription"></textarea>
+            </mat-form-field>
+              </div>
+        </div>
+        <div class="right-priview-label">
+            <label class="comman-label">Preview</label>
+        </div>
+    </div>
+    </form>
+    
+    <form-builder
+    #myForm
+    [form]="form" (change)="onChange($event)" class="smart-form-builder-main-form"></form-builder>
+    <!-- <div>
+        <div class="well jsonviewer">
+            <pre id="json"><code class="language-json" #json></code></pre>
+        </div>
+    </div> -->

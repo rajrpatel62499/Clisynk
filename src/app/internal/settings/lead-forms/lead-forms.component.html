@@ -1,0 +1,119 @@
+<div class="Clients_list_heading">  
+    <h3 class="inter-page-heading">Lead Form</h3>
+    <div class="btn-combobox">
+        <button class="back-btn" (click)="http.goBack()" >Back</button>
+        <button class="add-user-btn"   (click)="onPreview()" > Go to your form</button>
+    </div>
+</div>
+
+
+
+
+
+    <!-- <div class="header-for-lead-form-main">
+        <div class="inner-left-head">
+            <div class="Clients_list_heading">
+                <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()">
+                <h3 class="page-title">Lead Form</h3>
+            </div>
+        </div>
+        <div class="right-col-three-btn">
+            <div class="comm-btn">
+                <button class="copy-btn" (click)="copyLink()">
+                    <img src="../../../../assets/images/copy-blue.svg" width="20">
+                    Copy link
+                </button>
+            </div>
+            <div class="comm-btn">
+                <button class="copy-btn go-to-form" (click)="onPreview()">
+                    <img src="../../../../assets/images/export-blue-icon.svg" width="20">
+                    Go to your form
+                </button>
+            </div>
+        </div>
+    </div> -->
+
+
+<div class="main-lead-forms">
+    <div class="left-col-lead">
+        <div class="form-description-inner-main">
+            Customize your Lead form with your business name and logo            
+        </div> 
+        <!-- ---------------first-strips----- -->
+        <div class="first-alert-strips">
+            <label class="alert-icon"></label>
+            <p>When any user submits the leadform that contact will be saved to clisynk contacts automatically. Updating your business name and logo here will update your account settings.</p>
+        </div>
+    <form [formGroup]="leadForm" (ngSubmit)="onSubmit()">
+        <div class="input-field add-your-business-main">
+            <label class="label-name">Add your business name</label>
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label class="required">Business Name</mat-label>
+                <input appInputRestriction="noSpecialChars"  matInput #input maxlength="40" type="text" 
+                (change)="onInputChange($event)" formControlName="businessName">
+                <mat-hint align="end">{{ input.value?.length || 0 }}/40</mat-hint>
+            </mat-form-field>
+        </div>
+        <!-- logo-upload -->
+        <div class="label-name add-your-logo-heading margin-top-main">Add your logo (optional)</div>
+        <div class="upload-logo-optional">
+           
+            <h3 class="logo-heading">Upload logo image</h3>
+            <img src="../../../../assets/images/New-ui-images/upload-icon-img.svg" width="30" style="margin: 20px 0px;">
+            <p class="text-description">
+                file formate jpg, jpeg, png, tiff
+            </p>
+            <div class="browse-btn">
+                Browse
+                <input #fileInput (click)="fileInput.value = null" [writeFile]="true" type="file" formControlName="logo" class="upload-btn" (change)="onImageChanged($event)">
+            </div>
+            <p class="text-description">
+                Logo should be at least 300px x 300px
+            </p>
+
+        </div>
+        <div class="preview-logo">
+            <img src="{{logoUrl}}" width="150">
+        </div>
+        <!-- <div class="info-about-logo">Logo should be at least 300px x 300px</div> -->
+        <div class="remove-btn-logo" *ngIf="logoUrl">
+            <button class="rm-btn" style="cursor:pointer" (click)="removeLogo()">Remove logo</button>
+        </div>
+    </form>
+
+    </div>
+    <!-- ---------------right-col---------------->
+    <div class="right-col-lead">
+        <div class="preview-main">
+            <div class="lead-form-preview">Preview</div>
+            <button class="copy-btn" (click)="copyLink()">
+                <img src="../../../../assets/images/copy-blue.svg" width="20">
+                Copy link
+            </button>
+        </div>
+
+
+        <div class="right-edit-form-main" *ngIf="!loader">
+            <div class="business-logo" *ngIf="logoUrl">
+                <img src="{{logoUrl}}" height="100px" alt="Image preview...">
+            </div>
+            <div class="business-name">
+                <h2>{{ leadForm.value.businessName }}</h2>
+            </div>
+                <formio [form]='form'></formio>              
+        </div>
+        <div class="right-edit-form-main" *ngIf="loader">
+            <ng-container>
+                <div class="first-section-wrapper" style="margin-top:185px;">
+                    <div class="gravatar-title">
+                        <ngx-skeleton-loader
+                            count="7"
+                            [theme]="{ 'border-radius': '0', height: '60px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+                        </ngx-skeleton-loader>
+                    </div>
+                </div>
+            </ng-container>
+        </div>       
+    </div>
+</div>
+<!-- </form> -->

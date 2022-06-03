@@ -1,0 +1,66 @@
+.header-main-email {
+    display: flex;
+    align-items: center;
+    padding: 25px 35px;
+    justify-content: space-between;
+    border-bottom: 1px solid #cccc;
+}
+
+.header-main-email .header-tags {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 30px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+}
+
+.header-main-email button.back-btn {
+    background: #fff;
+    border: 1px solid #4776E6;
+    box-sizing: border-box;
+    border-radius: 5px;
+    color: #4776E6;
+    padding: 10px 40px;
+    font-size: 14px;
+}
+
+.header-main-email button.back-btn:hover{
+    background: #4776e6;
+    color: #fff;
+
+}
+
+.main-forms-area-for-email-broadcast {
+    padding: 30px 30px;
+}
+
+.main-forms-area-for-email-broadcast .inner-wrapper-form {
+    width: 500px;
+}
+
+.comman-rows-sub .form-lab {
+    font-size: 16px;
+    line-height: 22px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+    font-weight: 400;
+    margin-bottom: 10px;
+}
+span.red-color {
+    color: red;
+}
+
+.comman-rows-sub input {
+    width: 100%;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #CFD0D1;
+}
+
+.comman-rows-sub input::placeholder{
+    color: #bbbbbb;
+}
+
+.comman-rows-sub {
+    margin-bottom: 20px;
+}

@@ -1,0 +1,51 @@
+<div class="med-popup">
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4>Payment Description</h4>
+        </section>
+    </div>
+    <div class="modal-body text-center Payment-Description-info">
+
+        <div class="payment-info-user">
+            <p>VS</p>
+        </div>
+        <div class="payment-info-user-name">
+            <p>Payment from</p>
+
+            <h3>{{modalData?.contactId?.firstName}} {{modalData?.contactId?.lastName}}</h3>
+        </div>
+
+        <div class="payment-info-user-payment">
+            <h1 style="color: blue">{{modalData?.amount |currency}}</h1>
+        </div>
+        <div class="payment-info-user-invoise">
+
+            <a> for Invoice #{{modalData?.invoiceQuoteId?.srNo}}</a>
+
+            <p>{{modalData?.createdAt |date:'MMM dd,yyyy, hh:mm a'}}</p>
+
+            <a class="text-button" *ngIf="modalData?.invoiceQuoteId?.status != 'Refunded'"
+               (click)="openRefund(refundPopup)">Refund {{modalData?.amount}}</a>
+
+        </div>
+    </div>
+
+
+    <ng-template #refundPopup>
+        <div class="delete-comp xs">
+            <div class="delete-comp-inner">
+                <h4>Refund payment</h4>
+                <p>Are you sure you want to refund this payment?</p>
+                <div class="button-row form-group">
+                    <button class="btn-outline-primary" type="submit" (click)="makeRefund()">Yes, refund</button>
+                    <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">No</button>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+

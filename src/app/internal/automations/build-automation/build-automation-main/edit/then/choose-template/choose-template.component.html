@@ -1,0 +1,21 @@
+<div class="right-col choose-form-right-col-body">
+    <div class="inner-row-main-vc">
+        <button class="btn" (click)="startWithBlankMail()">
+            <img src="assets/images/plus-blue-icon.svg" width="35" style="margin-right: 10px; width: 18px;">
+            Start with a blank mail 
+         </button>
+        <div class="search-filed">
+            <input [(ngModel)]="searchText" type="text" class="search" placeholder="Search templates">
+        </div>
+    </div>
+    <div class="formlisting-body">
+        <ng-container *ngFor="let mailtemplate of sortedData|filter: searchText; let i=index">
+            <div (click)="onSelectMailTemplate(mailtemplate)" class="any-lead-form-main">
+                    <span class="heading-form">{{mailtemplate?.name}}</span>
+                    <!-- <span class="sub-task-main">{{mailtemplate?.tagCategoryId?.name}}</span> -->
+            </div>
+        </ng-container>
+        <app-loading [length]="3"></app-loading>
+    </div>
+</div>  
+

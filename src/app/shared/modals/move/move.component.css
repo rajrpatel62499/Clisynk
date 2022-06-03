@@ -1,0 +1,85 @@
+.main-header-move-content {
+  padding: 10px 20px;
+  border-bottom: 1px solid #cccc;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.main-header-move-content .left-title-main {
+  font-size: 18px;
+  color: #000;
+  font-weight: 400;
+}
+
+.bread-cumbs-main {
+  padding: 10px 20px;
+  font-size: 16px;
+  font-weight: 300;
+  color: #9a9a9a;
+}
+
+.bread-cumbs-main .active {
+  color: #000;
+  font-weight: bold;
+}
+
+.bredcumbs-menu {
+  cursor: pointer;
+}
+
+.middle-content-for-move {
+  height: 300px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.middle-content-for-move .No-folder-title {
+  font-size: 14px;
+}
+
+.middle-content-for-move .No-folder-title span {
+  display: block;
+  text-align: center;
+  margin-bottom: 10px;
+  font-size: 20px;
+  color: #c3c3c3;
+  font-weight: 400;
+}
+
+.last-row-main {
+  padding: 0px 20px;
+  padding-bottom: 20px;
+  display: flex;
+  justify-content: space-between;
+}
+
+.last-row-main .icon-only {
+  background: #ececec !important;
+  border-radius: 4px;
+  padding: 7px 20px;
+}
+.last-row-main .move-here {
+  background: #0040dc !important;
+  color: #fff;
+}
+.add-folder {
+  float: right;
+  cursor: pointer;
+}
+
+.tree-view-folder {
+  width: 16px;
+  margin-right: 7px;
+}
+
+.active {
+  background-color: rgba(216, 216, 216, 0.585965);
+}
+
+.move-text-header {
+  font-size: 18px;
+}

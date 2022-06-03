@@ -1,0 +1,289 @@
+<div class="med-popup">
+
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4 *ngIf="modalData">Deal details</h4>
+        </section>
+        <div class="delete-icon" (click)="deleteDeal(deletePopup)">
+            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="trash-2">
+                <path
+                        d="M14 1a3 3 0 0 1 3 3v1h4a1 1 0 1 1 0 2h-2v13a3 3 0 0 1-3 3H8a3 3 0 0 1-3-3V7H3a1 1 0 0 1 0-2h4V4a3 3 0 0 1 3-3zm3 6H7v13a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1zm-6.5 3a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm3 0a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zm.5-7h-4a1 1 0 0 0-.993.883L9 4v1h6V4a1 1 0 0 0-1-1z"
+                        fill-rule="evenodd"></path>
+            </svg>
+        </div>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+            <div class="deal-modal_sds">
+
+                <div class="input-row details">
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">Deal Name</mat-label>
+                            <input matInput type="text" formControlName="name"
+                                   (blur)="onblurFun('name',form.value.name)">
+                            <mat-error *ngIf="form.controls['name'].hasError('required')">
+                                Please enter name.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                    <div class="input-field">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">Deal Value (USD)</mat-label>
+                            <input matInput type="text" formControlName="dealValue" appNumberOnly
+                                   (blur)="onblurFun('dealValue',form.value.dealValue)">
+                            <mat-error *ngIf="form.controls['dealValue'].hasError('required')">
+                                Please enter value.
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+                </div>
+
+                <div class="row col-md-10">
+                    Current pipeline: {{dealData?.pipelineId?.name}}
+                </div>
+
+                <div class="input-row details">
+                    <div class="date-fields">
+                        <div class="input-field">
+                            <app-contact-pipeline [pipelines]="myModel.pipelines"
+                                                  (selectedData)="optionSelected($event)"></app-contact-pipeline>
+                        </div>
+                    </div>
+                    <div class="button-loading move-button secondary" *ngIf="nextData">
+                        <button type="button" class="text-button" (click)="moveToNext()"> Move to next stage
+                            <svg class="icon"
+                                 xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="arrow-long-right">
+                                <path
+                                        d="M17.707 6.293l5 5c.029.028.055.059.08.09l-.08-.09a1.008 1.008 0 0 1 .292.675L23 12v.033l-.004.052L23 12a1.008 1.008 0 0 1-.22.625l-.073.082-5 5a1 1 0 0 1-1.414-1.414L19.584 13H2a1 1 0 1 1 0-2h17.586l-3.293-3.293a1 1 0 0 1 1.414-1.414z"
+                                        fill-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="deal-contacts-owners">
+                <div class="deal-contacts">
+                    <div class="title"> Contacts</div>
+                    <div class="contacts">
+
+                        <div class="stage-options-dropdown" dropdown
+                             *ngFor="let val of dealData?.contactId;let i= index">
+                            <button dropdownToggle type="button" class="btn dropdown-toggle"
+                                    aria-controls="dropdown-basic" (click)="dropDownData(val)">
+                                <span>{{val?.firstName | firstChar:val?.lastName}}</span>
+                            </button>
+
+                            <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                <div class="deal-contact-badge">
+                                    <div class="sm avatar default">
+                                        <div class="letter">{{myDropDownData?.firstName | firstChar:myDropDownData?.lastName}}</div>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h6 class="name">{{myDropDownData?.firstName}} {{myDropDownData?.lastName}}</h6>
+                                        <span>Primary contact</span>
+                                    </div>
+                                </div>
+                                <li role="menuitem" (click)="openContact(val)">
+                                    <a class="dropdown-item">
+                                        View contact record
+                                    </a>
+                                </li>
+                                <li role="menuitem" class="delete-opt" (click)="removeFromDeal(i)">
+                                    <a class="dropdown-item">
+                                        Remove from deal
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="new-contact floating cursor" (click)="openContactToDeal()">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="add">
+                                <path d="M13 5a1 1 0 1 0-2 0v6H5a1 1 0 1 0 0 2h6v6a1 1 0 1 0 2 0v-6h6a1 1 0 1 0 0-2h-6z"
+                                      fill-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                    </div>
+
+                </div>
+                <div class="deal-owner deal-contacts">
+                    <div class="title"> Team members</div>
+                    <div class="contacts">
+                        <div class="stage-options-dropdown" dropdown>
+                            <button dropdownToggle type="button" class="btn dropdown-toggle"
+                                    aria-controls="dropdown-basic">
+                                <span>{{dealData?.addedBy?.name |firstChar}}</span>
+                            </button>
+
+                            <ul *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+                                <div class="deal-contact-badge">
+                                    <div class="sm avatar default">
+                                        <div class="letter">{{dealData?.addedBy?.name |firstChar}}</div>
+                                    </div>
+                                    <div class="contact-info">
+                                        <h6 class="name"> {{dealData?.addedBy?.name}} </h6>
+                                        <span>Primary contact</span>
+                                    </div>
+                                </div>
+                                <!--                                <li role="menuitem" (click)="openAutoConfig(data)">-->
+                                <!--                                    <a class="dropdown-item">-->
+                                <!--                                        View contact record-->
+                                <!--                                    </a>-->
+                                <!--                                </li>-->
+
+                                <!--                                <li role="menuitem" class="delete-opt" (click)="deleteStage(m)">-->
+                                <!--                                    <a class="dropdown-item">-->
+                                <!--                                        Remove from deal-->
+                                <!--                                    </a>-->
+                                <!--                                </li>-->
+                            </ul>
+                        </div>
+                        <!--                        <button class="new-contact floating">-->
+                        <!--                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="add">-->
+                        <!--                                <path d="M13 5a1 1 0 1 0-2 0v6H5a1 1 0 1 0 0 2h6v6a1 1 0 1 0 2 0v-6h6a1 1 0 1 0 0-2h-6z"-->
+                        <!--                                      fill-rule="evenodd"></path>-->
+                        <!--                            </svg>-->
+                        <!--                        </button>-->
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="date-picker date-picker has-custom-reference">
+                <div class="custom-reference">
+                    <div>Close date</div>
+                    <span>
+                        <div class="close-date-container">
+                            <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="calendar">
+                                <path
+                                        d="M16 1a1 1 0 0 1 1 1v1h3a2 2 0 0 1 2 2v15a3 3 0 0 1-3 3H5a3 3 0 0 1-3-3V5a2 2 0 0 1 2-2h3V2a1 1 0 0 1 2 0v1h6V2a1 1 0 0 1 1-1zm4 10H4v9a1 1 0 0 0 1 1h14a1 1 0 0 0 1-1zM7 5H4v4h16V5h-3v1a1 1 0 1 1-2 0V5H9v1a1 1 0 0 1-2 0z"
+                                        fill-rule="evenodd"></path>
+                            </svg>
+                            <input formControlName="closeDate" bsDatepicker #dp="bsDatepicker" readonly
+                                   placeholder="Add estimated close date"
+                                   style="border: none;padding: 6px;min-width: 200px;"
+                                   (onHidden)="closeDateChanged()">
+                            <!--                            <ng-container (click)="dp.show()">Add estimated close date</ng-container>-->
+                        </div>
+                    </span>
+                </div>
+            </div>
+
+            <div class="deal-nav" *ngIf="dealData?.name">
+                <div class="link-container center">
+
+                    <span class="nav-link" (click)="openNotes()">
+                        <div class="nav-link-wrapper">
+                            <div class="circle">
+                                <svg class="icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="notes">
+                                    <path
+                                            d="M5 1a1 1 0 0 1 0 2H4v18h1a1 1 0 1 1 0 2H4a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm11.086 0a2 2 0 0 1 1.414.586L21.414 5.5A2 2 0 0 1 22 6.914V21a2 2 0 0 1-2 2H9a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zM15 3H9v18h11V8h-4a1 1 0 0 1-1-1zm2.5 14a.5.5 0 0 1 0 1h-6a.5.5 0 0 1 0-1zm0-3a.5.5 0 0 1 .09.992L17.5 15h-6a.5.5 0 0 1-.09-.992L11.5 14zm-4-5a.5.5 0 0 1 0 1h-2a.5.5 0 0 1 0-1zM17 3.914V6h2.086z"
+                                            fill-rule="evenodd"></path>
+                                </svg>
+                            </div>
+                            <div class="label"> Notes </div>
+                        </div>
+                    </span>
+
+                    <span class="nav-link" (click)="openSendEmail()">
+                        <div class="nav-link-wrapper">
+                            <div class="circle">
+                                <svg class="icon" id="Capa_1" enable-background="new 0 0 479.058 479.058" height="512"
+                                     viewBox="0 0 479.058 479.058" width="512" xmlns="http://www.w3.org/2000/svg">
+                                    <path
+                                            d="m434.146 59.882h-389.234c-24.766 0-44.912 20.146-44.912 44.912v269.47c0 24.766 20.146 44.912 44.912 44.912h389.234c24.766 0 44.912-20.146 44.912-44.912v-269.47c0-24.766-20.146-44.912-44.912-44.912zm0 29.941c2.034 0 3.969.422 5.738 1.159l-200.355 173.649-200.356-173.649c1.769-.736 3.704-1.159 5.738-1.159zm0 299.411h-389.234c-8.26 0-14.971-6.71-14.971-14.971v-251.648l199.778 173.141c2.822 2.441 6.316 3.655 9.81 3.655s6.988-1.213 9.81-3.655l199.778-173.141v251.649c-.001 8.26-6.711 14.97-14.971 14.97z"/>
+                                </svg>
+                            </div>
+                            <div class="label"> Email </div>
+                        </div>
+                    </span>
+
+                </div>
+            </div>
+
+            <!-- <div class="">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Notes</mat-label>
+                    <textarea matInput formControlName="notes" rows="4"> </textarea>
+                </mat-form-field>
+            </div> -->
+
+            <!-- <div class="button-row">               disabled="disabled"-->
+            <!--<button type="button" class="btn btn-link text-button" (click)="http.hideModal()">Cancel
+                </button>
+                <button type="submit" class="btn btn-outline-primary">Add</button>
+            </div> -->
+
+        </div>
+
+        <div class="deal-activity-feed">
+            <header> Deal activity</header>
+            <div class="activity-feed">
+
+                <ng-container *ngFor="let data of dealData?.dealActivity">
+                    <p class="activity-date"><span>{{data?._id |date:http.CONSTANT.dateFormat}}</span></p>
+                    <ul class="activity-item" *ngFor="let val of data?.data">
+                        <li>
+
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="tasks"
+                                 *ngIf="val?.type == dealActivity?.NOTE_CREATED || val?.type == dealActivity?.EMAIL_SENT ||
+                                        val?.type == dealActivity?.DELETED">
+                                <path d="M19 1a2 2 0 0 1 2 2v18a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V3a2 2 0 0 1 2-2zm0 2H5v18h14zm-6.5 15a.5.5 0 0 1 0 1h-5a.5.5 0 0 1 0-1zm4-3a.5.5 0 0 1 0 1h-9a.5.5 0 0 1 0-1zm-.793-8.707a1 1 0 0 1 0 1.414l-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L11 9.586l3.293-3.293a1 1 0 0 1 1.414 0z"
+                                      fill-rule="evenodd"></path>
+                            </svg>
+
+                            <img src="/assets/images/pipeline.svg" class="pipe-icon"
+                                 *ngIf="val?.type == dealActivity?.DEAL_CREATED || val?.type == dealActivity?.MOVED_FROM">
+                            <div class="title">
+                                <ng-container *ngIf="val?.type == dealActivity?.DEAL_CREATED">
+                                    <b>Deal</b>
+                                    created by
+                                </ng-container>
+                                <ng-container *ngIf="val?.type == dealActivity?.NOTE_CREATED">
+                                    <b>Note</b>
+                                    created by
+                                </ng-container>
+                                <ng-container *ngIf="val?.type == dealActivity?.EMAIL_SENT">
+                                    <b>Email</b>
+                                    sent by
+                                </ng-container>
+                                <ng-container *ngIf="val?.type == dealActivity?.MOVED_FROM">
+                                    <b>Deal</b>
+                                    moved from <strong>{{val?.movedFrom?.name}} </strong> to
+                                    <strong>{{val?.movedTo?.name}} </strong> by
+                                </ng-container>
+                                <ng-container *ngIf="val?.type == dealActivity?.DELETED">
+                                    <b>Deal</b>
+                                    deleted by
+                                </ng-container>
+                                <span class="semibold"><strong>{{val?.addedBy?.name  |titlecase}}</strong>
+                    </span><span
+                                    class="time">{{val?.createdAt | date:'hh:mm a'}} </span>
+                            </div>
+                            <div class="task-activity-item">{{val?.content?.subject || val?.noteId?.text || val?.dealId?.name}}</div>
+                        </li>
+                    </ul>
+                </ng-container>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+<ng-template #deletePopup>
+    <div class="delete-comp xs">
+        <div class="delete-comp-inner">
+            <p>Are you sure you want to delete this deal?</p>
+            <div class="button-row form-group">
+                <button class="delete-btn" type="submit" (click)="finalDelete()">Delete</button>
+                <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

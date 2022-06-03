@@ -1,0 +1,32 @@
+<div class="med-popup">
+  <form [formGroup]="form" autocomplete="off">
+    <div class="modal-header email_str_header">
+      <section id="close" class="navigation"></section>
+      <section class="text">
+        <h4>{{ title }}</h4>
+      </section>
+    </div>
+
+    <div class="modal-body">
+      <div class="input-field" style="margin-bottom: 10px">
+        <mat-form-field class="full-width input-set">
+          <mat-label>Folder Name</mat-label>
+          <input matInput maxlength="45" formControlName="name" />
+        </mat-form-field>
+      </div>
+      <div class="button-row form-group">
+        <button class="btn cancel-btn" type="button" (click)="http.hideModal()">
+          CANCEL
+        </button>
+        <button
+          type="button"
+          class="btn create-btn"
+          aria-label="Close"
+          (click)="finalSubmit()"
+        >
+          {{ button }}
+        </button>
+      </div>
+    </div>
+  </form>
+</div>

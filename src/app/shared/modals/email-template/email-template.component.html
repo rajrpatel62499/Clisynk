@@ -1,0 +1,124 @@
+<div class="modal-body-inner">
+    <div class="template-manager">
+        <section class="template-nav">
+
+            <header class="template-nav-header">
+                <button class="icon-only" (click)="goBackToEmail(modalData)"><img src="assets/images/back-arrow.svg"></button>
+                <h3 class="header-text"> Email templates </h3>
+                <button class="icon-only" (click)="finalSubmit(true)"><img src="assets/images/plus.svg"></button>
+            </header>
+
+            <div class="template-items">
+                <ng-container *ngIf="templates.length > 0; else elseBlock">
+                    <ng-container *ngFor="let data of templates">
+                        <div class="template-list-items selected" (click)="selectTemplate(data)"
+                             [ngClass]="{'selected-Background':data._id == selectedTemplate?._id}">
+                            <div class="list-item-info">
+                                <div class="list-item-text">
+                                    <h4> {{data?.name || 'Enter name here'}} </h4>
+                                    <p>{{data?.subject || '(no subject)'}}</p>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                <ng-template #elseBlock>
+                    <ngx-skeleton-loader
+                        count="3"
+                        [theme]="{ width: '100%', 'border-radius': '0', height: '60px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+                    </ngx-skeleton-loader>
+                </ng-template>
+ 
+            </div>
+        </section>
+        <section class="template-editor">
+            <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+                <div class="modal-body email_str_body">
+
+                    <div class="input-row">
+                        <label>Template name:</label>
+                        <div class="input-field">
+                            <input matInput placeholder="New Template" type="text" formControlName="name"
+                                   (blur)="finalSubmit()" >
+                        </div>
+                        <button class="icon-only" *ngIf="selectedTemplate?.canDeleted" (click)="deleteTemplate()"><img
+                                src="assets/images/ic_delete.svg"></button>
+                    </div>
+
+                    <div class="input-row">
+                        <label>Subject:</label>
+                        <div class="input-field">
+                            <input matInput type="text" formControlName="subject" (blur)="finalSubmit()">
+                        </div>
+                    </div>
+
+                    <div class="email-content" style="border-bottom: 1px solid #d1d1d1;">
+                        <div class="form-group">
+                            <ckeditor 
+                            #editor 
+                            id="editor"
+                            formControlName="html"
+                            debounce="500" 
+                            [config]="ckeConfig"
+                            (blur)="finalSubmit()"
+                            >
+                            </ckeditor>
+                            <!-- <div
+                            #html
+                            formControlName="html"
+                            id="summernote"
+                            [ngxSummernoteView]="selectedTemplate?.html"
+                            [ngxSummernote]></div> -->
+                        </div>
+                    </div>
+
+                    <div class="send_email_footer">
+                        <section class="button-row">
+                            <div class="tooltip-container tooltip-hover">
+                                <div class="tooltip-reference">
+                                    <div class="btn-group add-booking-link" dropdown>
+                                        <button id="button-basic2" dropdownToggle type="button" class="btn"
+                                                aria-controls="dropdown-basic">
+                                            <img src="/assets/images/ic_booking.svg">
+                                        </button>
+                                        <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-basic" style="left: -103px;">
+                                            <h4>Add booking link</h4>
+                                            <li role="menuitem" style="display: block"
+                                                *ngFor="let data of myModel?.appointmentTypes"
+                                                (click)="addLink(data)">
+                                                <a class="dropdown-item">
+                                                    <img src="assets/images/ic_attch2.svg">
+                                                    <div class="item-text">
+                                                        <h6> {{data?.name}} |
+                                                            <ng-container *ngIf="data?.duration"> {{data?.duration}} min
+                                                            </ng-container>
+                                                        </h6>
+                                                        <p> {{appoint.getBookingLink(data.name)}} </p>
+                                                    </div>
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <section class="tooltip">
+                                    <div class="arrow"></div>
+                                    <div>Add booking link</div>
+                                </section>
+                            </div>
+
+                        </section>
+                        <section class="button-row">
+                            <button  class="btn btn-outline-primary" (click)="insertTemplate()"> Insert
+                                template
+                            </button>
+                        </section>
+
+                    </div>
+
+                </div>
+
+            </form>
+        </section>
+    </div>
+</div>

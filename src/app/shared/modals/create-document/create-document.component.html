@@ -1,0 +1,146 @@
+<div class="med-popup">
+  <div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+      <span class="cross-icon">
+        <img
+          src="assets/images/ic_close.svg"
+          style="float: right; cursor: pointer"
+          width="25px"
+          (click)="http.hideModal()"
+        />
+      </span>
+    </section>
+    <section class="text">
+      <h4>New Document</h4>
+    </section>
+  </div>
+
+  <div class="modal-doc-add">
+    <ul class="nav nav-pills mb-1 contact-h-tab-heading">
+      <li
+        class="nav-item"
+        [ngClass]="{ 'tab-btn-doc': tab == 'mytemplates' }"
+        (click)="selected = ''; tab = 'mytemplates'; http.addQueryParams({})"
+      >
+        My templates
+      </li>
+      <!-- <li class="nav-item" (click)="selected='';tab='publictemplates';this.listsFun();"
+                    [ngClass]="{'tab-btn-doc':tab == 'publictemplates'}">Public templates
+                </li> -->
+      <li
+        class="nav-item"
+        (click)="selected = ''; tab = 'upload'"
+        [ngClass]="{ 'tab-btn-doc': tab == 'upload' }"
+      >
+        Upload
+      </li>
+      <!-- <li class="nav-item">
+                    <i class="fas fa-search"></i>
+                </li> -->
+    </ul>
+  </div>
+
+  <div
+    class="tab-content contact-v-tab-heading"
+    id="pills-tabContent"
+    *ngIf="tab == 'mytemplates'"
+  >
+    <div class="tab-pane1" id="pills-home">
+      <div
+        class="nav flex-column nav-pills"
+        id="v-pills-tab"
+        aria-orientation="vertical"
+      >
+        <div class="tab1-documents-container">
+          <div class="recent-text-doc">Recent</div>
+          <div class="row">
+            <div class="col-3">
+              <div class="blank-page" style="cursor: pointer">
+                <div class="blank-text">Blank</div>
+                <div class="add-icon-doc">
+                  <img
+                    (click)="createDocument()"
+                    src="../../../../assets/images/add-document-icon.svg"
+                  />
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="blank-page"></div>
+            </div>
+            <div class="col-3">
+              <div class="blank-page"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="tab-content contact-v-tab-heading"
+    id="pills-tabContent"
+    *ngIf="tab == 'publictemplates'"
+  >
+    <div class="tab-pane1" id="pills-home">
+      <div
+        class="nav flex-column nav-pills"
+        id="v-pills-tab"
+        aria-orientation="vertical"
+      >
+        <div class="tab1-documents-container">
+          <div class="recent-text-doc">Recent</div>
+          <div class="row">
+            <div class="col-3">
+              <div class="blank-page">
+                <div class="blank-text">Blank</div>
+                <div class="add-icon-doc">
+                  <img src="../../../../assets/images/add-document-icon.svg" />
+                </div>
+              </div>
+            </div>
+            <div class="col-3">
+              <div class="blank-page"></div>
+            </div>
+            <div class="col-3">
+              <div class="blank-page"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div
+    class="tab-content contact-v-tab-heading"
+    id="pills-tabContent"
+    *ngIf="tab == 'upload'"
+  >
+    <div class="tab-pane1" id="pills-home">
+      <div
+        class="nav flex-column nav-pills"
+        id="v-pills-tab"
+        aria-orientation="vertical"
+      >
+        <div class="tab3-documents-container">
+          <div class="upload-title-doc">
+            PDF,images and MS Office files will be uploaded as non-editable
+            documents. Docx files can be uploaded and converted into fully
+            editable documents.
+          </div>
+          <br /><br />
+          <div class="upload-text1-doc">Drag and drop your file here</div>
+          <br />
+          <div>or</div>
+          <br />
+          <div>
+            <button type="button" class="btn select-btn-doc">
+              Select File
+              <img src="../../../../assets/images/add-upload-select.svg" />
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,107 @@
+<!-- --------------New-UI-Settings-------------- -->
+
+<div class="comman-page-padings">
+
+    <div class="inter-page-heading">Settings</div>
+
+
+    <div class="setting-grid-main">
+        <!-- <div class="comman-grid-area">
+            <div class="shimer-card">
+                <div class="img-shimmer shine"></div> 
+                <div class="heading-shimmer shine"></div>
+                <div class="paragraph-shimer-1 shine"></div>
+                <div class="paragraph-shimer-2 shine"></div>
+                <div class="paragraph-shimer-3 shine"></div>
+            </div>
+        </div> -->
+
+        <div class="comman-grid-area">
+                <div class="main-area-content" routerLink="/settings/my-profile">
+                    <div class="img-tag">
+                        <img src="../../../assets/images/New-ui-images/personal-details.svg" alt="personal" title="personal">
+                    </div> 
+                    <div class="tag-heading">Personal Details</div>
+                    <p>Update your profile information like name, address, and email signature.</p>
+                </div>
+            </div>
+        <div class="comman-grid-area" *ngIf="http.checkAcl('business-profile')">
+            <div class="main-area-content" routerLink="/settings/business-profile" >
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/business-profile.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Business Profile</div>
+                <p>Manage your business details, including your address and contact info, branding, time zone, and more.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area"  *ngIf="http.checkAcl('users')">
+            <div class="main-area-content"  routerLink="/settings/users">
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/users.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Users</div>
+                <p>Manage users, permissions, and roles for all the users in your Keap account.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area" *ngIf="http.checkAcl('users')">
+            <div class="main-area-content" routerLink="/settings/manage-workspace" >
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/manage-workspaces.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Manage Workspaces</div>
+                <p>Manage users, permissions, and roles for all the users in your Keap account.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area">
+            <div class="main-area-content"  routerLink="/settings/smart-forms">
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/smart-form-builder.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Smart Form Builder</div>
+                <p>Manage users, permissions, and roles for all the users in your Keap account.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area">
+            <div class="main-area-content" routerLink="/settings/lead-forms">
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/lead-form.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Lead Forms</div>
+                <p>Manage users, permissions, and roles for all the users in your Keap account.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area">
+            <div class="main-area-content" routerLink="/contacts/tag-settings">
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/tags.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Tags</div>
+                <p>Manage users, permissions, and roles for all the users in your Keap account.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area" *ngIf="http.checkAcl('money')"> 
+            <div class="main-area-content" routerLink="/settings/products" >
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/product-and-service.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Product And Service</div>
+                <p>Manage all your products and services for use in quotes, invoices, and checkout forms.</p>
+            </div>
+        </div>
+        <div class="comman-grid-area">
+            <div class="main-area-content" routerLink="/settings/change-password">
+                <div class="img-tag">
+                    <img src="../../../assets/images/New-ui-images/change-password.svg" alt="personal" title="personal">
+                </div> 
+                <div class="tag-heading">Change Password</div>
+                <p>Setup your new password.</p>
+            </div>
+        </div>
+
+
+    </div>
+
+
+
+
+</div>

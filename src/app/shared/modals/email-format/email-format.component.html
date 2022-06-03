@@ -1,0 +1,119 @@
+<div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+            <img src="/assets/images/ic_close.svg">
+        </button>
+    </section>
+    <section class="text">
+        <h4>Send an email</h4>
+    </section>
+</div>
+
+<form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+    <div class="modal-body email_str_body">
+        <div class="input-row">
+            <label>To:</label>
+            <div class="select-wrapper input-field">
+                <input matInput type="text" formControlName="email" placeholder="Email">
+                <div class="input-chevron">
+                    <img src="assets/images/ic_dropdown.svg">
+                </div>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <label>From:</label>
+            <div class="input-field">
+                <input matInput type="text" [formControl]="from" placeholder="From" readonly>
+            </div>
+        </div>
+
+        <div class="input-row">
+            <label>Subject:</label>
+            <div class="input-field">
+                <input matInput placeholder="Enter subject" type="text" formControlName="subject">
+            </div>
+        </div>
+
+        <div class="email-content">
+            <div class="form-group">
+                <ckeditor formControlName="content" debounce="500" [config]="ckeConfig">
+                </ckeditor>
+            </div>
+        </div>
+        <div class="modal-footer footer-btn email_str_footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+
+</form>
+
+
+
+<!--<div class="modal-header email_str_header">-->
+<!--    <section id="close" class="navigation">-->
+<!--        <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">-->
+<!--            <img src="/assets/images/ic_close.svg">-->
+<!--        </button>-->
+<!--    </section>-->
+<!--    <section class="text">-->
+<!--        <h4>Contact Information</h4>-->
+<!--    </section>-->
+<!--</div>-->
+
+
+<!--<form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">-->
+<!--    <div class="modal-body">-->
+
+<!--        <h3 class="cus-h3">Get the conversation rolling with this Email</h3>-->
+<!--        <div class="row">-->
+
+<!--            <div class="col-md-12" style="margin-top: 17px;margin-bottom: -10px">-->
+
+<!--                <div class="input-field btn-group add-btn select-opt">-->
+<!--                    <mat-form-field class="full-width select-height" appearance="outline">-->
+<!--                        <mat-select formControlName="sendEmail" (selectionChange)="changeSendMail()">-->
+<!--                            <mat-option value="followupEmail">Follow up email</mat-option>-->
+<!--                            <mat-option value="introductionEmail">Introduction Email</mat-option>-->
+<!--                        </mat-select>-->
+<!--                    </mat-form-field>-->
+<!--                </div>-->
+
+<!--            </div>-->
+<!--            <div class="col-md-12">-->
+<!--                <mat-form-field class="full-width" appearance="outline">-->
+<!--                    <mat-label>From</mat-label>-->
+<!--                    <input matInput type="text" [formControl]="from"-->
+<!--                           placeholder="From" readonly>-->
+<!--                </mat-form-field>-->
+<!--            </div>-->
+
+<!--            <div class="col-md-12">-->
+<!--                <mat-form-field class="full-width" appearance="outline">-->
+<!--                    <mat-label>Subject</mat-label>-->
+<!--                    <input matInput placeholder="Enter Subject" type="text"-->
+<!--                           formControlName="emailSubject">-->
+<!--                    <mat-error *ngIf="form.controls['emailSubject'].hasError('required')">-->
+<!--                        Please enter subject.-->
+<!--                    </mat-error>-->
+<!--                </mat-form-field>-->
+<!--            </div>-->
+
+
+<!--            <div class="col-md-12">-->
+<!--                <div class="form-group">-->
+<!--                    <ckeditor formControlName="emailFormat"-->
+<!--                              debounce="500" [config]="ckeConfig">-->
+<!--                    </ckeditor>-->
+<!--                    <mat-error *ngIf="form.controls['emailFormat'].hasError('emailFormat')">-->
+<!--                        Please enter email format.-->
+<!--                    </mat-error>-->
+<!--                </div>-->
+<!--            </div>-->
+<!--        </div>-->
+<!--        <div class="modal-footer footer-btn">-->
+<!--            <button type="button" class="btn btn-danger" (click)="http.hideModal()">Cancel</button>-->
+<!--            <button type="submit" class="btn btn-primary">Send Now</button>-->
+<!--        </div>-->
+<!--    </div>-->
+<!--</form>-->

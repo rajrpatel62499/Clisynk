@@ -1,0 +1,63 @@
+<div class="right-col choose-form-right-col-body">
+    <div class="inner-row-main-vc">
+        <button class="btn" (click)="openAddAppointment()">Create a new appointment type <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+        <div class="search-filed">
+            <input [(ngModel)]="searchText" type="text" class="search" placeholder="Search Appointment">
+        </div>
+    </div>
+    <div class="formlisting-body">
+            <div *ngIf="!(loadingService.loader$|async)" class="any-lead-form-main">
+                    <span class="heading-form"> Any Appointment</span>
+                    <span class="sub-task-main">When any appointment is scheduled </span>
+            </div>
+            <app-loading [length]="1"></app-loading>
+    </div>
+    <div class="smart-form-listing-table">
+        <table class="smart-table-list" matSort (matSortChange)="sortData($event)">
+            <thead>
+                <tr>
+                    <th class="form-name" mat-sort-header="name">Appointment Name</th>
+                    <!-- <th class="description">Description</th> -->
+                    <th class="added-on" mat-sort-header="link">Link</th><!-- <button class="down-arrow"><img src="../../../../assets/images/down-blue-arrow.svg" width="20"></button> -->
+                    <th class="status" >Action</th>
+                    <!-- <th class="actions-table">Actions</th> -->
+                </tr>
+            </thead>
+            <tbody *ngIf="!(loadingService.loader$|async)">
+                <tr  *ngFor="let f of sortedData| filter:searchText; let i=index">
+                    <td (click)="onSelectForm(f)" class="form-name">
+                        {{ f.name }}
+                        <!-- <span>
+                            <img src="../../../../assets/images/document-chat.svg" width="15"> {{f.submittedCount}}
+                        </span>  -->
+                    </td>
+                    <!-- <td class="description new-description" style="width: 500px;">
+                        <p  matTooltipClass="custom-tooltip"></p>
+                    </td> -->
+                    <td class="added-on">
+                        <a class="links" (click)="http.openInNewTab(appoint.getBookingLink(f.name))">    {{appoint.getBookingLink(f.name)}} </a>
+                    </td>
+                    <td class="status" >
+                        <span class="button-send-invite">
+                            <button  (click)="appoint.sendInvite(f)"> <svg id="send" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.707 1.293a1 1 0 0 1 .262.953l-.04.125-8 20a1 1 0 0 1-1.88-.06l-.03-.115-1.869-9.346-9.346-1.87a1 1 0 0 1-.283-1.858l.108-.05 20-8a1 1 0 0 1 1.078.22zm-3.445 4.86l-6.176 6.176 1.235 6.176zm-1.414-1.415L5.495 9.679l6.176 1.235z" fill-rule="evenodd"></path></svg> 
+                                Send invite
+                            </button>
+                         </span>
+                     </td>
+                    <!-- <td class="actions-table"><button class="delete-icon" >
+                        <img src="../../../../assets/images/trash-icon.svg" width="20"></button>
+                        <button  class="delete-icon" ><img src="../../../../assets/images/copy.svg" alt="copy" width="28"></button>
+                    </td> -->
+                </tr>
+            </tbody>
+        </table>
+    </div>
+        <div class="first-section-wrapper">
+            <div class="gravatar-title">
+                <div>
+                    <app-loading [length]="3"></app-loading>
+                </div>
+            </div>
+        </div>
+</div>  
+

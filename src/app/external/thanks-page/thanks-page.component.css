@@ -1,0 +1,62 @@
+.logo-main img {
+    width: 200px;
+    object-fit: scale-down;
+}
+
+.thaks-vectors img {
+    width: 60%;
+    margin-bottom: 50px;
+}
+
+.main-pages-thanks {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.main-pages-thanks .inner-page-wrapper {
+    width: 900px;
+    margin: auto;
+    text-align: center;
+    padding-bottom: 100px;
+}
+
+.small-text-main {
+    font-weight: 500;
+    font-size: 28px;
+    text-align: center;
+    color: #2A2A2A;
+}
+
+
+@media (max-width:1500px){
+    .thaks-vectors img{
+        width: 53%;
+        margin-bottom: 50px;
+    }
+}
+
+
+@media (max-width:1300px){
+    .thaks-vectors img{
+        width: 48%;
+        margin-bottom: 50px;
+    }
+    .small-text-main{
+        font-size: 25px;
+    }
+}
+
+
+@media (max-width:1100px){
+    .main-pages-thanks .inner-page-wrapper{
+        width:80%;
+    }
+}
+
+@media (max-width:991px){
+    .main-pages-thanks .inner-page-wrapper{
+        width:100%;
+    }
+}

@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Clisynk</title>
+    <base href="/">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <link rel="icon" href="src/assets/images/favicon.ico">-->
+    <link rel="icon" href="./assets/images/favicon.png">
+    <!--    <link rel='shortcut icon' type='image/x-icon' href='favicon.ico'/>-->
+
+    <link rel="stylesheet" type="text/css"
+          href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.0/animate.min.css">
+
+
+    <link rel="stylesheet" href="//use.fontawesome.com/releases/v5.6.3/css/all.css"
+          integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <!--css finish-->
+
+    <script
+            src="//maps.googleapis.com/maps/api/js?key=AIzaSyAxUB88Usr19MSM639HyjETY3llO2Rd_SI&libraries=places&language=en"></script>
+
+    <!--    <script-->
+    <!--            src="//maps.googleapis.com/maps/api/js?key=AIzaSyCPot2lnfi65nNS_YURyIogl5yBE0il2Q0&libraries=places&language=en"></script>-->
+    <link rel="manifest" href="/manifest.json">
+    <!--javascript finish-->
+
+    <link href="//fonts.googleapis.com/css?family=Roboto:300,400,500&display=swap" rel="stylesheet">
+    <link href="//fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+</head>
+
+<body class="body-small">
+<app-root>
+    <!--    <div style="width: 100%; height:100%; background: white;">-->
+    <!--        <div style="position: inherit; top: inherit; bottom: inherit;-->
+    <!--            left: inherit; right: inherit; height: 100%; margin: auto;    display: flex;-->
+    <!--            justify-content: center; align-items: center;">-->
+
+    <!--            &lt;!&ndash;                    <img src="./assets/images/logo_green.png" style="width: 100%; height: auto;&ndash;&gt;-->
+    <!--            &lt;!&ndash;            max-width: 15%;">&ndash;&gt;-->
+    <!--        </div>-->
+    <!--    </div>-->
+</app-root>
+<script src="//cdn.ckeditor.com/4.9.2/full-all/ckeditor.js"></script>
+<script src="//cdnjs.cloudflare.com/ajax/libs/screenfull.js/4.2.0/screenfull.js"></script>
+
+
+
+<script>
+    let src = '/assets/images/percussion-sound.ogg';
+    let audio = new Audio(src);
+
+
+    function playAudio() {
+        audio.play();
+    }
+
+
+</script>
+<!---->
+<button id="audio" onclick="playAudio()" style="display: none">
+    play
+</button>
+
+<!--document.getElementById("myCheck").click()-->
+
+<script src='//fullcalendar.io/js/fullcalendar-2.1.1/lib/moment.min.js'></script>
+<script src='//fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery.min.js'></script>
+<script src="//fullcalendar.io/js/fullcalendar-2.1.1/lib/jquery-ui.custom.min.js"></script>
+<script src='//fullcalendar.io/js/fullcalendar-2.1.1/fullcalendar.min.js'></script>
+</body>
+
+
+</html>

@@ -1,0 +1,38 @@
+<div class="add-remove-popup">
+<div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+            <img src="/assets/images/ic_close.svg">
+        </button>
+    </section>
+    <section class="text">
+        <h4>Add or remove tags</h4>
+    </section>
+</div>
+
+<div class="modal-body">
+
+    <div class="btn-group add-btn select-opt" dropdown>
+        <mat-form-field appearance="outline" class="select-height">
+            <mat-label>Choose a tag to add/remove</mat-label>
+            <mat-select [formControl]="tagId">
+                <mat-option (click)="openAddTag()"><i class="fas fa-plus"></i>Add</mat-option>
+                <mat-option *ngFor="let data of myModel.tags" [value]="data._id">
+                    <ng-container *ngIf="data?.tagCategoryId">{{data?.tagCategoryId?.name}} -></ng-container>
+                    {{data?.name}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+    </div>
+
+</div>
+<div class="modal-footerr">
+
+    <div class="button-row">
+        <button type="button" class="btn btn-outline-primary" [disabled]="!tagId.valid" (click)="applyTag()">Apply Tag
+        </button>
+        <button type="reset" class="btn btn-outline-danger" [disabled]="!tagId.valid" (click)="removeTag()">Remove
+        </button>
+    </div>
+</div>
+</div>

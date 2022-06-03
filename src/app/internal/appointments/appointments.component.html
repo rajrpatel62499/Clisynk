@@ -1,0 +1,175 @@
+<div class="appointments-page">
+    <header class="page-header">
+        <div title="Tasks" class="title">
+            <h2>Appointments</h2>
+        </div>
+        <div class="actions button-row text-right">
+            <div class="btn-group send-invite" dropdown>
+                <button id="button-basic2" dropdownToggle type="button" class="btn text-button"
+                        aria-controls="dropdown-basic">Send invite
+                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-down">
+                        <path d="M6.293 9.293a1 1 0 0 1 1.414 0L12 13.586l4.293-4.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414z" fill-rule="evenodd"></path>
+                    </svg>
+                </button>
+                <div >
+                    <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                        aria-labelledby="button-basic"
+                        style="left: -103px; max-height: 200px;overflow-y:scroll">
+                        <li role="menuitem" style="display: block" *ngFor="let data of myModel?.appointmentTypes"
+                            (click)="appoint.sendInvite(data)">
+                            <a class="dropdown-item">
+                            <span class="ellipsis">{{data?.name}}
+                                <ng-container *ngIf="data?.duration"> | {{data?.duration}}
+                                    min</ng-container>
+                            </span>
+                            </a>
+                        </li>
+                        <li *ngIf="!myModel?.appointmentTypes?.length" role="menuitem"
+                            style="display: flex; justify-content: center; align-items: center;">
+                            <span class="ellipsis"><b>No Appointments Found!</b></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <!--            <button type="button" class="btn-outline-primary" (click)="http.openModal('appointSuccess')">-->
+            <!--                test-->
+            <!--            </button>-->
+            <button type="button" class="btn-outline-primary" (click)="openBook()">
+                Book now
+            </button>
+        </div>
+    </header>
+
+
+    <div class="appointments">
+        <div class="appointments-list-left">
+            <div class="calendar" style="height: 350px;">
+                <!--                <div id="full-calendar"></div>-->
+                <full-calendar #calendar defaultView="dayGridMonth" deepChangeDetection="true"
+                               class="testClass "
+                               [events]="calendarEvents" [plugins]="calendarPlugins" [defaultDate]="selectedDate"
+                               (dateClick)="handleDateClick($event)" [validRange]="validRange"
+                ></full-calendar>
+                <!--                [validRange]="validRange"-->
+            </div>
+            <div class="clearfix"></div>
+            <div class="appointment-types medium-only">
+                <div class="appointment-types-list">
+                    <div class="appointment-card-header">
+                        <h6>Appointment types</h6>
+                        <button class="text-button" type="button" (click)="openAddAppoint()"> Add appointment type
+                        </button>
+                    </div>
+
+                    <app-loader [showLoader]="myModel.loader" [length]="myModel?.appointmentTypes?.length"></app-loader>
+                    <app-appoint-type-list [allData]="myModel?.appointmentTypes"></app-appoint-type-list>
+
+                </div>
+                <a class="button block medium-only text-button icon-button" href="" target="_blank"
+                   rel="noopener noreferrer">
+                    <svg class="icon icon">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="rss">
+                            <path
+                                    d="M3.5 10.5a10 10 0 0 1 10 10 1 1 0 1 1-2 0 8 8 0 0 0-8-8 1 1 0 1 1 0-2zm0-8a18 18 0 0 1 18 18 1 1 0 1 1-2 0 16 16 0 0 0-16-16 1 1 0 0 1 0-2zM4 19a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"
+                                    fill-rule="evenodd"></path>
+                        </svg>
+                    </svg>
+                    <span>Share appointments feedback</span>
+                </a>
+            </div>
+        </div>
+
+        <div class="appointments-list day-detail">
+            <div class="day-detail-header">
+                <h5 class="current-date"><span class="full-date">{{selectedDate |date:'MMMM'}}</span></h5>
+                <div class="fc-button-group">
+                    <button type="button" class="fc-prev-button fc-button fc-button-primary" aria-label="prev"
+                            (click)="changeMonth(1)">
+                        <span class="fc-icon fc-icon-chevron-left"></span>
+                    </button>
+                    <button type="button" class="fc-next-button fc-button fc-button-primary" aria-label="next"
+                            (click)="changeMonth(2)">
+                        <span class="fc-icon fc-icon-chevron-right"></span>
+                    </button>
+                </div>
+                <header class="invite-actions">
+                    <div class="popover-container">
+                        <div class="popover-reference">
+                            <div class="filter-status">
+                                <div class="btn-group" dropdown>
+                                    <button id="button-basic2" dropdownToggle type="button" class="text-button"
+                                            aria-controls="dropdown-basic">
+                                        <svg class="filter-icon icon">
+                                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="filter">
+                                                <path
+                                                        d="M14 16a1 1 0 0 1 0 2h-4a1 1 0 0 1 0-2zm3-5a1 1 0 0 1 0 2H7a1 1 0 0 1 0-2zm3-5a1 1 0 0 1 0 2H4a1 1 0 1 1 0-2z"
+                                                        fill-rule="evenodd"></path>
+                                            </svg>
+                                        </svg>
+                                        Filter
+                                    </button>
+                                    <ul id="dropdown-basic2" class="dropdown-menu" role="menu"
+                                        aria-labelledby="button-basic">
+                                        <li style="display: block" (click)="showAppoint = false">
+                                            <a class="dropdown-item">
+                                                <span>Show all events</span></a>
+                                        </li>
+                                        <li style="display: block" (click)="showAppoint = true">
+                                            <a class="dropdown-item">
+                                                <span>Show appointments only</span>
+                                            </a>
+                                        </li>
+                                        <!--                                        <li>-->
+                                        <!--                                            <div class="calendar-filter">-->
+                                        <!--                                                <header>Show/hide Google Calendars</header>-->
+                                        <!--                                                <div class="checkbox-group">-->
+                                        <!--                                                    <div class="checkbox">-->
+                                        <!--                                                        <div class="button">-->
+                                        <!--                                                            <input type="checkbox">-->
+                                        <!--                                                            <div class="box">-->
+                                        <!--                                                                <svg class="box-icon icon">-->
+                                        <!--                                                                    <svg xmlns="http://www.w3.org/2000/svg"-->
+                                        <!--                                                                         viewBox="0 0 24 24"-->
+                                        <!--                                                                         id="check">-->
+                                        <!--                                                                        <path fill-rule="evenodd" clip-rule="evenodd"-->
+                                        <!--                                                                              d="M20.707 6.293a1 1 0 0 1 0 1.414l-11 11a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 16.586 19.293 6.293a1 1 0 0 1 1.414 0z">-->
+                                        <!--                                                                        </path>-->
+                                        <!--                                                                    </svg>-->
+                                        <!--                                                                </svg>-->
+                                        <!--                                                                <svg class="box-icon icon" style="display: none;">-->
+                                        <!--                                                                    <svg xmlns="http://www.w3.org/2000/svg"-->
+                                        <!--                                                                         viewBox="0 0 24 24"-->
+                                        <!--                                                                         id="minus">-->
+                                        <!--                                                                        <path-->
+                                        <!--                                                                                d="M3.5 12a1 1 0 0 1 1-1h15a1 1 0 1 1 0 2h-15a1 1 0 0 1-1-1z"-->
+                                        <!--                                                                                fill-rule="evenodd"></path>-->
+                                        <!--                                                                    </svg>-->
+                                        <!--                                                                </svg>-->
+                                        <!--                                                            </div>-->
+                                        <!--                                                        </div>-->
+                                        <!--                                                        <div class="content"><span-->
+                                        <!--                                                                class="label">mk0119263@gmail.com</span>-->
+                                        <!--                                                        </div>-->
+                                        <!--                                                    </div>-->
+                                        <!--                                                </div>-->
+                                        <!--                                            </div>-->
+                                        <!--                                        </li>-->
+                                    </ul>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </header>
+            </div>
+
+            <ng-container *ngIf="showAppoint">
+                <app-loader [showLoader]="myModel.loader" [length]="myModel?.appointmentTypes?.length"></app-loader>
+                <app-appoint-list [allData]="myModel?.appointments"></app-appoint-list>
+            </ng-container>
+
+            <ng-container *ngIf="!showAppoint">
+            </ng-container>
+        </div>
+    </div>
+</div>

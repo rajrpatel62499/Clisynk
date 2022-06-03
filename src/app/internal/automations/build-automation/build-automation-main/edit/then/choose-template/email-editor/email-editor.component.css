@@ -1,0 +1,32 @@
+
+.create-email-body-main {
+    padding: 0 !important;
+}
+
+.create-email-body-main .email-main-row {
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid #ebebeb;
+}
+
+
+.create-email-body-main .email-main-row .title-email {
+    width: 10%;
+    font-size: 15px;
+    color: #a2a1a1;
+    margin-right: 43px i !important;
+}
+
+.create-email-body-main .email-main-row .edit-title {
+    width: 90%;
+}
+
+.create-email-body-main .email-main-row .edit-title input {
+    width: 100%;
+    border: none;
+}
+.email-template {
+    overflow: hidden;
+    height: 300px !important;
+}

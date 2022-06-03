@@ -1,0 +1,214 @@
+<div class="Clients_list_heading">  
+    <h3 class="inter-page-heading">Tags</h3>
+    <div class="btn-combobox">
+        <button class="back-btn" (click)="http.navigate('contacts')">Back</button>
+        <button class="add-user-btn"   (click)="addTag()"> Add Tag</button>
+    </div>
+</div>
+
+
+
+
+<div class="tags-page">
+    <section class="side-panel">
+        <div class="side-header">
+            <div class="search">
+                <div class="input-field search-input  tag-input no-label">
+                    <input type="search" placeholder="Search tags..." [formControl]="search" (input)="tagList()">
+                </div>
+            </div>
+        </div>
+        <section class="items" style="height: 500px;overflow-y: scroll;">
+            <app-loader [showLoader]="loader" [length]="myModel?.tags?.length"></app-loader>
+            <div class="no-tag" *ngIf="!loader && !myModel?.tags?.length">
+                <h3>No Tag Available</h3>
+            </div>
+
+            <ng-container *ngFor="let data of myModel?.tags;let i = index">
+                <a class="tag-item" [ngClass]="{ 'active': selected == data}" (click)="selected = data;contactList();selectedIndex = i;selectedContactCount = 0;
+                        allSelect.patchValue('')">
+                    <div class="tag-content">
+                        <div class="chip">
+                            <div class="leading-slot">
+                                <img [src]="'/assets/images/tag_icon.svg'" width="15">
+                            </div>
+                            <div class="text">
+                                <span>{{data?.name}}</span>
+                            </div>
+                        </div>
+                        <span class="category">{{data?.tagCategoryId?.name}}</span>
+                    </div>
+                    <div class="icon-actions">
+                            <a (click)="selected = data; editTag()" ><img src="../../../../assets/images/New-ui-images/edit-icon.svg"> </a>
+                            <a (click)="selected = data; deleteTag(data)"><img src="../../../../assets/images/trash-icon.svg"> </a>
+
+                    </div>
+
+                </a>
+            </ng-container>
+        </section>
+    </section>
+    <section class="tag-contact-area">
+            <div class="main-tags-area">
+                <!-- <div class="input-field search-input  tag-input no-label">
+                    <input type="search" placeholder="Search Contact..." (input)="contactList()" [formControl]="searchContact" >
+                </div> -->
+
+                <ng-container *ngIf="!selected">
+                    <!-- ------------NEW-CODE-HERE PLEASE UNCOMMNETED THIS ONE -->
+                    <div class="empty-state-wrapper">
+                        <div class="empty-state">
+                            <div class="image-wrapper">
+                                <img src="../../../../assets/images/New-ui-images/tags-main.svg">
+                            </div>
+                            <div class="details-wrapper">
+                                <h3 class="empty-state-title comman-heading">Use tags to segment your contacts</h3>
+                                <p>With tags you can segment your contacts into very specific lists for more targeted marketing. You can apply tags manually. However, in most cases tags will be automatically created based on a trigger or activity in a campaign workflow.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- -------------NEW COD- HERE----- -->
+                    <!-- <div class="listing-main-tags">
+                            <div class="comman-row-main-tags" *ngFor="let item of [1,2, 3, 4]">
+                                    <div class="icon-avt">JD</div>
+                                    <div class="name-col">
+                                        <div class="heading-tags">John Doe</div>
+                                        <div class="email-tags">Johndoe@gmail.com</div>
+                                    </div>
+                                    <div class="tag-name-main">Lead</div>
+                                    <div class="close-icon">
+                                        <img src="../../../../assets/images/New-ui-images/close-icon.svg">
+                                    </div>
+                            </div>
+                    </div> -->
+
+
+                </ng-container>
+
+
+                <!-- Old-code-commented-here -->
+                <div class="tag-contact-list-page">
+                    <div class="mobile-panel mobile-panel">
+                        <ng-container *ngIf="selected">
+                            <!-- <button class="icon-only corner-navigation" type="button" aria-label="Close"
+                                    (click)="selected = ''">
+                                <svg class="icon">
+                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="x">
+                                        <path
+                                                d="M18.707 6.707a1 1 0 0 0-1.414-1.414L12 10.586 6.707 5.293a1 1 0 0 0-1.414 1.414L10.586 12l-5.293 5.293a1 1 0 1 0 1.414 1.414L12 13.414l5.293 5.293a1 1 0 0 0 1.414-1.414L13.414 12z"
+                                                fill-rule="evenodd"></path>
+                                    </svg>
+                                </svg>
+                            </button> -->
+                            <div class="tag-contact-list-content">
+                                <!-- <header>
+                                    <div class="content-header">
+                                        <h4 class="tag-title"> {{selected?.name}} </h4>
+                                        <span class="number small">{{this.myModel.totalItems}}</span>
+                                    </div>
+                                    <button class="button_outline" (click)="editTag()">Edit</button>
+                                </header> -->
+                                <div class="input-field search-input tag-input no-label">
+                                    <input type="search" class="form-control" [formControl]="searchContact"
+                                        placeholder="Search contacts" (input)="contactList()">
+                                </div>
+                                
+                                <app-placeholders [flag]="9" *ngIf="!loader && myModel?.contacts?.length === 0"></app-placeholders>
+                                <app-loader [showLoader]="loader" [length]="myModel?.contacts?.length">
+                                </app-loader>
+                                <div class="contact-list-items" *ngIf="myModel?.contacts?.length > 0">
+                                    <div class="tab-content contact-v-tab-heading" id="pills-tabContent">
+
+                                        <div class="tab-pane1" id="pills-home">
+                                            <div class="nav flex-column nav-pills" id="v-pills-tab" aria-orientation="vertical">
+                                                <!-- <div class="select-all">
+                                                    <label class="custom-checkbox">Select all
+                                                        <input type="checkbox" (change)="selectAllContact()"
+                                                            [formControl]="allSelect">
+                                                        <span class="checkmark"></span>
+                                                    </label>
+                                                </div> -->
+
+                                                <cdk-virtual-scroll-viewport itemSize="50" class="full-port">
+                                                    <app-loader [showLoader]="loader" [length]="myModel?.contacts?.length">
+                                                    </app-loader>
+                                                    <div *cdkVirtualFor="let data of myModel?.contacts;let i = index">
+
+                                                        <div class="nav-link">
+                                                            <!-- <span class="circle">
+                                                                <label class="custom-checkbox">
+                                                                    <input type="checkbox" (change)="getSelectedCount()"
+                                                                        [(ngModel)]="data.isSelected">
+                                                                    <span class="checkmark" style="margin-left: -10px;">
+                                                                    </span>
+                                                                    <span class="circle" *ngIf="!data.isSelected"
+                                                                        style="top: 0;left:0">
+                                                                        {{data?.firstName?.substr(0, 1)}}{{data?.lastName?.substr(0, 1)}}
+                                                                    </span>
+                                                                </label>
+                                                            </span>
+                                                            <h4 (click)="selectContact(data,i)">{{data?.firstName}}
+                                                                {{data?.lastName}}</h4>
+                                                            <ul class="top-ul">
+                                                                <li *ngIf="data?.contactsType == 1"><span>Lead</span>
+                                                                    <i class="fas fa-circle selected-tab"
+                                                                    style="color: #f07a39"></i>
+                                                                </li>
+                                                                <li *ngIf="data?.contactsType == 2"><span>Client</span>
+                                                                    <i class="fas fa-circle selected-tab"></i>
+                                                                </li>
+                                                            </ul>
+                                                            <p (click)="selectContact(data,i)">{{data?.email}}
+                                                                <span>Added {{data?.createdAt |date:'MMM dd,yyyy'}}</span>
+                                                            </p> -->
+                                                            <div class="listing-main-tags">
+                                                                <div class="comman-row-main-tags" >
+                                                                        <div class="icon-avt">{{data?.firstName?.substr(0, 1)}}{{data?.lastName?.substr(0, 1)}}</div>
+                                                                        <div class="name-col">
+                                                                            <div class="heading-tags">{{data?.firstName}} {{data?.lastName}}</div>
+                                                                            <div class="email-tags">{{data?.email}}</div>
+                                                                        </div>
+                                                                        <div class="tag-name-main" *ngIf="data?.contactsType == 1">Lead</div>
+                                                                        <div class="tag-name-main" *ngIf="data?.contactsType == 2">Client</div>
+                                                                        <div (click)="removeTagFromContact(data)" class="close-icon">
+                                                                            <img src="../../../../assets/images/New-ui-images/close-icon.svg">
+                                                                        </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                
+                                                    </div>
+                                                </cdk-virtual-scroll-viewport>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </ng-container>
+                    </div>
+                </div>
+            </div>
+    </section>
+</div>
+
+
+<div class="bottom-fix-bar" *ngIf="selectedContactCount > 0">
+    <div class="container">
+        <div class="item-count">{{selectedContactCount}} Selected</div>
+        <section>
+            <button type="button" class="outline-btn" (click)="openAddRemoveTag()">Add or remove tags</button>
+            <button type="button" class="outline-btn"> Send a broadcast</button>
+            <button type="button" class="outline-btn" (click)="exportContacts();selectedContactCount =0">
+                Exports
+            </button>
+            <button type="button" class="outline-btn delet-btn" (click)="deleteContact()">
+                Delete
+            </button>
+        </section>
+    </div>
+</div>
+
+

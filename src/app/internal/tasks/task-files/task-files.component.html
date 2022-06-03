@@ -1,0 +1,48 @@
+<div class="search-task-tabs-inner-search">
+    <input type="text" [(ngModel)]="searchText" placeholder="Search task name or file name here...">
+</div>
+
+<div class="task-name-main">
+    <table class="mainfiles-table">
+
+        <thead>
+            <tr>
+                <th>Task Name</th>
+                <th>File Name</th>
+                <th>Date & Time</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let task of (this.tasks|filter:searchText)">
+                <td>
+                    <div class="f_task_name">{{task?.title}}</div>
+                </td>
+                <td>
+                    <div class="filetype-main">
+                        <div class="types-main-inner" *ngIf="task?.image">
+                            <div class="left-file-type-main" >
+                                <img src="../../../assets/images/pdf-main.svg">
+                                <!-- QR code file.pdf <span class="file-sized">(120K)</span> -->
+                                {{(task?.image|stringToObj)?.fileName}} <span class="file-sized">({{(task?.image|stringToObj)?.size}})</span>
+                            </div>
+                            <div class="close-icon">
+                                <img src="../../../assets/images/close-icons-news.png" (click)="deleteFile(task)">
+                            </div>
+                        </div>
+                        <div class="no-file ml-3" *ngIf="!task?.image">
+                            No File 
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="date-time-task">{{task?.createdAt|date:'dd/MM/yyyy - hh:mm a'}}</div>
+                    <!-- <div class="date-time-task">25/04/2021 - 1:00 PM</div>
+                    <div class="date-time-task">25/04/2021 - 1:00 PM</div> -->
+                </td>
+
+            </tr>
+
+        </tbody>
+
+    </table>
+</div>

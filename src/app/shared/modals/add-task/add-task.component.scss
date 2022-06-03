@@ -1,0 +1,74 @@
+.modal-header {
+    flex-direction: row-reverse;
+}
+.red{
+    color: red;
+}
+
+.task-name {
+    margin-bottom: 20px;
+}
+
+.max-character {
+    margin-top: -20px;
+    position: relative;
+    left: 19px;
+    font-size: 12px;
+    line-height: 16px;
+    letter-spacing: 0.02em;
+    color: #979797;
+}
+
+.dates-field-main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+}
+
+.assign-to-contact-main {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+}
+
+.upload-main-btn {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+    margin-bottom: 30px;
+}
+
+.upload-main {
+    border: 1px dashed #CFD0D1;
+    padding: 30px 10px;
+    border-radius: 10px;
+    text-align: center;
+    .task-image{
+        height: 120px;
+        width: 200px;
+        object-fit: cover;
+        border-radius: 10px;
+    }
+}
+
+.upload-title {
+    font-size: 14px;
+    line-height: 20px;
+    letter-spacing: 0.02em;
+    color: #BBBBBB;
+}
+
+button.browse-btn {
+    text-align: center;
+    margin: 10px 0px;
+    background: #4776e6 !important;
+    color: #fff !important;
+    font-size: 12px;
+    padding: 8px 30px;
+}
+
+.button-row {
+    display: flex;
+    justify-content: center;
+    padding-bottom: 20px;
+}

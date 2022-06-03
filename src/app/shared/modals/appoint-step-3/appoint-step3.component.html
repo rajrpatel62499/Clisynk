@@ -1,0 +1,36 @@
+<div class="col-md-12">
+    <div class="step-3">
+
+        <!--        <div class="row">-->
+<div class="step-31">
+        <strong class="pre-instruction"> Pre-appointment instructions</strong>
+
+
+        <div class="pre-instruction">
+            <label class="switch">
+                <input type="checkbox" [formControl]="isInstruction">
+                <span class="slider round"></span>
+            </label>
+        </div>
+        </div>
+        <!--        </div>-->
+
+        <p>Need to give your contact instructions about the appointment? This will display on the booking confirmation
+            page</p>
+
+        <ng-container *ngIf="isInstruction.value">
+            <!--            <form [formGroup]="isInstruction.value">-->
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Appointment instructions</mat-label>
+                    <textarea matInput [formControl]="instructions" rows="5"></textarea>
+                    <mat-error *ngIf="instructions.hasError('required')">
+                        Please enter Appointment instructions.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <!--            </form>-->
+        </ng-container>
+
+    </div>
+</div>

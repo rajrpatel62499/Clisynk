@@ -1,0 +1,122 @@
+<div class="right-col edit-options-emails">
+    <span class="first-heading-title">Send (introduction) email</span>
+    <!-- ----------------------Tabination-------------- -->
+    <div [formGroup]="form" class="">
+        <div class="">
+            <ul class="delayed-options">
+                <li (click)="f.isDelayed.setValue(false)" [ngClass]="{'active': f.isDelayed.value == false}"> <a>
+                        Immediately </a> </li>
+                <li (click)="f.isDelayed.setValue(true)" [ngClass]="{'active': f.isDelayed.value == true}">
+                    <a> Delayed</a>
+                </li>
+            </ul>
+            <div *ngIf="f.isDelayed.value == true">
+
+                <div [ngClass]="{'active': f.isDelayed.value == true}">
+                    <ng-container formGroupName="delayedOptions">
+
+                        <div class="edit-options-delayed-main">
+                            <div class="type-main-drop">
+                                <mat-form-field class="full-width select-height" appearance="outline">
+                                    <mat-label class="required"> Delay Type</mat-label>
+                                    <mat-select formControlName="delayType">
+                                        <mat-option [value]="DELAY_TYPES.WAIT" default>Wait</mat-option>
+                                        <mat-option [value]="DELAY_TYPES.WAIT_UNTIL">Wait until a specific date
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                            <ng-container
+                                *ngIf="f?.delayedOptions?.get('delayType').value == DELAY_TYPES.WAIT;else showChooseDate">
+                                <ng-container formGroupName="dayInterval">
+                                    <div class="second-row-for-day">
+
+                                        <div class="left-text-block">
+                                            <mat-form-field class="full-width my-form-field" appearance="outline">
+                                                <mat-label class="required">Number</mat-label>
+                                                <input placeholder="number" matInput appNumberOnly
+                                                    formControlName="value" type="text" #input>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="right-text-block">
+
+                                            <mat-form-field class="full-width select-height" appearance="outline">
+                                                <mat-label class="required"> Day</mat-label>
+                                                <mat-select formControlName="intervalType">
+                                                    <mat-option value="minutes" default>minutes</mat-option>
+                                                    <mat-option value="hour">hour</mat-option>
+                                                    <mat-option value="day">day</mat-option>
+                                                    <mat-option value="week">week</mat-option>
+                                                    <mat-option value="month">month</mat-option>
+                                                    <mat-option value="year">year</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+
+                                    </div>
+
+                                </ng-container>
+                            </ng-container>
+                            <ng-template #showChooseDate>
+                                <ng-container formGroupName="dayInterval">
+
+                                    <div class="choose-date-after-show">
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Choose a date</mat-label>
+                                            <input formControlName="value" matInput [matDatepicker]="picker">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngIf="!auto.isNullOrEmpty(dayIntervalValue.value)"
+                                    formGroupName="timeInterval">
+
+                                    <div class="at-between-main-tabs">
+                                        <ul class="delayed-options">
+                                            <li (click)="timeIntervalType.setValue(TIME_TYPES.atTime)"
+                                                [class.active]="timeIntervalType.value == TIME_TYPES.atTime"> <a> At
+                                                </a> </li>
+                                            <li (click)="timeIntervalType.setValue(TIME_TYPES.betweenTime)"
+                                                [class.active]="timeIntervalType.value == TIME_TYPES.betweenTime">
+                                                <a> Between</a>
+                                            </li>
+                                        </ul>
+
+                                        <ng-container *ngIf="timeIntervalType.value == TIME_TYPES.atTime;else between">
+                                            <timepicker [(ngModel)]="atTime" [showMeridian]="true"
+                                                (ngModelChange)="atTimeChange()" [ngModelOptions]="{standalone:true}">
+                                            </timepicker>
+                                        </ng-container>
+                                        <ng-template #between>
+                                            <div class="between-time-pick-main">
+                                                <timepicker [(ngModel)]="startTime" [showMeridian]="true"
+                                                    (ngModelChange)="betweenTimeChange('start')"
+                                                    [ngModelOptions]="{standalone:true}"></timepicker>
+                                                <div class="center-col-time">
+                                                    and
+                                                </div>
+                                                <timepicker [(ngModel)]="endTime" [showMeridian]="true"
+                                                    (ngModelChange)="betweenTimeChange('end')"
+                                                    [ngModelOptions]="{standalone:true}"></timepicker>
+
+                                            </div>
+                                        </ng-template>
+                                    </div>
+                                </ng-container>
+                            </ng-template>
+
+                            <!-- <div class="check-items-for-delayed">
+                                <mat-checkbox [checked]="isSpecificTime" (change)="onSpecificTimeChange($event)"
+                                    class="example-margin">At a specific time of day</mat-checkbox>
+                            </div> -->
+
+
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

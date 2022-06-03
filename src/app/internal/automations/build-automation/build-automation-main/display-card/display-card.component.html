@@ -1,0 +1,77 @@
+<div class="panel-group" id="accordion">
+    <div class="panel panel-default">
+        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion"
+         [attr.href]="'#' + random.toString()" >
+            <h4 class="panel-title">
+                <img class="mr-2" style="width: 45px; height: 45px" [src]="cardStatus" alt="">
+                <a>
+                    {{_taskData?.controls?.eventDescription.value}}
+                </a>
+            </h4>
+        </div>
+        <div [id]="random.toString()" class="panel-collapse collapse">
+            <div class="panel-body">
+                <div class="inner-first-row-main">
+                    <div class="inner-left-col"> 
+                        <label class="form-name-heading">{{_taskData?.value?.eventData?.params?.name}}</label>
+                        <span class="who-is-owner">
+                            <ng-container [ngSwitch]="(_taskData?.value)?.eventName">
+                                <ng-container *ngSwitchCase="EventNames.WHEN.LEAD_FORM"></ng-container>
+                                <ng-container *ngSwitchCase="EventNames.WHEN.APPOINTMENT_SCHEDULED">
+                                    {{ _taskData?.value?.eventData?.dataId ? '':"Any Appointment is scheduled."}}
+                                  </ng-container>
+                                <ng-container *ngSwitchCase="EventNames.WHEN.APPOINTMENT_CANCELED">
+                                    {{ _taskData?.value?.eventData?.dataId ? '':"Any Appointment is canceled."}}
+                                  </ng-container>
+                                <ng-container *ngSwitchCase="EventNames.WHEN.TAG_ADDED">
+                                    {{ _taskData?.value?.eventData?.params?.tagCategoryName ? _taskData.value.eventData.params.tagCategoryName :"Tag Added"}}
+                                  </ng-container>
+                                <ng-container *ngSwitchCase="EventNames.WHEN.PRODUCT_PURCHASED">
+                                    {{ _taskData?.value?.eventData?.params?.price ? (_taskData.value.eventData.params.price|currency) :"Product purchased"}}
+                                  </ng-container>
+                                <ng-container *ngSwitchDefault>{{_taskData?.value?.eventDescription}}</ng-container>
+                            </ng-container>
+                        </span>
+                    </div>
+                    <div class="inner-right-col">
+                        <a class="btn-combo" >
+                            <img (click)="onEditTask()" [src]="statusImages.edit" width="20">
+                        </a>
+                        <a class="btn-combo" >
+                            <img (click)="onDeleteTask()" [src]="statusImages.delete" width="20">
+                        </a>
+                    </div>
+                </div>
+                <section *ngIf="eventType == EventType.THEN && thenEvent?.eventData?.dataId" class="edit-timings">
+                    <div class="row p-4 bg-light">
+                        <div class="col-8">{{thenEvent?.delayedOptions | thenTime}}</div>
+                        <div class="col-4 text-center blue-link" (click)="onEditTimer()"> Edit Timer</div>
+                    </div>
+                </section>
+                <div class="go-to-your-form">
+                    <div class="left-inner-col-footer">
+                        <ng-container [ngSwitch]="_taskData?.value?.eventName">
+                            <ng-container *ngSwitchCase="EventNames.WHEN.LEAD_FORM">
+                                <button class="btn" (click)="goTo()" >Go to your form <img [src]="statusImages.exportBlueIcon"width="35"> </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="EventNames.WHEN.APPOINTMENT_SCHEDULED"></ng-container>
+                            <ng-container *ngSwitchCase="EventNames.WHEN.APPOINTMENT_CANCELED"></ng-container>
+                            <ng-container *ngSwitchCase="EventNames.WHEN.TAG_ADDED">
+                                <button class="btn" (click)="goTo()" >Manage Tags <img [src]="statusImages.exportBlueIcon"width="35"> </button>
+                            </ng-container>
+                            <ng-container *ngSwitchCase="EventNames.WHEN.PRODUCT_PURCHASED">
+                                <button class="btn" (click)="goTo()" >Manage products <img [src]="statusImages.exportBlueIcon"width="35"> </button>
+                            </ng-container>
+                            <ng-container *ngSwitchDefault>
+                                
+                            </ng-container>
+                        </ng-container>
+                    </div>
+                    <div class="right-inner-col-footer">
+                        <button class="btn" routerLink="/automation/build-automation">Done</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,108 @@
+<div class="med-popup">
+    <div class="modal-header email_str_header Appointment_info">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="closeBtnClick()">
+                <img src="/assets/images/ic_close.svg" *ngIf="selectedStep === 1">
+                <img src="assets/images/back-arrow.svg" *ngIf="selectedStep != 1">
+            </button>
+        </section>
+        <section class="text">
+            <h4>New appointment</h4>
+        </section>
+
+        <section class="action">
+            <button class="btn-outline-primary" type="button" [disabled]="checkDisable()"
+                    (click)="finalSubmit(true)">
+                <ng-container *ngIf="selectedStep === 1 || selectedStep === 2">Next</ng-container>
+                <ng-container *ngIf="selectedStep === 3">Finish</ng-container>
+                <ng-container *ngIf="selectedStep === 4">DONE</ng-container>
+            </button>
+        </section>
+    </div>
+
+    <div class="modal-body">
+        <div class="connect-to-google">
+            <div class="stage-indicators" *ngIf="selectedStep <= 4">
+                <div class="stage " [ngClass]="{'ready':selectedStep >= 1,'active':selectedStep >= 1}"
+                     (click)="selectedStep = 1">
+                    <div class="circle">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="check">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M20.707 6.293a1 1 0 0 1 0 1.414l-11 11a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 16.586 19.293 6.293a1 1 0 0 1 1.414 0z">
+                                </path>
+                            </svg>
+                        </svg>
+                    </div>
+                    <p class="label"> Connect </p>
+                </div>
+
+                <div class="stage " [ngClass]="{'active':selectedStep >= 2 ,'ready':selectedStep >= 2}"
+                     (click)="gotoStep(2)">
+                    <div class="circle">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="check">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M20.707 6.293a1 1 0 0 1 0 1.414l-11 11a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 16.586 19.293 6.293a1 1 0 0 1 1.414 0z">
+                                </path>
+                            </svg>
+                        </svg>
+                    </div>
+                    <p class="label"> Info </p>
+                </div>
+
+                <div class="stage " [ngClass]="{'active':selectedStep >= 3, 'ready':selectedStep >= 3}"
+                     (click)="gotoStep(3)">
+                    <div class="circle">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="check">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M20.707 6.293a1 1 0 0 1 0 1.414l-11 11a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 16.586 19.293 6.293a1 1 0 0 1 1.414 0z">
+                                </path>
+                            </svg>
+                        </svg>
+                    </div>
+                    <p class="label"> Set up </p>
+                </div>
+
+                <div class="stage" (click)="gotoStep(4)"
+                     [ngClass]="{'active':selectedStep >= 4, 'ready':selectedStep  == 4}">
+                    <div class="circle">
+                        <svg class="icon">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="check">
+                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                      d="M20.707 6.293a1 1 0 0 1 0 1.414l-11 11a1 1 0 0 1-1.414 0l-5-5a1 1 0 1 1 1.414-1.414L9 16.586 19.293 6.293a1 1 0 0 1 1.414 0z">
+                                </path>
+                            </svg>
+                        </svg>
+                    </div>
+                    <p class="label"> Options </p>
+                </div>
+
+            </div>
+
+            <div class="set-availability-stage">
+                <ng-container *ngIf="selectedStep === 1">
+                    <h2>Appointment info</h2>
+                    <app-appoint-1 (outputAction)="finalSubmit()" [inputData]="allData"></app-appoint-1>
+                </ng-container>
+
+                <ng-container *ngIf="selectedStep === 2">
+                    <h2>Hours and availability</h2>
+                    <app-appoint-2 [inputData]="allData" [isEdit]="!!allData"></app-appoint-2>
+                </ng-container>
+
+                <ng-container *ngIf="selectedStep === 3">
+                    <h2>Additional options</h2>
+                    <app-appoint-3 [inputData]="allData" [isEdit]="!!allData"></app-appoint-3>
+                </ng-container>
+
+                <ng-container *ngIf="selectedStep === 4">
+                    <app-appoint-4 [inputData]="allData"></app-appoint-4>
+                </ng-container>
+
+            </div>
+        </div>
+    </div>
+
+</div>

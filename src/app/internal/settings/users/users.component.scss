@@ -1,0 +1,18 @@
+.action-btn{
+    svg {
+        width: 20px;
+        height: 20px;
+        object-fit: scale-down;
+    }
+}
+
+a.edit:hover svg {
+    fill: #4776E6;
+}
+a.edit:hover svg path {
+    fill: #4776E6;
+}
+
+a.delete:hover svg g path {
+    fill: #FD1C37;
+}

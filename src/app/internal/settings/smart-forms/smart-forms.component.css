@@ -1,0 +1,209 @@
+.main-header-smart {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 20px;
+  margin-bottom: 15px;
+  border-bottom: 1px solid #e6e6e8;
+}
+
+.main-header-smart .left-col {
+  display: flex;
+  align-items: center;
+}
+
+.main-header-smart .left-col .back-btn {
+  margin-right: 15px;
+  border: none;
+  background: none;
+}
+
+.main-header-smart .left-col span.heading-main {
+  font-size: 28px;
+  font-weight: 100;
+}
+
+/* --------------table-width-------------------- */
+
+.form-name {
+  width: 250px;
+}
+.description {
+  width: 500px;
+}
+.added-on {
+  width: 200px;
+}
+.status {
+  width: 200px;
+}
+.actions-table {
+  width: 200px;
+}
+
+.smart-form-listing-table table.smart-table-list tr th {
+  padding: 10px 20px;
+  font-size: 16px;
+  color: #7e7d84;
+  font-weight: 300;
+}
+
+.smart-form-listing-table .smart-table-list tr {
+  border-bottom: 1px solid #e6e6e8;
+}
+
+.smart-form-listing-table table.smart-table-list tr td {
+  padding: 20px 20px;
+  font-size: 13px;
+  color: #000;
+  font-weight: 400;
+}
+
+.smart-form-listing-table table.smart-table-list .down-arrow {
+  background: none;
+  border: none;
+}
+
+.not-published {
+  border: none;
+  background: #f0f0f0;
+  padding: 6px 15px;
+  font-size: 12px;
+  border-radius: 20px;
+}
+.published {
+  background: #0d3174;
+  border: none;
+  padding: 6px 15px;
+  color: #fff;
+  font-size: 12px;
+  border-radius: 20px;
+}
+
+.delete-icon {
+  background: none;
+  border: none;
+  outline: none;
+}
+
+.smart-form-listing-table .smart-table-list tbody tr {
+  cursor: pointer;
+  transition: 0.2s all ease;
+}
+
+.smart-form-listing-table .smart-table-list tbody tr:hover {
+  background: #f0f0f0;
+  transition: 0.2s all ease;
+}
+
+.new-description {
+  max-width: 200px;
+}
+
+.new-description p {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 0px;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color: rgb(75, 145, 224);
+}
+
+.Clients_list_heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.Clients_list_heading .left-col-heading-smrt {
+  display: flex;
+  align-items: center;
+}
+
+.Clients_list_heading .right-col-heading-smrt {
+  display: flex;
+  align-items: center;
+}
+
+.Clients_list_heading .right-col-heading-smrt .search-bar-filed {
+  margin-right: 20px;
+  position: relative;
+}
+
+.Clients_list_heading
+  .right-col-heading-smrt
+  .search-bar-filed
+  button.btn-search-form {
+  background: transparent;
+  border: none;
+  padding: 0;
+  position: absolute;
+  right: 0;
+}
+
+.Clients_list_heading .right-col-heading-smrt .search-bar-filed input {
+  padding: 10px 40px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding-left: 20px;
+  font-size: 12px;
+}
+
+.Clients_list_heading
+  .right-col-heading-smrt
+  .search-bar-filed
+  button.btn-search-form
+  img {
+  width: 28px;
+}
+
+
+.smart-form-listing-table th {
+  width: 18% !important;
+}
+
+
+.action-btn a:first-child img {
+  width: auto;
+  height: 27px;
+}
+
+.comman-status {
+  display: inline-block;
+  font-size: 12px;
+  line-height: 16px;
+  text-align: center;
+  letter-spacing: 0.02em;
+  border-radius: 100px;
+  padding: 6px 22px !important;
+  width: 110px;
+}
+
+.draf-btn{
+  color: #979797;
+  background: #F8F8F8;
+}
+
+.published{
+  background: #52B781;
+  color: #fff;
+}
+
+.smart-form-listing-table .sixth-col-new .status-shimmer {
+  width: 130px;
+  height: 14px;
+  border-radius: 100px;
+}
+
+.smart-form-listing-table td.seventh-col-new .action-btn {
+  display: flex;
+  align-items: center;
+}
+
+.smart-form-listing-table td.seventh-col-new .action-btn .shimmer-table {
+  width: 20px;
+  height: 17px;
+  margin-right: 20px;
+}

@@ -1,0 +1,167 @@
+<div class="create-accounts-main-area">
+    <div class="left-col-main">
+            <div [formGroup]="form"  class="create-account-form-main">
+                    <div class="logo-area">
+                        <img src="/assets/images/1280x1024.jpg" width="200"> 
+                    </div>
+                    <div class="create-text">Create account</div>
+                    <div class="login-form-field-main">
+                        <div class="row">
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <mat-form-field class="full-width" appearance="outline">
+                                        <input maxlength="50" appInputRestriction="noSpecialChars" matInput type="text" formControlName="firstName" placeholder="First Name">
+                                        <mat-error
+                                            *ngIf="form.controls['firstName'].hasError('required') && form.controls.firstName.touched">
+                                            Please enter first name.
+                                        </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <mat-form-field class="full-width" appearance="outline">
+                                        <input maxlength="50" appInputRestriction="noSpecialChars" matInput type="text" formControlName="lastName" placeholder="Last Name">
+                                        <mat-error
+                                        *ngIf="form.controls['lastName'].hasError('required') && form.controls.lastName.touched">
+                                        Please enter last name.
+                                    </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group email-group">
+                                    <mat-form-field class="full-width" appearance="outline">
+                                        <input matInput type="text" formControlName="email" placeholder="Enter email here">
+                                        <mat-error
+                                        *ngIf="form.controls['email'].hasError('required') && form.controls.email.touched">
+                                        Please enter email.
+                                    </mat-error>
+                                    <mat-error
+                                            *ngIf="form.controls['email'].hasError('pattern')">
+                                        Please enter valid email.
+                                    </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <mat-form-field class="full-width" appearance="outline">
+                                        <input minlength="10" maxlength="10" appNumberOnly matInput type="text" formControlName="phoneNumber" placeholder="Phone Number">
+                                        <mat-error
+                                        *ngIf="form.controls['phoneNumber'].hasError('required') && form.controls.phoneNumber.touched">
+                                        Please enter phone number.
+                                    </mat-error>
+                                    <mat-error
+                                    *ngIf="(form.controls['phoneNumber'].hasError('minlength')||form.controls['phoneNumber'].hasError('maxlength')) && form.controls.phoneNumber.touched">
+                                    Please enter valid phone number.
+                                </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                <div class="form-group">
+                                    <mat-form-field class="full-width" appearance="outline">
+                                        <input maxlength="50" appInputRestriction="noSpecialChars" matInput type="text" formControlName="businessName" placeholder="Business Name">
+                                        <mat-error
+                                        *ngIf="form.controls['businessName'].hasError('required') && form.controls.businessName.touched">
+                                        Please enter business name.
+                                    </mat-error>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-6 dropdown-customs">
+                                
+                                <div class="btn-group" dropdown>
+                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                                            aria-controls="dropdown-basic">
+                                            {{ f.businessSize.value ? f.businessSize.value : 'Business Size'}} <span class="caret"></span>
+                                        </button>
+                                        <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu"
+                                        role="menu" aria-labelledby="button-basic">
+                                        <li role="menuitem"><a class="dropdown-item" (click)="f.businessSize.setValue('small')">Small</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" (click)="f.businessSize.setValue('medium')">Medium</a></li>
+                                        <li role="menuitem"><a class="dropdown-item" (click)="f.businessSize.setValue('large')">Large</a></li>
+                                    </ul>
+                                </div>
+                                <mat-error
+                                *ngIf="form.controls['businessSize'].hasError('required') && form.controls.businessSize.touched">
+                                Please select business size.
+                                </mat-error>
+
+                            </div>
+                            <div class="col-6 dropdown-customs">
+                                <!-- <mat-form-field  appearance="fill">
+                                    <mat-label>Business Category</mat-label>
+                                    <mat-select formControlName="businessCategory">
+                                      <mat-option *ngFor="let businessCategory of businessCategories" [value]="businessCategory.value">
+                                        {{businessCategory.key}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field> -->
+                                <div class="btn-group" dropdown>
+                                    <button id="button-basic" dropdownToggle type="button" class="btn btn-primary dropdown-toggle"
+                                            aria-controls="dropdown-basic">
+                                            
+                                            {{ businessCategory ? businessCategory : 'Business Cateogry '}}
+                                            <span class="caret"></span>
+                                    </button>
+                                    <ul id="dropdown-basic" *dropdownMenu class="dropdown-menu categories"
+                                        role="menu" aria-labelledby="button-basic">
+                                      <li *ngFor="let businessCategory of businessCategories" role="menuitem">
+                                          <a class="dropdown-item" (click)="f.businessCategory.setValue(businessCategory.value)" >{{businessCategory.key}}</a>
+                                      </li>
+                                    </ul>
+                                </div>
+                                <mat-error
+                                *ngIf="form.controls['businessCategory'].hasError('required') && form.controls.businessCategory.touched">
+                                Please select business category.
+                                </mat-error>
+                            </div>
+                            <div class="col-6"></div>
+
+                        </div>
+
+
+                    </div>
+                    <div class="notes-area-main-content mt-4">
+                        <textarea formControlName="notes" class="Note" placeholder="Note"></textarea>
+                    </div>
+                    <mat-checkbox [formControl]="terms" class="example-margin">By registering, I agree to Clisynk <a href="#">terms</a> & <a href="#">privacypolicy</a></mat-checkbox>
+                    <div class="buttons-registers-main">
+                        <button type="submit" class="btns-register"  (click)="finalSubmit()">
+                            <i [ngClass]="{ 'fa fa-spinner fa-spin': loader}"></i>
+                            Register</button>
+                    </div>
+
+                    <div class="mt-4 mb-5 text-center">Already have an account? <a class="pull-right d-inline" routerLink="/login"> Login</a></div>
+            </div>
+
+
+
+    </div>       
+    
+    
+    <div class="right-col-main">
+
+        <div class="main-images-area">
+
+                <div class="img-area">
+                    <img src="../../../assets/images/New-ui-images/register-main.svg" alt="forgot password" title="forgot password">
+                </div>
+                <div class="cards-title">
+                        <div class="left-cards-main"></div>
+                        <div class="right-cards-main">
+                                <div class="heading-slider">lorem ipsum</div>
+                                <p>Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer</p>
+                        </div> 
+                        <div class="dots-imgs">
+                            <img src="../../../assets/images/New-ui-images/dots-images.svg">
+                        </div>
+                        
+                </div>
+        </div>
+
+    </div>
+
+</div>

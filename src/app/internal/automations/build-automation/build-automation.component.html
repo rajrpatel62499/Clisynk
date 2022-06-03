@@ -1,0 +1,22 @@
+<div class="main-build-automation">
+    <div class="build-automation-header-main">
+        <div class="left-col">
+            <img [src]="'/assets/images/back-arrow.svg'" (click)="saveDraft()" width="50">
+            <span>Build automation</span>
+        </div>
+        <div class="right-col">
+            <button class="next-btn" >Publish</button>
+        </div>
+
+
+    </div>
+    <div class="container col-3" style="margin-top: 10%;">
+        <div *ngIf="automationService?.automation?.automationName" class="create-tags-filed mb-2">
+            <mat-form-field class="full-width" appearance="outline">
+                <mat-label class="required">Automation name</mat-label>
+                <input [(ngModel)]="automationService.automation.automationName" matInput placeholder="Free consulation" type="text"  #input1>
+            </mat-form-field>
+        </div>
+        <app-automation-preview></app-automation-preview>
+    </div>
+</div>

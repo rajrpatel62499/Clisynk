@@ -1,0 +1,52 @@
+<div class="med-popup">
+    <div class="page-container">
+        <div class="row" style="margin-left: 0px;">
+            <div class="col-3 left-part">
+                <div class="left-container" (click)="clickPages()" [ngClass]="{'active': viewPages}">
+                    <img src="assets/images/uploadfile-doc.svg"/>
+                    <span class="left-text">Pages</span>
+                </div>
+                <div class="left-container" (click)="clickUploadFile()"  [ngClass]="{'active': viewUploadFile}">
+                    <img src="assets/images/uploadfile-doc.svg"/>
+                    <span class="left-text">Upload file</span>
+                </div>
+            </div>
+            <hr/>
+            <div class="col-9 right-part">
+                <div *ngIf="viewPages">
+                    <div class="row page-content">
+                        <div class="col-4">
+                            <img src="assets/images/coverpage-doc.svg" /><br />
+                            <label class="page-label">COVER PAGE</label><br />
+                            <label class="page-text">Add a cover page</label>
+                        </div>
+                        <div class="col-4">
+                            <img src="assets/images/uploadfile-doc.svg" /><br />
+                            <label class="page-label">BLANK PAGE</label><br />
+                            <label class="page-text">Add a blank page</label>
+                        </div>
+                        <div class="col-4">
+                            <img src="assets/images/search-doc.svg" /><br />
+                            <label class="page-label">LANDSCAPE PAGE</label><br />
+                            <label class="page-text">Explore more option</label>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="viewUploadFile" style="text-align: center;">
+                    <div class="upload-title-doc">
+                        PDF,images and MS Office files will be uploaded as non-editable documents.
+                        Docx files can be uploaded and converted into fully editable documents.
+                    </div><br/><br/>
+                    <div class="upload-text1-doc">
+                        Drag and drop your file here
+                    </div><br/>
+                    <div>or</div><br/>
+                    <div>
+                        <button type="button" class="btn select-btn-doc">Select File  <img src="../../../../assets/images/add-upload-select.svg"/></button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

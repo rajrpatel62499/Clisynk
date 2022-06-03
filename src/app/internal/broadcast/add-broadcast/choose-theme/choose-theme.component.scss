@@ -1,0 +1,101 @@
+.grid-themes-main {
+    padding: 20px;
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+    cursor: pointer;
+    .comman-grid{
+        margin-bottom: 10px;
+        .image-div-main {
+            border: 1px solid #ccc;
+            margin-bottom: 10px;
+            overflow: auto;
+            padding: 20px;
+            border-radius: 10px;
+            .inner-htm{
+                dynamic-html {
+                    width: 240px;
+                    height: 330px;
+                    display: block;
+                }
+            }
+            img{             
+                width: 100%;
+            }
+        }
+        .template-name-main {
+            text-align: center;
+            font-weight: 500;
+            font-size: 18px;
+            line-height: 22px;
+            letter-spacing: 0.02em;
+            margin-top: 10px;
+        }
+    }
+}
+
+.shimmer-main {
+    padding: 0px 20px;
+    width: 100%;
+    .shimmer-inner-grid-main{
+        display: grid;
+        grid-template-columns:repeat(5, 1fr);
+        grid-column-gap: 20px;
+        grid-row-gap: 20px;
+        .shimmer-card {
+            border: 1px solid #ccc;
+            width: 100%;
+            height: 320px;
+            padding: 20px;
+            border-radius: 10px;
+            .shimmer-content-heading {
+                width: 79%;
+                height: 40px;
+                margin-bottom: 60px;
+            }
+            .address-shim {
+                width: 100%;
+                height: 10px;
+                margin-bottom: 19px;
+            }
+        }
+    }
+}
+
+@media (max-width:1660px){
+    .grid-themes-main{
+        grid-template-columns: repeat(4, 1fr);
+    }
+    .shimmer-main .shimmer-inner-grid-main{
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+
+}
+
+@media (max-width:1500px) {
+    .select-a-starting-main{
+        padding: 20px 40px;
+    }
+    .select-a-starting-main .heading-file{
+        font-size: 18px;
+    }
+    .tabs-add-broadcast  nav{
+        padding: 16px;
+    }
+    .tabs-add-broadcast nav  .nav-tabs a{
+        font-size: 14px;
+    }
+    .grid-themes-main{
+        grid-template-columns: repeat(3, 1fr);
+    }
+    .grid-themes-main .comman-grid .template-name-main{
+        font-size: 16px;
+    }
+    .shimmer-main .shimmer-inner-grid-main{
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+

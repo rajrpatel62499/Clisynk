@@ -1,0 +1,34 @@
+
+
+<!-- Wrapper-->
+<div id="wrapper">
+    <!-- Left navigation bar -->
+    <!-- Main page wrapper -->
+    <app-top-nav-bar></app-top-nav-bar>
+    <app-side-bar></app-side-bar>
+    <div id="page-wrapper" class="white-bg">
+        <!-- Top navigation -->
+
+        <!-- Main view/routes wrapper-->
+        <router-outlet>
+            <div class="outer-loader" *ngIf="loading">
+                <div class="inner-loader">
+                    <div class="lds-roller">
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                    </div>
+                </div>
+            </div>
+        </router-outlet>
+        <!-- Footer -->
+        <app-footer></app-footer>
+    </div>
+    <!-- End page wrapper-->
+</div>
+<!-- End wrapper-->

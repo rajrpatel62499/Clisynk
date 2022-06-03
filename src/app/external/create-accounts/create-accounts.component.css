@@ -1,0 +1,316 @@
+.create-accounts-main-area {
+    display: flex;
+    height: 100%;
+    overflow: hidden;
+}
+
+.create-accounts-main-area .left-col-main {
+    width: 50%;
+}
+.create-accounts-main-area .right-col-main {
+    width: 50%;
+    background: linear-gradient(112.14deg, #4776E6 10.71%, #8E54E9 99.63%);
+    display: flex;
+    align-items: center;
+    position: relative;
+    overflow: hidden;
+}
+.create-accounts-main-area .right-col-main:before {
+    position: absolute;
+    content: '';
+    border: 100px solid rgba(255, 255, 255, 0.1);
+    width: 370px;
+    height: 370px;
+    border-radius: 100%;
+    top: -210px;
+    right: -210px;
+}
+
+.create-accounts-main-area .right-col-main:after {
+    position: absolute;
+    content: '';
+    border: 100px solid rgba(255, 255, 255, 0.1);
+    width: 370px;
+    height: 370px;
+    border-radius: 100%;
+    bottom: -210px;
+    left: -210px;
+}
+
+.create-account-form-main {
+    margin: auto;
+    width: 650px;
+    height: calc(100% - 0px);
+    overflow-y: auto;
+    padding: 0px 20px;
+    padding-top: 30px;
+   
+}
+
+.logo-area img {
+    width: 180px;
+    position: relative;
+    margin-bottom: -30px;
+    z-index: -1;
+    cursor: pointer;
+    left: -10px;
+}
+
+.create-text {
+    font-weight: 500;
+    font-size: 34px;
+    line-height: 46px;
+    color: #2A2A2A;
+    margin-bottom: 30px;
+}
+
+.grid-area-for-input {
+    margin-bottom: 20px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-column-gap: 20px;
+    grid-row-gap: 20px;
+}
+
+.grid-area-for-input .comman-grid input {
+    border: 1px solid #CFD0D1;
+    box-sizing: border-box;
+    border-radius: 5px;
+    padding: 12px 20px;
+    width: 100%;
+    letter-spacing: 0.02em;
+}
+
+.grid-area-for-input .comman-grid input::placeholder,
+.notes-area-main-content textarea.Note::placeholder {
+    color: #bbb;
+}
+
+.dropdown-customs .btn-group {
+    display: block;
+}
+
+.dropdown-customs .btn-group .btn {
+    flex: inherit;
+    padding: 12px;
+    width: 100%;
+    text-align: left;
+    border-radius: 5px;
+    background: #fff !important;
+    color: #bbb !important;
+    border: 1px solid #CFD0D1;
+    position: relative;
+}
+
+.dropdown-customs .btn-group .btn:before {
+    position: absolute;
+    content: '';
+    width: 0;
+    height: 0;
+    border-left: 7px solid transparent;
+    border-right: 7px solid transparent;
+    border-top: 7px solid #979797;
+    right: 15px;
+    top: 0;
+    bottom: 0;
+    margin: auto;
+}
+
+.dropdown-menu {
+    width: 100%;
+    box-shadow: 0px 1px 3px #989898;
+    border-radius: 5px;
+    padding: 5px 0px;
+    min-width: 100% !important;
+}
+
+.dropdown-menu li a {
+    padding: 7px 15px;
+    font-size: 11px;
+    text-decoration: none;
+}
+
+.notes-area-main-content {
+    margin-bottom: 20px;
+}
+
+.notes-area-main-content textarea.Note {
+    width: 100%;
+    height: 110px;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: 1px solid #cccc;
+}
+
+.buttons-registers-main {
+    margin-top: 50px;
+    /* margin-bottom: 80px; */
+    text-align: center;
+}
+
+.buttons-registers-main button.btns-register {
+    background: #4776E6;
+    border-radius: 5px;
+    border: none;
+    color: #fff;
+    padding: 15px 90px;
+    font-size: 14px;
+}
+
+.main-images-area {
+    width: 500px;
+    margin: auto;
+}
+
+.main-images-area .img-area {
+    width: 80%;
+    margin: auto;
+    margin-bottom: 60px;
+}
+
+.main-images-area .img-area img{
+    width: 100%;
+}
+
+.cards-title {
+    margin-top: 180px;
+    display:flex;
+    filter:drop-shadow(-20px 20px 20px rgba(0, 0, 0, 0.1));
+}
+
+.cards-title .left-cards-main {
+    width: 40%;
+    background: #E9EFF5;
+    border-radius: 10px 0px 0px 10px;
+}
+
+.right-cards-main {
+    background: #FFFFFF;
+    border-radius: 10px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    padding: 28px 30px;
+  
+}
+
+.heading-slider {
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    color: #2A2A2A;
+    margin-bottom: 10px;
+}
+
+p {
+    margin-bottom: 0;
+    font-size: 13px;
+}
+.dropdown-customs {
+    position: relative;
+}
+.dropdown-customs .mat-error {
+    position: absolute;
+    font-size: 11px;
+    background: #ff0101;
+    margin-top: 14px !important;
+    padding: 0;
+    padding-left: 8px;
+    padding-top: 0px;
+    padding-bottom: 2px;
+    width: auto;
+    padding-right: 10px;
+    left: 27px !important;
+    box-shadow: 0px 2px 6px #bbb;
+    border-radius: 2px;
+    top: 30px;
+    color: #fff;
+    font-weight: 500;
+}
+.dropdown-customs .mat-error:before{
+    position: absolute;
+    content: "";
+    width: 0;
+    height: 0;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent;
+    border-bottom: 8px solid red;
+    top: auto;
+    bottom: 19px;
+    left: 11px;
+}
+.dots-imgs {
+    position: absolute;
+    bottom: -60px;
+    left: 0;
+    right: 0;
+    margin: auto;
+    width: 50%;
+    text-align: center;
+}
+
+@media (max-width:1600px) {
+    .main-images-area .img-area{
+        margin-bottom: 0px;
+        width:60%;
+    }
+    .cards-title{
+        margin-top: 100px;
+    }
+    .create-account-form-main{
+        width: 560px;
+    }
+    .right-cards-main{
+        padding: 20px 20px;
+    }
+    .create-text{
+        font-size: 28px;
+        margin-bottom: 40px;
+    }
+    .heading-slider{
+        font-size: 16px;
+        line-height:23px;
+        margin-bottom: 10px;
+    }
+}
+
+
+@media (max-width:1400px){
+    .create-account-form-main{
+        width:80%;
+    }
+    p{
+        font-size: 12px;
+    }
+    .main-images-area{
+        width:80%;
+    }
+    .main-images-area .img-area{
+        margin-bottom: 0px;
+        width:50%;
+    }
+    .right-cards-main{
+        padding: 15px 15px;
+    }
+}
+@media (max-width:1100px){
+    .create-account-form-main{
+        width: 95%;
+    }
+    .create-accounts-main-area .left-col-main{
+        width: 60%;
+    }
+    .create-text {
+        font-size: 25px;
+        margin-bottom: 10px;
+    }
+}
+
+
+ul.categories {
+    overflow: auto;
+    height: 200px;
+}
+
+a{
+    text-decoration: underline;
+}

@@ -1,0 +1,6 @@
+<ng-container *ngIf="loadingService.loader$|async">
+    <ngx-skeleton-loader
+        [count]="length"
+        [theme]="{ width: '100%', 'border-radius': '0', height: '60px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+    </ngx-skeleton-loader>
+</ng-container>

@@ -1,0 +1,140 @@
+<!-- -------first-drop-down------------- -->
+<div class="dropdown-main-for-auto">
+    <div class="btn-group add-btn start-automation-dropdown add-then-automation-dropdown" dropdown>
+        <button id="button-basic2" dropdownToggle type="button" class="btn dropdown-toggle "
+            aria-controls="dropdown-basic">
+            {{ selectedEvent ? selectedEvent : 'What will be automated ?' }} <i class="fas fa-angle-down"></i>
+        </button>
+        <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu" aria-labelledby="button-basic">
+
+            <ng-container *ngFor="let item of listOfThenEvents">
+                <li role="menuitem">
+                    <a class="dropdown-item" (click)="onSelectEvent(item)">{{item?.eventDescription}} </a>
+                </li>
+            </ng-container>
+        </ul>
+
+    </div>
+    <!-- <select   [(ngModel)]="selectedEvent">
+        <option value="" disabled selected>What Will be automated? </option>
+        <option *ngFor="let item of listOfThenEvents" [value]="item">{{item}}</option>
+    </select> -->
+</div>
+<!-- -------------grip-wrapper----------- -->
+<div class="suggested-option-label-main">
+    <label>Suggested options</label>
+</div>
+
+<div class="select-option-four-grid-wrapper">
+    <ng-container *ngFor="let item of listOfThenEvents">
+        <div (click)="onSelectEvent(item)" class="inner-grid-col">
+            <span>{{item?.eventDescription}}</span>
+            <img  src="../../../../assets/images/send-an-email-blue.svg" width="60">
+        </div>    
+    </ng-container>
+    <ng-container *ngIf="loader">
+        <ngx-skeleton-loader
+            count="1"
+            [theme]="{ width: '100%', 'border-radius': '10px', height: '200px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+        </ngx-skeleton-loader>
+    </ng-container>
+    <!-- <div class="inner-grid-col">
+        <span>Send an email </span>
+        <img src="../../../../assets/images/send-an-email-blue.svg" width="60">
+    </div>
+    <div class="inner-grid-col">
+        <span>Send notification</span>
+        <img src="../../../../assets/images/send-notification-blue.svg" width="60">
+    </div>
+    <div class="inner-grid-col">
+        <span>Add a tag </span>
+        <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+    </div>
+    <div class="inner-grid-col">
+        <span>Create a task </span>
+        <img src="../../../../assets/images/create-a-task-blue.svg" width="60">
+    </div> -->
+
+</div>
+<!-- -----------show-all-option--------------- -->
+<div class="show-all-option then-automation-build">
+    <button class="btn-option" (click)="toggleOptions()">{{showOption ? 'Show less option': 'Show more option'}}
+        <i class="fas fa-angle-down"></i>
+    </button>
+</div>
+<!-- -----------------all-option----------------- -->
+<!-- ------------------all-options-there------------------- -->
+<ng-container *ngIf="showOption">
+    <div class="all-option-available">
+        <div class="appoint-ments">
+            <span> Email</span>
+        </div>
+    </div>
+    <div class="right-inner-wrapper-first">
+        <div class="select-option-four-grid-wrapper">
+            <div class="inner-grid-col">
+                <span>Send an email </span>
+                <img src="../../../../assets/images/send-an-email-blue.svg" width="60">
+            </div>
+            <!-- <div class="inner-grid-col">
+                                                        <span>Appointment is <br/>cancelled </span>
+                                                        <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                                                    </div>     -->
+        </div>
+    </div>
+    <!-- ------------forms------------- -->
+    <div class="all-option-available">
+        <div class="appoint-ments">
+            <span> Notifications</span>
+        </div>
+    </div>
+    <div class="right-inner-wrapper-first">
+        <div class="select-option-four-grid-wrapper">
+            <div class="inner-grid-col">
+                <span>Send notification</span>
+                <img src="../../../../assets/images/send-notification-blue.svg" width="60">
+            </div>
+        </div>
+    </div>
+    <!-- ------------Money------------- -->
+    <div class="all-option-available">
+        <div class="appoint-ments">
+            <span> Tags</span>
+        </div>
+    </div>
+    <div class="right-inner-wrapper-first">
+        <div class="select-option-four-grid-wrapper">
+            <div class="inner-grid-col">
+                <span>Add a tag </span>
+                <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+            </div>
+            <div class="inner-grid-col">
+                <span>Remove a tag </span>
+                <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+            </div>
+        </div>
+    </div>
+    <!-- ---------tasks------------- -->
+    <div class="all-option-available">
+        <div class="appoint-ments">
+            <span> Tasks</span>
+        </div>
+    </div>
+    <div class="right-inner-wrapper-first">
+        <div class="select-option-four-grid-wrapper">
+            <div class="inner-grid-col">
+                <span>Create a task </span>
+                <img src="../../../../assets/images/create-a-task-blue.svg" width="60">
+            </div>
+        </div>
+    </div>
+
+</ng-container>
+
+<div class="short-des-not-seeing">
+    Not seeing something you wish to automate? <br />
+    Let us know!
+</div>
+<div class="share-feed-back">
+    <button (click)="openSubmitfeedback()">Share feedback</button>
+</div>

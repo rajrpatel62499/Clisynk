@@ -1,0 +1,44 @@
+<div class="med-popup">
+    <div class="modal-header email_str_header">
+        <section class="text">
+            <h4>Add new tag category</h4>
+        </section>
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img [src]="'/assets/images/ic_close.svg'">
+            </button>
+        </section>
+        
+    </div>
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline" hintLabel="Max 40 characters">
+                    <mat-label class="required">Tag category name</mat-label>
+                    <input matInput maxlength="40" appInputRestriction="noSpecialChars" formControlName="name" #input>
+                    <mat-hint align="end">{{input.value?.length || 0}}/40</mat-hint>
+                    <mat-error *ngIf="form.controls['name'].hasError('required')">
+                        Please enter tag description name.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Tag category description</mat-label>
+                    <textarea matInput formControlName="description" rows="5"></textarea>
+                    <mat-error *ngIf="form.controls['description'].hasError('required')">
+                        Please enter tag description.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+            <section class="buttn-row">
+                <button type="submit" class="btn btn-outline-primary" [disabled]="loader">
+                    <i [ngClass]="{'fa fa-spinner fa-spin': loader}"></i>
+                    Save
+                </button>
+                <button type="submit" class="cancel-btn"  [disabled]="loader" (click)="http.hideModal()">Cancel</button>
+            </section>
+
+        </div>
+    </form>
+</div>

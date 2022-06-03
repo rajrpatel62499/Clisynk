@@ -1,0 +1,26 @@
+<div class="right-col choose-form-right-col-body">
+    <div class="inner-row-main-vc">
+        <button class="btn" (click)="openAddProduct()">Create a new product <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+        <div class="search-filed">
+            <input [(ngModel)]="searchText" type="text" class="search" placeholder="Search products">
+        </div>
+    </div>
+    <div class="formlisting-body">
+        <ng-container>
+            <div  class="any-lead-form-main ">
+                    <span class="heading-form"> Any product or service</span>
+                    <span class="sub-task-main ">When anything is purchased</span>
+            </div>
+        </ng-container>
+
+        <div class="text-muted my-2 py-2 border-bottom pl-2 mt-4">Products and services</div> 
+        <ng-container *ngFor="let product of sortedData|filter: searchText; let i=index">
+            <div (click)="onSelectProduct(product)" class="any-lead-form-main row">
+                    <span class="heading-form col-10">{{product?.name}}</span>
+                    <span class="sub-task-main ">{{product?.price|currency}}</span>
+            </div>
+        </ng-container>
+        <app-loading [length]="3"></app-loading>
+    </div>
+</div>  
+

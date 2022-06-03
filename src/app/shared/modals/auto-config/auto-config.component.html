@@ -1,0 +1,96 @@
+<div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="openConfirmModal()">
+            <img src="/assets/images/ic_close.svg">
+        </button>
+    </section>
+    <section class="text">
+        <h4>Configure {{modalData?.name}} stage automation</h4>
+    </section>
+</div>
+<div class="modal-body">
+    <div class="configuration">
+        <div class="configuration-header">
+            <div class="header-title"> When I move a deal...</div>
+            <ul class="header-tabs">
+                <li [ngClass]="{'selected':myModel.selectedTab === 1}" (click)="myModel.selectedTab = 1;">
+                    Into
+                </li>
+                <li [ngClass]="{'selected':myModel.selectedTab === 2}" (click)="myModel.selectedTab = 2">
+                    Out of
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="configuration-actions">
+        <div class="automation-actions">
+            <div class="action-title"> this stage, do the following:</div>
+            <div class="action">
+
+                <ng-container
+                        *ngFor="let data of myModel.selectedTab === 1 ? savedData.into : savedData.outof; let i = index">
+
+                    <div class="conf-tasks" *ngIf="data?.type === '1' || data?.type === '2'">
+                        <div class="conf-tasks-inner-box">
+                            <div class="col-md-12 btn-group">
+                                <mat-form-field class="full-width select-height" appearance="outline">
+                                    <mat-label>Select Tags</mat-label>
+                                    <mat-select [(ngModel)]="data.type">
+                                        <mat-option value="1">Apply Tags</mat-option>
+                                        <mat-option value="2">Remove Tags</mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+
+                            <tag-input class="add_new_tags" [(ngModel)]="data.tagId" [onlyFromAutocomplete]="true">
+                                <tag-input-dropdown [showDropdownIfEmpty]="true" [displayBy]="'showName'"
+                                                    [identifyBy]="'_id'" [autocompleteItems]="myModel.tags"
+                                                    [keepOpen]="false">
+                                    <ng-template let-item="item" let-index="index">
+                                        {{item?.tagCategoryId?.name}} -> {{ item?.name}}
+                                    </ng-template>
+                                </tag-input-dropdown>
+                            </tag-input>
+                        </div>
+                        <i class="far fa-trash-alt text-danger cursor" (click)="deleteItem(i)"></i>
+
+                    </div>
+
+                    <div *ngIf="data?.type === '3'" class="conf-tasks">
+                        <div class="conf-tasks-inner">
+                            Create Task : {{data?.taskTitle}}
+                            <button class="button_outline" (click)="openEditTask(data, i)">Edit Task</button>
+                        </div>
+                        <i class="far fa-trash-alt text-danger cursor" (click)="deleteItem(i)"></i>
+                    </div>
+
+                    <div *ngIf="data?.type === '4'" class="conf-tasks">
+                        <div class="conf-tasks-inner">
+                            Send Email Task : {{data?.subject}}
+                            <button class="button_outline" (click)="openEmailModal(data, i)">Edit Email
+                            </button>
+                        </div>
+                        <i class="far fa-trash-alt text-danger cursor" (click)="deleteItem(i)"></i>
+                    </div>
+                </ng-container>
+
+                <div class=" btn-group add-btn select-opt">
+                    <mat-form-field class="full-width select-height" appearance="outline">
+                        <mat-label>Select Action</mat-label>
+                        <mat-select [formControl]="type" (selectionChange)="actionChanged()">
+                            <mat-option value="1">Apply Tags</mat-option>
+                            <mat-option value="2">Remove Tags</mat-option>
+                            <mat-option value="3">Create Task</mat-option>
+                            <mat-option value="4">Send Email</mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="button-row">
+        <i class="fa fa-spinner fa-spin" *ngIf="myModel?.loader"></i>
+        <button type="button" class="btn-outline-primary" (click)="finalSubmit(true)"> Save</button>
+    </div>
+</div>

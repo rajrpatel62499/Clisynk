@@ -1,0 +1,92 @@
+<div class="med-popup">
+
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4 *ngIf="modalData">Add a deal</h4>
+        </section>
+        <a class="text-button m-w-170" *ngIf="modalData?.status && modalData?.status != 2"
+           (click)="changeStatus(2)">Mark as
+            complete</a>
+    </div>
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="form-group Associated-Contact" *ngIf="!modalData?.contactId">
+                <mat-label class="required">Select Contacts</mat-label>
+                <ng-multiselect-dropdown formControlName="contactId" [placeholder]="'Select Contact'"
+                                         [data]="myModel?.contacts" [settings]="contactSettings">
+                </ng-multiselect-dropdown>
+                <mat-error *ngIf="form.controls['contactId'].hasError('required') && form.controls.contactId.touched">
+                    Please select contact.
+                </mat-error>
+            </div>
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label class="required">Deal Name</mat-label>
+                    <input matInput type="text"
+                           formControlName="name">
+                    <mat-error *ngIf="form.controls['name'].hasError('required')">
+                        Please enter name.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+            <div class="input-field">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label class="required">Deal Value (USD)</mat-label>
+                    <input matInput type="text" formControlName="dealValue" appNumberOnly>
+                    <mat-error *ngIf="form.controls['dealValue'].hasError('required')">
+                        Please enter value.
+                    </mat-error>
+                </mat-form-field>
+            </div>
+
+<!--            <div class="date-fields">-->
+            <!--                <div class="input-field">-->
+            <!--                    <mat-form-field appearance="outline">-->
+            <!--                        <mat-label>Close Date</mat-label>-->
+            <!--                        <input matInput type="text" readonly-->
+            <!--                               formControlName="closeDate" bsDatepicker #dp="bsDatepicker">-->
+            <!--                    </mat-form-field>-->
+            <!--                </div>-->
+
+            <!--            </div>-->
+
+            <div class="">
+                <mat-form-field class="full-width" appearance="outline">
+                    <mat-label>Notes</mat-label>
+                    <textarea matInput formControlName="notes"
+                              rows="4"> </textarea>
+                </mat-form-field>
+            </div>
+
+            <div class="button-row">
+                <!--                disabled="disabled"-->
+                <button type="button" class="btn btn-link text-button" (click)="http.hideModal()">Cancel
+                </button>
+                <button type="submit" class="btn btn-outline-primary">Add</button>
+            </div>
+
+        </div>
+    </form>
+</div>
+
+
+<ng-template #deletePopup>
+    <div class="delete-comp xs">
+        <div class="delete-comp-inner">
+            <h4>Delete task</h4>
+            <p>Are you sure you want to delete this task?</p>
+            <div class="button-row form-group">
+                <button class="delete-btn" type="submit" (click)="http.hideModal();changeStatus(4)">Delete</button>
+                <button class="text-button" type="button" aria-label="Close" (click)="http.hideModal()">Cancel</button>
+            </div>
+        </div>
+    </div>
+</ng-template>

@@ -1,0 +1,35 @@
+<div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+            <img src="/assets/images/ic_close.svg">
+        </button>
+    </section>
+    <section class="text">
+        <h4>Send an email</h4>
+    </section>
+</div>
+<form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+    <div class="modal-body email_str_body">
+        <div class="input-row">
+            <label>From:</label>
+            <div class="input-field">
+                <input matInput type="text" [formControl]="from" placeholder="From" readonly>
+            </div>
+        </div>
+        <div class="input-row">
+            <label>Subject:</label>
+            <div class="input-field">
+                <input matInput placeholder="Enter subject" type="text" formControlName="subject">
+            </div>
+        </div>
+        <div class="email-content">
+            <div class="form-group">
+                <ckeditor formControlName="content" debounce="500" [config]="ckeConfig">
+                </ckeditor>
+            </div>
+        </div>
+        <div class="modal-footer footer-btn email_str_footer">
+            <button type="submit" class="btn btn-primary">Submit</button>
+        </div>
+    </div>
+</form>

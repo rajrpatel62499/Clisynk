@@ -1,0 +1,110 @@
+<div class="right-col">
+
+    <div class="inner-left-col">
+        <ng-container [ngSwitch]="($eventSelected | async)">
+            <ng-container *ngSwitchCase="EventType.WHEN">
+                <span >When</span>
+                <img [src]="'assets/images/back-arrow.svg'" width="50">
+                <span class="color-disabled">Then</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN">
+                <span class="color-disabled">When</span>
+                <img [src]="'assets/images/back-arrow.svg'" width="50">
+                <span>Then</span>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_LEAD_FORM">
+                <div class="new-form-choose">
+                    <button (click)="automationService.updateEventType(EventType.WHEN)" class="close-icon-btn" >
+                            <img src="assets/images/ic_close.svg">
+                    </button>
+                    <span>Choose a form </span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_APPOINTMENT_SCHEDULED">
+                <div class="new-form-choose">
+                    <button (click)="automationService.updateEventType(EventType.WHEN)" class="close-icon-btn" >
+                            <img src="assets/images/ic_close.svg">
+                    </button>
+                    <span>Choose appointment type </span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_APPOINTMENT_CANCELED">
+                <div class="new-form-choose">
+                    <button (click)="automationService.updateEventType(EventType.WHEN)" class="close-icon-btn" >
+                            <img src="assets/images/ic_close.svg">
+                    </button>
+                    <span>Choose appointment type </span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_TAG_ADDED">
+                <div class="new-form-choose">
+                    <button (click)="automationService.updateEventType(EventType.WHEN)" class="close-icon-btn" >
+                            <img src="assets/images/ic_close.svg">
+                    </button>
+                    <span>Choose a tag</span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_PRODUCT_PURCHASED">
+                <div class="new-form-choose">
+                    <button (click)="automationService.updateEventType(EventType.WHEN)" class="close-icon-btn" >
+                            <img src="assets/images/ic_close.svg">
+                    </button>
+                    <span>Choose a product</span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN_EDIT_SEND_EMAIL">
+                <div class="new-form-choose"> 
+                    <button (click)="automationService.updateEventType(EventType.THEN);" class="close-icon-btn" >
+                            <img src="assets/images/ic_close.svg">
+                    </button>
+                    <span>Choose a template</span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN_EDIT_SEND_EMAIL_SELECT">
+                <div class="new-form-choose ">
+                    <button (click)="automationService.updateEventType(EventType.THEN_EDIT_SEND_EMAIL);" class="close-icon-btn" >
+                            <img class="back-arrow" src="assets/images/back-arrow.svg">
+                    </button>
+                    <span>Edit Content</span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN_TIME_SCHEDULE">
+                <div class="new-form-choose ">
+                    <button (click)="automationService.updateEventType(EventType.THEN_EDIT_SEND_EMAIL_SELECT);" class="close-icon-btn" >
+                            <img class="back-arrow" src="assets/images/back-arrow.svg">
+                    </button>
+                    <span>Edit Options</span>
+                </div>
+            </ng-container>
+            <ng-container *ngSwitchDefault>output2</ng-container>
+        </ng-container>
+
+    </div>
+    <div class="inner-right-col">
+        <ng-container [ngSwitch]="($eventSelected | async)">
+            <ng-container *ngSwitchCase="EventType.WHEN">
+                <button class="btn" routerLink="/automation/build-automation" (click)="saveAutomation()">Preview</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN">
+                <!-- <label class="previewd-save">
+                    <img src="assets/images/tick.svg" width="20">
+                    Saved
+                </label> -->
+                <button class="btn" routerLink="/automation/build-automation" (click)="saveAutomation()">Preview</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_LEAD_FORM"></ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_APPOINTMENT_SCHEDULED"></ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_APPOINTMENT_CANCELED"></ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_TAG_ADDED"></ng-container>
+            <ng-container *ngSwitchCase="EventType.WHEN_EDIT_PRODUCT_PURCHASED"></ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN_EDIT_SEND_EMAIL"></ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN_EDIT_SEND_EMAIL_SELECT">
+                <button class="btn" (click)="automationService.updateEventType(EventType.THEN_TIME_SCHEDULE)">Next</button>
+            </ng-container>
+            <ng-container *ngSwitchCase="EventType.THEN_TIME_SCHEDULE">
+                <button class="btn" (click)="automationService.updateEventType(EventType.THEN)">Done</button>
+            </ng-container>
+        </ng-container>
+
+    </div>
+</div>

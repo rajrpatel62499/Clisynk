@@ -1,0 +1,29 @@
+<div class="modal-header email_str_header">
+    <section id="close" class="navigation">
+        <button class="icon-only" type="button" aria-label="Close" (click)="goBack()">
+            <img src="/assets/images/back-arrow.svg">
+        </button>
+    </section>
+    <section class="text">
+        <h4>Attach a file</h4>
+    </section>
+</div>
+<div class="modal-body" style="min-height: 200px;">
+
+    <div class="loading" *ngIf="loading" style="color: blue;">UPLOADING
+    </div>
+
+    <div class="attach-file-upload" *ngIf="!loading">
+        <div class="no-pointer-events">
+            <img src="assets/images/ic_file_upload.svg">
+        </div>
+        <section class="add-file">
+            <h4> Upload a file </h4>
+            <h6> Drag and drop here or browse </h6>
+            <p> All file types are acceptable </p>
+            <input accept="image/x-png,image/gif,image/jpeg" multiple="" type="file"
+                   (change)="uploadImage($event.target.files)">
+        </section>
+    </div>
+</div>
+

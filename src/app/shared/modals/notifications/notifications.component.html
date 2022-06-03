@@ -1,0 +1,126 @@
+<div class="notifications-container">
+
+    <div class="notification-wrapper" *ngIf="!allData?.data?.length">
+        <div class="notification">
+            <label>No Notification Available</label>
+        </div>
+    </div>
+
+    <div class="notification-wrapper" *ngFor="let data of allData?.data">
+        <div class="notification">
+            <div class="notification-top">
+                <div class="notification-info">
+                    <div class="notification-dot"></div>
+                    <span>
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.VIEW_QUOTE">
+                            {{data?.contactId?.firstName}} {{data?.contactId?.lastName}} viewed your quote.
+                        </ng-container>
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.ACCEPT_QUOTE">
+                            {{data?.contactId?.firstName}} {{data?.contactId?.lastName}} accepted your quote.
+                        </ng-container>
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.VIEW_INVOICE">
+                            {{data?.contactId?.firstName}} {{data?.contactId?.lastName}} viewed your invoice.
+                        </ng-container>
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.PAID_INVOICE">
+                            {{data?.contactId?.firstName}} {{data?.contactId?.lastName}} accepted your invoice.
+                        </ng-container>
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.TASK_DUE">
+                            Task due  {{data?.id.dueDateTime | date:'MMM dd, hh:mm a'}}
+                        </ng-container>
+
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.BROADCAST_SCHEDULE_SENT">
+                        Broadcast scheduled
+                        </ng-container>
+
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.BROADCAST_SENT">
+                            Broadcast sent
+                        </ng-container>
+
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.APPOINTMENT_BOOK">
+                            Appointment Booked
+                        </ng-container>
+                        <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.APPOINTMENT_RESCHEDULE">
+                           Appointment Rescheduled
+                        </ng-container>
+                    </span>
+                </div>
+                <div class="notification-time-ago"> {{data?.createdAt | timeAgo }}</div>
+            </div>
+            <div class="notification-content">
+                <p>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.VIEW_QUOTE">
+                        {{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                        viewed quote  {{data?.id?.srNo}} for {{data?.id?.total |currency}}
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.ACCEPT_QUOTE">
+                        {{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                        accepted quote  {{data?.id?.srNo}} for {{data?.id?.total |currency}}
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.VIEW_INVOICE">
+                        {{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                        viewed invoice  {{data?.id?.srNo}} for {{data?.id?.total |currency}}
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.PAID_INVOICE">
+                        {{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                        paid invoice  {{data?.id?.srNo}} for {{data?.id?.total |currency}}
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.TASK_DUE">
+                        Task due  {{data?.id.dueDateTime | date:'MMM dd, hh:mm a'}}
+                    </ng-container>
+
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.BROADCAST_SCHEDULE_SENT">
+                        {{data?.id?.subject}} broadcast to send on  {{data?.createdAt | date:'MMM dd, hh:mm a'}}
+
+                        <!--                        {{data?.id?.subject}} broadcast scheduled-->
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.BROADCAST_SENT">
+                        <!--                        {{data?.id?.subject}} broadcast sent-->
+                        {{data?.id?.subject}} broadcast sent on  {{data?.createdAt | date:'MMM dd, hh:mm a'}}
+                    </ng-container>
+
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.APPOINTMENT_BOOK">
+                        Appointment booked with {{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                        at {{data?.id?.date | date:'MMM dd yyyy'}}, {{data?.startTime}} - {{data?.endTime}}
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.APPOINTMENT_RESCHEDULE">
+                        {{data?.id?.appointmentId?.name}} is rescheduled by {{data?.contactId?.firstName}} {{data?.contactId?.lastName}}
+                        for {{data?.id?.date | date:'MMM dd yyyy'}}, {{data?.startTime}} - {{data?.endTime}}
+                    </ng-container>
+                </p>
+            </div>
+            <div class="button-row">
+                <button class="btn-outline-primary" type="button" (click)="openNotification(data)">
+
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.VIEW_QUOTE ||
+                            data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.ACCEPT_QUOTE">
+                        View Quote
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.VIEW_INVOICE ||
+                            data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.PAID_INVOICE">
+                        View Invoice
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.TASK_DUE">
+                        View Task
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.BROADCAST_SCHEDULE_SENT">
+                        View Broadcast
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.BROADCAST_SENT">
+                        View Broadcast
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.APPOINTMENT_BOOK">
+                        View Appointment
+                    </ng-container>
+                    <ng-container *ngIf="data?.type ===  http.CONSTANT.NOTIFICATION_TYPES.APPOINTMENT_RESCHEDULE">
+                        View Appointment
+                    </ng-container>
+
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!--    <div class="all-loaded-container">-->
+    <!--        <p>All notifications loaded</p>-->
+    <!--    </div>-->
+</div>

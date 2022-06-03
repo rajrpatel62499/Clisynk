@@ -1,0 +1,32 @@
+<ng-container [ngSwitch]="showView">
+
+    <ng-container *ngSwitchCase="'edit-code'">
+        <edit-code [content]="content" (changeView)="sendEmail($event)"></edit-code>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'mail'">
+        <custom-mail 
+            [content]="content"
+            [currentTab]="currentTab"
+            (goBack)="$event ? showView = 'edit-code' : ''">
+        </custom-mail>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="'paste-in'">
+        <div class="third-tab-code" >
+            <div class="inner-code-wrapper-main" >
+                <div (click)="changeView('edit-code')" class="above-ping-main">
+                    <img src="../../../../assets/images/code.svg">
+                </div>
+                <div class="below-ping-main">
+                    <div class="heading-ping">Paste in code</div>
+                    <span class="create-temp">Create a template by pasting your custom coded design.</span>
+                </div>
+            </div>
+        
+        
+        
+        </div>
+    </ng-container>
+
+</ng-container>   

@@ -1,0 +1,253 @@
+<!--contacts placeholder-->
+<div class="lets-add-some-contacts"  *ngIf="selectedFlag === 1">
+  <img src="../../../assets/images/New-ui-images/let-add-contact.svg">
+  <h3 class="headdings-add">Let's add some contacts</h3>
+  <p>Bring your contacts together for complete organization.</p>
+  <div class="add-btns-rows">
+      <button class="btns-add"  (click)="http.openModal('addContact')" >Add Contact</button>
+      <button class="btns-imports"  (click)="http.openModal('importContact')">Import Contact </button>
+  </div>
+</div>
+<!--contacts placeholder ended-->
+          
+
+<!--contact lists-->
+<div class="empty-state" *ngIf="selectedFlag === 2">
+  <div class="image-wrapper">
+    <img src="/assets/images/contact_list.svg" />
+  </div>
+
+  <ng-container *ngIf="myData === 'contactList'">
+    <div class="details-wrapper">
+      <h3 class="empty-state-title">Categorize your contacts with lists</h3>
+      <p>
+        Take the right action fast. Send a tailored broadcast, add them to a
+        campaign, add or remove tags, or even export a list.
+      </p>
+    </div>
+    <div class="slot">
+      <div class="button-loading">
+        <button (click)="openContactFilter()" class="border-btn" type="button">
+          <span>Create a group</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="myData === '1'">
+    <div class="details-wrapper">
+      <h3 class="empty-state-title">Leads</h3>
+      <p>
+        When contacts are added and have a contact type of client, they will be
+        added to this list. Because this is a default list, it can’t be
+        modified.
+      </p>
+    </div>
+    <div class="slot">
+      <div class="button-loading">
+        <button (click)="addLead()" class="border-btn" type="button">
+          <span>Add a Lead</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="myData === '2'">
+    <div class="details-wrapper">
+      <h3 class="empty-state-title">Clients</h3>
+      <p>
+        When contacts are added and have a contact type of client, they will be
+        added to this list. Because this is a default list, it can’t be
+        modified.
+      </p>
+    </div>
+    <div class="slot">
+      <div class="button-loading">
+        <button (click)="addClient()" class="border-btn" type="button">
+          <span>Add a client</span>
+        </button>
+      </div>
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="myData === '3'">
+    <div class="details-wrapper">
+      <h3 class="empty-state-title">Custom list</h3>
+      <p>
+        Contacts will be automatically added to this list when they match the
+        filter criteria that you’ve set.
+      </p>
+    </div>
+  </ng-container>
+</div>
+<!--contact lists ended-->
+
+<!--no email -->
+<div class="meet-section-tab Contact-Activity-inner" *ngIf="selectedFlag === 3">
+  <div class="content">
+    <div class="empty-state mail-items-main">
+      <div class="image-wrapper"><img src="/assets/images/mail-placeholders.svg" /></div>
+      <div class="details-wrapper">
+        <h3 class="empty-state-title">There's no email history to show yet</h3>
+        <p>Start sending mail by clicking on NEW MAIL.</p>
+      </div>
+      <div class="slot">
+        <!--<div class="button-loading">-->
+        <!--<button class="btn btn-outline-primary" type="button"><span>Sync an email account-->
+        <!--</span></button>-->
+        <!--</div>-->
+      </div>
+    </div>
+  </div>
+</div>
+<!--no email ended -->
+
+<!--no activity-->
+<div class="contact-tasks" *ngIf="selectedFlag === 4">
+  <div class="content">
+    <div class="empty-state task-activity">
+      <div class="image-wrapper">
+        <img src="../../../../assets/images/no-tasks-due.svg" />
+      </div>
+      <div class="details-wrapper">
+        <h3 class="empty-state-title">
+          No tasks due. <br />You're all caught up!
+        </h3>
+      </div>
+      <div class="slot">
+        <p>
+          This is where we'll keep all your activity with
+          {{ http.loginData.name }} as soon as you start adding things like
+          tasks, notes or emails.
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
+<!--no activity ended-->
+
+<!--no task-->
+<div class="task_placeholder_page" *ngIf="selectedFlag === 5">
+  <div class="empty-state-wrapper">
+    <div class="empty-state">
+      <div class="image-wrapper">
+        <img src="/assets/images/no-task-due.svg" />
+      </div>
+      <div class="details-wrapper">
+        <h3 class="empty-state-title">No tasks due. You're all caught up!</h3>
+      </div>
+      <div class="slot">
+        <div class="button-loading">
+          <button
+            (click)="http.openModal('addTask')"
+            class="btn btn-outline-primary"
+            type="button"
+          >
+            <span>Add a task</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<!--no task ended-->
+
+<!--no meet-->
+<div class="empty-state" *ngIf="selectedFlag === 6">
+  <div class="image-wrapper"><img src="/assets/images/ic_meet.svg" /></div>
+  <div class="details-wrapper">
+    <h3 class="empty-state-title">
+      Don't miss an opportunity to meet with {{ myData?.firstName }}
+    </h3>
+    <p>Inviting your client to meet is simple. Let's get the ball rolling.</p>
+  </div>
+  <div class="slot">
+    <div class="button-loading">
+      <button
+        class="btn btn-outline-primary"
+        type="button"
+        (click)="openBook()"
+      >
+        <span> Book an appointment</span>
+      </button>
+    </div>
+  </div>
+</div>
+<!--no meet ended-->
+
+<!--no file-->
+<div class="empty-state" *ngIf="selectedFlag === 7">
+  <div class="image-wrapper"><img src="/assets/images/ic_meet.svg" /></div>
+  <div class="details-wrapper">
+    <h3 class="empty-state-title">
+      Don't miss an opportunity to meet with Tom
+    </h3>
+    <p>Inviting your client to meet is simple. Let's get the ball rolling.</p>
+  </div>
+  <div class="slot">
+    <div class="button-loading">
+      <button class="btn btn-outline-primary" type="button">
+        <span> Book an appointment </span>
+      </button>
+    </div>
+  </div>
+</div>
+<!--no file ended-->
+
+<!--no uploaded file-->
+<div class="empty-state" *ngIf="selectedFlag === 8">
+  <div class="image-wrapper">
+    <img src="/assets/images/upload-vector.svg" />
+  </div>
+  <div class="details-wrapper" *ngIf="!isLoader">
+    <h3 class="empty-state-title">No files added!</h3>
+    <p>
+      This is where we'll keep all your activity with John Doe as soon as you start adding things like tasks, notes or files.
+    </p>
+  </div>
+
+  <div class="details-wrapper" *ngIf="isLoader">
+    <h3 class="empty-state-title">Uploading...</h3>
+    <p>Please Wait!</p>
+  </div>
+
+  <div class="file-upload" *ngIf="!isLoader">
+    <span>Upload a file</span>
+    <input
+      type="file"
+      value="Upload a file"
+      (change)="uploadImage($event.target.files[0])"
+    />
+  </div>
+</div>
+<!--no uploaded file ended-->
+
+<!--no contact in tag -->
+<div class="empty-state" *ngIf="selectedFlag === 9">
+  <div class="image-wrapper">
+    <img src="assets/images/New-ui-images/tags-main.svg">
+  </div>
+  <div class="details-wrapper">
+    <h3 class="empty-state-title">Use tags to segment your contacts</h3>
+    <p>
+      With tags you can segment your contacts into very specific lists for more
+      targeted marketing. You can apply tags manually. However, in most cases
+      tags will be automatically created based on a trigger or activity in a
+      campaign workflow.
+    </p>
+  </div>
+</div>
+<!--no contact in tag ended-->
+
+
+<!-- <div class="empty-state-wrapper">
+  <div class="empty-state">
+      <div class="image-wrapper">
+          <img src="../../../../assets/images/New-ui-images/tags-main.svg">
+      </div>
+      <div class="details-wrapper">
+          <h3 class="empty-state-title comman-heading">Use tags to segment your contacts</h3>
+          <p>With tags you can segment your contacts into very specific lists for more targeted marketing. You can apply tags manually. However, in most cases tags will be automatically created based on a trigger or activity in a campaign workflow.</p>
+      </div>
+  </div>
+</div> -->

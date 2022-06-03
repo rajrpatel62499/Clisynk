@@ -1,0 +1,44 @@
+<ng-container [ngSwitch]="showView">
+    <ng-container *ngSwitchCase="'choose-theme'">
+        
+        <!-- <div (click)="changeView('mail')" class="grid-themes-main"> -->
+        <div class="grid-themes-main">
+            <div (click)="chooseTemplate(template)" class="comman-grid" *ngFor="let template of templates">
+                <div class="image-div-main">
+                    <div class="inner-htm">
+                    <dynamic-html [content]="template.html"></dynamic-html>
+                    <!-- <img src="../../../../assets/images/theme-pic.png">     -->
+                    </div>
+                </div>
+                <div class="template-name-main">{{template.name}}</div>
+            </div>
+        </div>
+        <div class="shimmer-main"  *ngIf="templates.length == 0">
+
+            <div class="shimmer-inner-grid-main">
+                    <div class="shimmer-card" *ngFor="let item of [1,2,3,4,5,6,7,8,9,10]">
+                            <div class="shimmer-content-heading shine"></div>
+                            <div class="address-shim shine"></div>
+                            <div class="address-shim shine"></div>
+                            <div class="address-shim shine"></div>
+                            <div class="address-shim shine"></div>
+                            <div class="address-shim shine"></div>
+                    </div>
+        
+            </div>
+            
+        
+        
+        </div>
+        
+    </ng-container>
+    <ng-container *ngSwitchCase="'mail'">
+        <custom-mail 
+            [selectedTemplate]="selectedTemplate" 
+            [currentTab]="currentTab" 
+            (goBack)="$event ? showView = 'choose-theme' : ''">
+        </custom-mail>        
+    </ng-container>
+
+</ng-container>
+

@@ -1,0 +1,105 @@
+<div class="col-md-12">
+
+    <form [formGroup]="form" novalidate autocomplete="off" class="fields-container">
+        <div class="input-field">
+
+            <h4>Name</h4>
+            <p>What do you want to name your appointment?</p>
+
+            <mat-form-field class="full-width" appearance="outline" hintLabel="Max 40 characters">
+                <mat-label class="required">Name</mat-label >
+                <input matInput 
+                appInputRestriction="noSpecialChars"
+                placeholder="Enter name" type="text"
+                       formControlName="name" (blur)="checkUnique(form.value.name)" maxlength="40" #input>
+                <mat-error *ngIf="form.controls['name'].hasError('required')">
+                    Please enter name.
+                </mat-error>
+                <mat-hint align="end">{{input.value?.length || 0}}/40</mat-hint>
+
+            </mat-form-field>
+        </div>
+
+        <ng-container *ngIf="!isEdit">
+            <div class="form-check" style="padding-left: 0;margin: 10px 0; ">
+                <label class="form-check-label">
+                    <input type="checkbox" class="form-check-input" [(ngModel)]="linkVal"
+                           [ngModelOptions]="{standalone: true}" (change)="changeName()">
+                    <span style="margin-left: 24px">Use my business name instead of my personal
+                    name in the booking link and booking page</span>
+                </label>
+            </div>
+            <!--                <p class="show-link" style="color: #7a7a87;">{{http?.domain}}/{{( linkVal == true ) ? http?.loginData?.name : 'Admin'}}-->
+            <!--                    /{{form.value.name}}</p>-->
+            <!--                <br>-->
+
+            <p class="show-link" (click)="appoint.openBooking(form.value.name)">
+<!--                {{http?.domain}}/booking/{{( linkVal == true ) ? http?.loginData?.company : form.value.name}}</p>-->
+                {{http?.domain}}/booking/{{form.value.name}}</p>
+        </ng-container>
+
+        <div class="input-field location-field">
+            <h4>Location</h4>
+            <p>Where will these appointments take place?</p>
+            <div class="btn-group loc-btn" role="group" aria-label="Basic example">
+                <button type="button" class="btn btn-secondary" [ngClass]="{'select-place':form.value.selectedLoc == 1}"
+                        (click)="changeLoc(1)">Online
+                </button>
+                <button type="button" class="btn btn-secondary" [ngClass]="{'select-place':form.value.selectedLoc == 2}"
+                        (click)="changeLoc(2)">Phone
+                </button>
+                <button type="button" class="btn btn-secondary" [ngClass]="{'select-place':form.value.selectedLoc == 3}"
+                        (click)="changeLoc(3)">In-person
+                </button>
+            </div>
+        </div>
+
+        <div class="">
+            <div>
+                <ul class="list-group">
+                    <li class="list-group-item" *ngFor="let data of showItems">
+                        <label *ngIf="data.type === form.value.selectedLoc">
+                            <input type="radio" [(ngModel)]="radioSelected" name="list_name"
+                                   value="{{data.radioSelected}}" (ngModelChange)="checkVal(data)"
+                                   [ngModelOptions]="{standalone:true}"/>
+                            {{data.name}}
+                        </label>
+
+                        <ng-container *ngIf="data?.isInput && radioSelected == data?.radioSelected">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>{{data?.placeholder}}</mat-label>
+
+                                <input *ngIf="data?.radioSelected !== 4" matInput placeholder="{{data?.placeholder}}" type="text"
+                                       [(ngModel)]="data.input" [formControl]="inputForm" (ngModelChange)="patternCheck(data)">
+
+                                <input *ngIf="data?.radioSelected === 4" matInput placeholder="{{data?.placeholder}}" appNumberOnly
+                                       [(ngModel)]="data.input" [formControl]="inputForm" maxlength="15" minlength="10">
+                            </mat-form-field>
+
+                            <div class="error-text" *ngIf="showPatternError && data.input">
+                               Please enter valid url
+                            </div>
+                            <div class="error-text" *ngIf="!data.input && radioSelected == data.radioSelected">
+                                This field is required
+                            </div>
+                        </ng-container>
+
+                        <ng-container *ngIf="data?.isLocation && radioSelected == data?.radioSelected">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label>{{data?.placeholder}}</mat-label>
+                                <input matInput placeholder="{{data?.placeholder}}" type="text"
+                                       [(ngModel)]="data.input" (addressSelect)="addressDetails($event)"
+                                       [formControl]="inputForm" appGoogleplace #address>
+                            </mat-form-field>
+                            <div class="error-text" *ngIf="!data.input && radioSelected == data.radioSelected">
+                                This field is required.
+                            </div>
+                        </ng-container>
+
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </form>
+
+</div>

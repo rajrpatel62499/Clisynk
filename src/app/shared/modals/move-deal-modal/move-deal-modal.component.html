@@ -1,0 +1,54 @@
+<div class="med-popup move_deals">
+
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="http.hideModal()">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text">
+            <h4>Move deals and delete stage</h4>
+            <small>You need to move deals to delete this stage.</small>
+        </section>
+        <button type="button" class="btn-outline-primary" (click)="finalDelete()">Delete</button>
+        <!-- <button type="button" class="text-button button-negative" (click)="finalDelete()">Delete</button> -->
+    </div>
+
+    <form [formGroup]="form" (ngSubmit)="finalSubmit()" autocomplete="off">
+        <div class="modal-body">
+
+            <div class="row">
+                <div class="col-md-12 btn-group add-btn select-opt">
+                    <mat-form-field class="full-width select-height" appearance="outline">
+                        <mat-label>Move Deals to...</mat-label>
+                        <mat-select formControlName="text">
+                            <mat-option value="false" *ngFor="let val of myModel?.pipelines;let i=index"
+                                        (click)="selectPipe(val)">{{val?.name}}
+                                <ng-container *ngIf="selectedStage?.name"> -> {{selectedStage?.name}} </ng-container>
+                                <div class="input-chevron">
+                                    <img src="assets/images/ic_dropdown.svg">
+                                </div>
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-12" style="margin-top: -32px;">
+                    <button type="button" id="myId" class="btn btn-primary" style="display: none"
+                            (click)="dropdown.isOpen = !dropdown.isOpen">
+                    </button>
+                    <div class="btn-group" dropdown #dropdown="bs-dropdown">
+                        <ul *dropdownMenu class="dropdown-menu" role="menu">
+                            <li role="menuitem" *ngFor="let val of stages?.stages">
+                                <a class="dropdown-item" (click)="selectOption(val);dropdown.hide()">{{val?.name}}</a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+</div>

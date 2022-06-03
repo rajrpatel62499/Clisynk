@@ -1,0 +1,1205 @@
+<div class="add-build-automation-main">
+    <!-----------------header-main-------------------->
+    <div class="build-automation-header-main">
+        <div class="left-col">
+            <img [src]="'/assets/images/back-arrow.svg'" (click)="http.goBack()" width="50">
+            <span>Build automation</span>
+        </div>
+        <ng-container *ngIf="header1==false else othercontent">
+           <ng-container *ngIf="thenclick==false">
+                <div class="right-col">
+                    <div class="inner-left-col">
+                        <span>When</span>
+                        <img [src]="'/assets/images/back-arrow.svg'" width="50">
+                        <span class="color-change">Then</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <button class="btn">Preview</button>
+                    </div>
+                </div>
+            </ng-container>
+            <ng-container *ngIf="thenclick==true">
+                <div class="right-col">
+                    <div class="inner-left-col">
+                        <span class="color-change">When</span>
+                        <img [src]="'/assets/images/back-arrow.svg'" width="50">
+                        <span>Then</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <label class="previewd-save">
+                            <img src="assets/images/tick.svg" width="20">
+                            Saved
+                        </label>
+                        <button class="btn">Preview</button>
+                    </div>
+                </div>
+            </ng-container>
+        </ng-container>
+    </div>
+   <!-------------------------------------end of header--------------------------------->
+  
+        <div class="inner-add-build-main">
+                <div class="left-col" style="min-height: 100vh;">
+                    <div class="card-main first-card" (click)="whenclicks()"  [ngClass]="{'active': tab==='tab1'}">
+                        <div class="when-heading" >
+                            <img src="../../../assets/images/cloud-green.svg" width="20">
+                            <span>When</span>
+                        </div>
+                        <div class="short-description">Lead form is submitted</div>
+                    </div>
+                    <div class="text-center center-down-img">
+                        <img [src]="'/assets/images/back-arrow.svg'" width="50" class="down-arrow">
+                    </div>
+
+                    <div class="card-main first-card" (click)="thenclicks()" [ngClass]="{'active': tab==='tab2'}">
+                        <div class="when-heading">
+                            <img src="../../../assets/images/blue-flash.svg" width="20">
+                            <span>Then</span>
+                        </div>
+                        <div class="short-description">Send (Free consulation) email</div>
+                    </div>
+                </div>
+            <ng-container *ngIf="header2==false else othercontent1">
+                <!-- ---------------------lead-form-submitted-panal-------------------->
+                 <ng-container *ngIf="paneldata==false">
+                    <ng-container *ngIf="deletepanel==false else othercontentdelete">
+                            <ng-container *ngIf="thenclick==false">
+                                <div class="right-col">
+                                            <div class="after-submitted-lead-form-main-for-edit-option">
+                                                <div class="panel-group" id="accordion">
+                                                    <div class="panel panel-default">
+                                                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">
+                                                            <h4 class="panel-title">
+                                                                <a>Lead Form is submitted</a>
+                                                            </h4>
+                                                        </div>
+                                                        <div id="collapseEleven" class="panel-collapse collapse">
+                                                            <div class="panel-body">
+                                                                <div class="inner-first-row-main">
+                                                                    <div class="inner-left-col"> 
+                                                                        <label class="form-name-heading">Lead Form</label>
+                                                                        <span class="who-is-owner">Langermania</span>
+                                                                    </div>
+                                                                    <div class="inner-right-col">
+                                                                        <a class="btn-combo" (click)="editautomationmain()">
+                                                                            <img src="assets/images/edit-button-gray.svg" width="20">
+                                                                        </a>
+                                                                        <a class="btn-combo" (click)="deleteleadform()">
+                                                                            <img src="assets/images/delete-gray.svg" width="20">
+                                                                        </a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="go-to-your-form">
+                                                                    <div class="left-inner-col-footer">
+                                                                        <button class="btn" (click)="gotoform()">Go to your form <img src="assets/images/export-blue-icon.svg" width="35"> </button>
+                                                                    </div>
+                                                                    <div class="right-inner-col-footer">
+                                                                        <button class="btn">Done</button>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                </div>
+                            </ng-container>
+                    </ng-container>
+                 </ng-container>
+
+                 <!-- ---------------------Appoinment-is-schedule-panal-------------------->
+                <ng-container *ngIf="paneldata1==true"> 
+                    <div class="after-submitted-lead-form-main-for-edit-option  appointment-is-scheduled-main-panal-area">
+                        <div class="panel-group appoint-ment-schedule-panal-main" id="accordion">
+                            <div class="panel panel-default">
+                                <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsetwelve">
+                                    <h4 class="panel-title">
+                                        <a>Any appointment is scheduled</a>
+                                    </h4>
+                                </div>
+                                <div id="collapsetwelve" class="panel-collapse collapse">
+                                    <div class="panel-body">
+                                        <div class="inner-first-row-main">
+                                            <div class="inner-left-col"> 
+                                                <label class="form-name-heading">Any appointment is <br/> scheduled</label>
+                                            
+                                            </div>
+                                            <div class="inner-right-col">
+                                                <a class="btn-combo" (click)="editappointment()">
+                                                    <img src="../../../../assets/images/edit-button-gray.svg" width="20">
+                                                </a>
+                                                <a class="btn-combo" (click)="deleteleadform()">
+                                                    <img src="../../../../assets/images/delete-gray.svg" width="20">
+                                                </a>
+                                            </div>
+                                        </div>
+                                        <div class="go-to-your-form">
+                                            <div class="right-inner-col-footer">
+                                                <button class="btn">Done</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- -------------------tag-is-added-panal-------------- -->
+                <ng-container *ngIf="tagpanel==true">
+                    <div class="right-col">
+                        <div class="after-submitted-lead-form-main-for-edit-option">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">
+                                        <h4 class="panel-title">
+                                            <a>Tag is added</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseEleven" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="inner-first-row-main">
+                                                <div class="inner-left-col"> 
+                                                    <label class="form-name-heading">Tag is added</label>
+                                                </div>
+                                                <div class="inner-right-col">
+                                                    <a class="btn-combo" (click)="edittags()">
+                                                        <img src="../../../../assets/images/edit-button-gray.svg" width="20">
+                                                    </a>
+                                                    <a class="btn-combo" (click)="deleteleadform()">
+                                                        <img src="../../../../assets/images/delete-gray.svg" width="20">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="go-to-your-form">
+                                                <div class="left-inner-col-footer">
+                                                    <button class="btn" (click)="gotomanagetag()">Manage tags <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                                                </div>
+                                                <div class="right-inner-col-footer">
+                                                    <button class="btn">Done</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+                <!-- ----------purchase-is-made---------------------- -->
+                <ng-container *ngIf="purchasepanel==true">
+                    <div class="right-col">
+                        <div class="after-submitted-lead-form-main-for-edit-option">
+                            <div class="panel-group" id="accordion">
+                                <div class="panel panel-default">
+                                    <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">
+                                        <h4 class="panel-title">
+                                            <a>Any product is purchased</a>
+                                        </h4>
+                                    </div>
+                                    <div id="collapseEleven" class="panel-collapse collapse">
+                                        <div class="panel-body">
+                                            <div class="inner-first-row-main">
+                                                <div class="inner-left-col"> 
+                                                    <label class="form-name-heading">Any product is purchased</label>
+                                                    <span class="who-is-owner">When anthing is purchased</span>
+                                                </div>
+                                                <div class="inner-right-col" (click)="editproduct()">
+                                                    <a class="btn-combo">
+                                                        <img src="../../../../assets/images/edit-button-gray.svg" width="20">
+                                                    </a>
+                                                    <a class="btn-combo" (click)="deleteleadform()">
+                                                        <img src="../../../../assets/images/delete-gray.svg" width="20">
+                                                    </a>
+                                                </div>
+                                            </div>
+                                            <div class="go-to-your-form">
+                                                <div class="left-inner-col-footer">
+                                                    <button class="btn" (click)="gotomanageproduct()">Manage products <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                                                </div>
+                                                <div class="right-inner-col-footer">
+                                                    <button class="btn">Done</button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </ng-container>
+
+                <!-- --------------then-click-show---------------- -->
+                <ng-container *ngIf="thenclick==true">
+                    <div class="right-col">
+
+                            <div class="after-submitted-lead-form-main-for-edit-option">
+                                <div class="panel-group" id="accordion">
+                                    <div class="panel panel-default">
+                                        <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapseEleven">
+                                            <h4 class="panel-title send-free-email">
+                                                <a>Send (Free consulation) email</a>
+                                            </h4>
+                                        </div>
+                                        <div id="collapseEleven" class="panel-collapse collapse">
+                                            <div class="panel-body">
+                                                <div class="inner-first-row-main">
+                                                    <div class="inner-left-col"> 
+                                                        <label class="form-name-heading">Send an email</label>
+                                                        <!-- <span class="who-is-owner">Langermania</span> -->
+                                                    </div>
+                                                    <div class="inner-right-col" (click)="editemailtemplate()">
+                                                        <a class="btn-combo">
+                                                            <img src="../../../../assets/images/edit-button-gray.svg" width="20">
+                                                        </a>
+                                                        <a class="btn-combo" (click)="deleteemail()">
+                                                            <img src="../../../../assets/images/delete-gray.svg" width="20">
+                                                        </a>
+                                                    </div>
+                                                </div>
+                                                <div class="go-to-your-form flex-end">
+                                                    <!-- <div class="left-inner-col-footer">
+                                                        <button class="btn" (click)="gotoform()">Go to your form <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                                                    </div> -->
+                                                    <div class="right-inner-col-footer">
+                                                        <button class="btn">Done</button>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- --------send-notification--------------------- -->
+                                <ng-container *ngIf="sendnotificationpanal==true">
+                                    <div class="panel-group send-notification" id="accordion">
+                                        <div class="panel panel-default">
+                                            <div class="panel-heading accordion-toggle collapsed" data-toggle="collapse" data-parent="#accordion" href="#collapsethirteen">
+                                                <h4 class="panel-title send-free-email">
+                                                    <a>Send notification</a>
+                                                </h4>
+                                            </div>
+                                            <div id="collapsethirteen" class="panel-collapse collapse">
+                                                <div class="panel-body">
+                                                    <div class="inner-first-row-main">
+                                                        <div class="inner-left-col"> 
+                                                            <label class="form-name-heading">Send notification</label>
+                                                            <!-- <span class="who-is-owner">Langermania</span> -->
+                                                        </div>
+                                                        <div class="inner-right-col">
+                                                            <a class="btn-combo" (click)="createnotifications()">
+                                                                <img src="../../../../assets/images/edit-button-gray.svg" width="20">
+                                                            </a>
+                                                            <a class="btn-combo" (click)="deleteemail()">
+                                                                <img src="../../../../assets/images/delete-gray.svg" width="20">
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                    <div class="go-to-your-form flex-end">
+                                                        <!-- <div class="left-inner-col-footer">
+                                                            <button class="btn" (click)="gotoform()">Go to your form <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                                                        </div> -->
+                                                        <div class="right-inner-col-footer">
+                                                            <button class="btn">Done</button>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </ng-container>
+                                <!-- ----------add-icon--------- -->
+                                
+                                <ng-container *ngIf="addicon==false">
+                                        <div class="text-and-then">
+                                            and then
+                                        </div>
+                                        <div class="add-button">
+                                            <button class="add-btn-tag" (click)="clickadd()">
+                                                <img src="../../../../assets/images/add-icon.svg" width="30">
+                                            </button>
+                                        </div>
+                                        <div class="what-else">
+                                            What else needs to be automated ?
+                                        </div>
+                                </ng-container>
+                                
+                                <!-- ------------after-add-click--------------------- -->
+                                <ng-container *ngIf="addicon==true">
+                                    <!-- -------first-drop-down------------- -->
+                                    <div class="dropdown-main-for-auto">
+                                        <div class="btn-group add-btn start-automation-dropdown add-then-automation-dropdown" dropdown>
+                                            <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle " aria-controls="dropdown-basic">
+                                                What will be automated ?<i class="fas fa-angle-down"></i>
+                                            </button>
+                                            <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu"
+                                                aria-labelledby="button-basic">
+                    
+                                                <li role="menuitem">
+                                                    <a class="dropdown-item">Option 1 </a>
+                                                </li>
+                                                <li role="menuitem">
+                                                    <a class="dropdown-item">Option 2 </a>
+                                                </li>
+                                                <li role="menuitem">
+                                                    <a class="dropdown-item">Option 3 </a>
+                                                </li>
+                                            </ul>
+                                        </div>
+                                    </div>
+                                    <!-- -------------grip-wrapper----------- -->
+                                    <div class="suggested-option-label-main">
+                                        <label>Suggested options</label>
+                                    </div>
+
+                                    <div class="select-option-four-grid-wrapper">
+                                        <div class="inner-grid-col">
+                                            <span>Send an email </span>
+                                            <img src="../../../../assets/images/send-an-email-blue.svg" width="60">
+                                        </div>
+                                        <div class="inner-grid-col" (click)="sendnotificationcard()">
+                                            <span>Send notification</span>
+                                            <img src="../../../../assets/images/send-notification-blue.svg" width="60">
+                                        </div>
+                                        <div class="inner-grid-col">
+                                            <span>Add a tag </span>
+                                            <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+                                        </div>
+                                        <div class="inner-grid-col">
+                                            <span>Create a task </span>
+                                            <img src="../../../../assets/images/create-a-task-blue.svg" width="60">
+                                        </div>
+                    
+                                    </div>
+                                    <!-- -----------show-all-option--------------- -->
+                                    <div class="show-all-option then-automation-build">
+                                        <button class="btn-option" (click)="Showoption()">{{buttonName}}
+                                            <i class="fas fa-angle-down"></i>
+                                        </button>
+                                    </div>
+                                    <!-- -----------------all-option----------------- -->
+                                    <!-- ------------------all-options-there------------------- -->
+                                    <ng-container *ngIf="(option)">
+                                            <div class="all-option-available">
+                                            <div class="appoint-ments">
+                                                <span> Email</span>
+                                            </div>
+                                            </div>
+                                            <div class="right-inner-wrapper-first">
+                                                <div class="select-option-four-grid-wrapper">
+                                                    <div class="inner-grid-col">
+                                                        <span>Send an email </span>
+                                                        <img src="../../../../assets/images/send-an-email-blue.svg" width="60">
+                                                    </div>
+                                                    <!-- <div class="inner-grid-col">
+                                                        <span>Appointment is <br/>cancelled </span>
+                                                        <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                                                    </div>     -->
+                                                </div>
+                                        </div>
+                                        <!-- ------------forms------------- -->
+                                            <div class="all-option-available">
+                                                <div class="appoint-ments">
+                                                    <span> Notifications</span>
+                                                </div>
+                                            </div>
+                                            <div class="right-inner-wrapper-first">
+                                                <div class="select-option-four-grid-wrapper">
+                                                    <div class="inner-grid-col">
+                                                        <span>Send notification</span>
+                                                        <img src="../../../../assets/images/send-notification-blue.svg" width="60">
+                                                    </div>
+                                                </div>
+                                        </div>
+                                        <!-- ------------Money------------- -->
+                                        <div class="all-option-available">
+                                            <div class="appoint-ments">
+                                                <span> Tags</span>
+                                            </div>
+                                        </div>
+                                        <div class="right-inner-wrapper-first">
+                                            <div class="select-option-four-grid-wrapper" >
+                                                <div class="inner-grid-col">
+                                                    <span>Add a tag </span>
+                                                    <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+                                                </div>
+                                                <div class="inner-grid-col">
+                                                    <span>Remove a tag </span>
+                                                    <img src="../../../../assets/images/tag-is-addwd-blue.svg" width="60">
+                                                </div>
+                                            </div>
+                                    </div>
+                                    <!-- ---------tasks------------- -->
+                                    <div class="all-option-available">
+                                        <div class="appoint-ments">
+                                            <span> Tasks</span>
+                                        </div>
+                                    </div>
+                                    <div class="right-inner-wrapper-first">
+                                        <div class="select-option-four-grid-wrapper" >
+                                            <div class="inner-grid-col">
+                                                <span>Create a task </span>
+                                                <img src="../../../../assets/images/create-a-task-blue.svg" width="60">
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    </ng-container>
+
+                                    <div class="short-des-not-seeing">
+                                        Not seeing something you wish to automate? <br/>
+                                        Let us know!
+                                    </div>
+                                    <div class="share-feed-back">
+                                        <button (click)="openSubmitfeedback()">Share feedback</button>
+                                    </div>
+
+                                </ng-container>
+
+                            </div>
+
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+    <!-----------------------edit-lead-form-header-part----------------------------------->
+   <ng-template #othercontent>
+            <ng-container *ngIf="editleadformheader==false">
+                <div class="right-col choose-form-header-main">
+                        <div class="new-form-choose">
+                            <button class="close-icon-btn" (click)="closechooseform()">
+                                    <img src="/assets/images/ic_close.svg">
+                            </button>
+                            <span>Choose a form </span>
+                        </div>
+                </div>
+            </ng-container>
+
+            <!-- -------edit-appoint-header---------------- -->
+            <ng-container *ngIf="editappointmenttempllate==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/ic_close.svg">
+                        </button>
+                        <span>Choose appointment type </span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- --------------edit-tag-header------------------------ -->
+            <ng-container *ngIf="edittagstemplate==false">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/ic_close.svg">
+                        </button>
+                        <span>Choose a tag </span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- ---------------create-tag-header------------------- -->
+            <ng-container *ngIf="createtags==false">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/back-arrow.svg" style="transform: inherit;">
+                        </button>
+                        <span>Create new tag</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <button class="btn">Next</button>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- ---------------Edit-product-header-------------------- -->
+            <ng-container *ngIf="editproducts==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/ic_close.svg">
+                        </button>
+                        <span>Choose product or service</span>
+                    </div>
+                </div>
+            </ng-container>
+             <!-- ------------create-new-product-header----------------- -->
+             <ng-container *ngIf="createproduct==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/back-arrow.svg" style="transform: inherit;">
+                        </button>
+                        <span>Create new product or service</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <button class="btn">Next</button>
+                    </div>
+                </div>
+            </ng-container>
+
+            <!-- ---------------------------------Then-click-------------------------->
+            <!----------------- email-edit-header------------- -->
+            <ng-container *ngIf="editemail==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/ic_close.svg">
+                        </button>
+                        <span>Choose template</span>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- ------------------------create-email-header------------------ -->
+            <ng-container *ngIf="createemail==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/back-arrow.svg" style="transform: inherit;">
+                        </button>
+                        <span>Edit content</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <button class="btn" (click)="nextbuttonemail()" >Next</button>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- --------after-press-next-button-header-email-------------- -->
+            <ng-container *ngIf="nextpressemail==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/back-arrow.svg" style="transform: inherit;">
+                        </button>
+                        <span>Edit options</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <button class="btn" (click)="nextbuttonemail()" >Done</button>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- ---------------create-notiification--------------------- -->
+            <ng-container *ngIf="createnotification==true">
+                <div class="right-col choose-form-header-main">
+                    <div class="new-form-choose">
+                        <button class="close-icon-btn" (click)="closechooseform()">
+                                <img src="/assets/images/ic_close.svg" style="transform: inherit;">
+                        </button>
+                        <span>Create notification</span>
+                    </div>
+                    <div class="inner-right-col">
+                        <button class="btn">Next</button>
+                    </div>
+                </div>
+            </ng-container>
+
+   </ng-template>
+
+   <ng-template #othercontent1>
+            <ng-container *ngIf="editleadformheader==false">
+                <div class="right-col choose-form-right-col-body">
+                    <div class="inner-row-main-vc">
+                        <button class="btn">Create new form <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                        <div class="search-filed">
+                            <input type="text" class="search" placeholder="Search">
+                        </div>
+                    </div>
+                    <div class="formlisting-body">
+                            <div class="any-lead-form-main">
+                                    <span class="heading-form">lead form</span>
+                                    <span class="sub-task-main">When lead form is submitted </span>
+                            </div>
+                            <div class="public-form-listing-main">
+                                <div class="heading-of-lead-form" >
+                                    <span class="comman-name hover-arrow">Smart forms
+                                        <button class="down-arrow">
+                                            <img src="../../../../assets/images/down-blue-arrow.svg" width="20">
+                                        </button>
+                                    </span>
+                                    <span class="comman-name color-gray">Created on</span>
+                                    <span class="comman-name hover-arrow">
+                                        Status
+                                        <button class="down-arrow">
+                                            <img src="../../../../assets/images/down-blue-arrow.svg" width="20">
+                                        </button>
+                                    </span>
+                                </div>
+                                <div class="form-name-listing">
+                                    <span class="name">FollowUp</span>
+                                    <span class="date">1/12/2020</span>
+                                    <span class="tag unpublished">Draft</span>
+                                </div>
+                                <div class="form-name-listing">
+                                    <span class="name">Untitled 1</span>
+                                    <span class="date">1/12/2020</span>
+                                    <span class="tag published">Published</span>
+                                </div>
+
+                            </div>
+
+                    </div>
+                </div>       
+            </ng-container>    
+
+             <!-- -------edit-appoint-body---------------- -->
+             <ng-container *ngIf="editappointmenttempllate==true">
+                <div class="right-col choose-form-right-col-body">
+                    <div class="inner-row-main-vc">
+                        <button class="btn" (click)="gotoappointment()">Create a new appointment type <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+                        <div class="search-filed">
+                            <input type="text" class="search" placeholder="Search">
+                        </div>
+                    </div>
+                    <div class="formlisting-body">
+                            <div class="any-lead-form-main">
+                                    <span class="heading-form">Any Appointment</span>
+                                    <span class="sub-task-main">When any appoitment is scheduled </span>
+                            </div>
+                            <div class="public-form-listing-main">
+                                <div class="heading-of-lead-form" >
+                                    <span class="comman-name hover-arrow">Appointment Name
+                                        <button class="down-arrow">
+                                            <img src="../../../../assets/images/down-blue-arrow.svg" width="20">
+                                        </button>
+                                    </span>
+                                    <span class="comman-name color-gray">Link</span>
+                                    <span class="comman-name hover-arrow">Actions</span>
+                                </div>
+                                <div class="form-name-listing">
+                                    <span class="name">Lorem Ipsum 
+                                        <span class="duration-time">
+                                            <label class="small-head">Duration</label>
+                                            <label class="time">12:20</label>
+                                        </span>
+                                    </span>
+                                    <span class="date links">http://clisynk.com/booking/vince</span>
+                                    <span class="button-send-invite">
+                                            <button> <svg id="send" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.707 1.293a1 1 0 0 1 .262.953l-.04.125-8 20a1 1 0 0 1-1.88-.06l-.03-.115-1.869-9.346-9.346-1.87a1 1 0 0 1-.283-1.858l.108-.05 20-8a1 1 0 0 1 1.078.22zm-3.445 4.86l-6.176 6.176 1.235 6.176zm-1.414-1.415L5.495 9.679l6.176 1.235z" fill-rule="evenodd"></path></svg> 
+                                                Send invite
+                                            </button>
+                                    </span>
+                                </div>
+                            
+                            </div>
+
+                    </div>
+                </div>       
+            </ng-container>
+            <!-- ------------------edit-tag-body---------- -->
+            <ng-container *ngIf="edittagstemplate==false">
+                <div class="right-col choose-form-right-col-body">
+                    <div class="inner-row-main-vc">
+                        <button class="btn" (click)="createtagsmethod()"><img src="../../../../assets/images/plus-blue-icon.svg" width="35" style="margin-right: 10px; width: 18px;">  Create a new tag</button>
+                        <div class="search-filed">
+                            <input type="text" class="search" placeholder="Search">
+                        </div>
+                    </div>
+                    <!-- ------------------tag-listing------------------ -->
+                    <div class="taglisting-main">
+                            <div class="inner-main-tags">
+                                <div class="headings-tags">Marketing</div>
+                                <div class="small-headings">Marketing Department</div>
+                            </div>
+                    </div>
+                    <div class="taglisting-main">
+                        <div class="inner-main-tags">
+                            <div class="headings-tags">Send Birthday Greeting - Stop</div>
+                            <div class="small-headings">Trigger</div>
+                        </div>
+                    </div>
+                    
+                </div>     
+            </ng-container>
+            <!------------------------create-tag--------------- -->
+            <ng-container *ngIf="createtags==false">
+                <div class="right-col  crete-tag-main-body">
+                    <div class="create-tags-filed">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Tag name</mat-label>
+                                <input matInput placeholder="Tag name" type="text"  #input1>
+                            </mat-form-field>
+                    </div>
+                    <div class="create-tags-filed">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Tag description</mat-label>
+                            <textarea matInput placeholder="Tag description" rows="5"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- --------------------edit-products----------------------- -->
+            <ng-container *ngIf="editproducts==true">
+                <div class="right-col choose-form-right-col-body">
+                    <div class="inner-row-main-vc">
+                        <button class="btn" (click)="createproductmethod()"><img src="../../../../assets/images/plus-blue-icon.svg" width="35" style="margin-right: 10px; width: 18px;">  Create a new product</button>
+                        <div class="search-filed">
+                            <input type="text" class="search" placeholder="Search">
+                        </div>
+                    </div>
+                    <!-- ------------------Product-services-------------------------->
+                    <div class="taglisting-main">
+                            <div class="inner-main-tags">
+                                <div class="headings-tags">Any product or service</div>
+                                <div class="small-headings">When anything is purchased</div>
+                            </div>
+                    </div>
+                    <!-- -------------listing-product------------ -->
+                    <div class="product-listing-man">
+                        <div class="table-heading-produts">
+                                <span>Products and Services</span>
+                        </div>
+                        <div class="table-body-data-main">
+                            <div class="inner-table">
+                                <div class="left-side-table">Rx Drug</div>
+                                <div class="right-side-table">$100.00</div>
+                            </div>
+                            <div class="inner-table">
+                                <div class="left-side-table">
+                                    New Product
+                                    <span class="small-heading">Test</span>
+                                </div>
+                                <div class="right-side-table">$100.00</div>
+                            </div>
+                        </div>
+
+                    </div>
+                    
+                </div>     
+            </ng-container>
+            <!-- ------------create-new-product----------------- -->
+            <ng-container *ngIf="createproduct==true">
+                <div class="right-col  crete-tag-main-body">
+                    <div class="create-tags-filed">
+                            <mat-form-field class="full-width" appearance="outline">
+                                <mat-label class="required">Name</mat-label>
+                                <input matInput placeholder="Name" type="text"  #input1>
+                            </mat-form-field>
+                    </div>
+                    <div class="create-tags-filed">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label>Description</mat-label>
+                            <textarea matInput placeholder="Description" rows="5"></textarea>
+                        </mat-form-field>
+                    </div>
+                    <div class="create-tags-filed">
+                        <mat-form-field class="full-width" appearance="outline">
+                            <mat-label class="required">Price</mat-label>
+                            <input matInput placeholder="0" type="text"  #input1>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- ----------------edit-email--------------- -->
+            <ng-container *ngIf="editemail==true">
+                <div class="right-col choose-form-right-col-body">
+                    <div class="inner-row-main-vc">
+                        <button class="btn" (click)="startnewemail()"><img src="../../../../assets/images/plus-blue-icon.svg" width="35" style="margin-right: 10px; width: 18px;">Start with a blank email</button>
+                        <div class="search-filed">
+                            <input type="text" class="search" placeholder="Search">
+                        </div>
+                    </div>
+                    <!-- ------------------tag-listing------------------ -->
+                    <div class="taglisting-main">
+                            <div class="inner-main-tags">
+                                <div class="headings-tags">Introduction</div>
+                                <div class="small-headings">Here's my info</div>
+                            </div>
+                    </div>
+                    <div class="taglisting-main">
+                        <div class="inner-main-tags">
+                            <div class="headings-tags">Introduction with invitation to meet</div>
+                            <div class="small-headings">I'd like to meet with you</div>
+                        </div>
+                    </div>
+                    
+                </div> 
+            </ng-container>
+            <!-- ------------------------create-email------------------ -->
+            <ng-container *ngIf="createemail==true">
+                <div class="right-col create-email-body-main">
+                    <div class="email-main-row">
+                            <div class="title-email">Email title:</div>
+                            <div class="edit-title">
+                                    <input type="text">
+                            </div>
+                    </div>
+                    <div class="email-main-row">
+                        <div class="title-email">From:</div>
+                        <div class="edit-title">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="email-main-row">
+                        <div class="title-email">Subject:</div>
+                        <div class="edit-title">
+                            <input type="text">
+                        </div>
+                    </div>
+                    <div class="email-template">
+                        <ckeditor  debounce="500" [config]="ckeConfig">
+                        </ckeditor>
+                    </div>
+                    <section class="toggle-switch">
+                        <div class="Signature">
+                            <span>Signature</span>
+                        </div>
+                        <div class="Signature-toggle">
+                            <label class="switch">
+                                <input type="checkbox">
+                                <span class="slider round"></span>
+                            </label>
+                        </div>
+                    </section>
+                    <div class="like-and-calender-button">
+                        <button class="btn">
+                            <img src="../../../../assets/images/gray-calendar.svg" width="20">
+                        </button>
+                        <button class="btn">
+                            <img src="../../../../assets/images/like.svg" width="20">
+                        </button>
+                    </div>
+                </div>
+            </ng-container>
+            <!-- --------after-press-next-button-body-------------- -->
+            <ng-container *ngIf="nextpressemail==true">
+                <div class="right-col edit-options-emails">
+                    <span class="first-heading-title">Send (introduction) email</span>
+                    <!-- ----------------------Tabination-------------- -->
+                    <div class="tabbable-panel margin-tops4  edit-tabs">
+                        <div class="tabbable-line">
+                          <ul class="nav nav-tabs tabtop  tabsetting">
+                            <li class="active"> <a href="#tab_default_1" data-toggle="tab"> Immediately </a> </li>
+                            <li> <a href="#tab_default_2" data-toggle="tab"> Delayed</a> </li>
+                          </ul>
+                          <div class="tab-content margin-tops">
+                            <div class="tab-pane active fade" id="tab_default_1">
+                                <!-- ------------blank ------here-first---- -->
+                            </div>
+                            <div class="tab-pane fade" id="tab_default_2">
+                                <div class="edit-options-delayed-main">
+                                    <div class="type-main-drop">
+                                        <mat-form-field class="full-width select-height" appearance="outline">
+                                            <mat-label class="required"> Delay Type</mat-label>
+                                            <mat-select>
+                                                <mat-option value="work" default>Wait</mat-option>
+                                                <mat-option value="home">Wait until a specific date</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="second-row-for-day">
+                                        <div class="left-text-block">
+                                            <mat-form-field class="full-width my-form-field" appearance="outline">
+                                                <mat-label class="required">Number</mat-label>
+                                                <input matInput placeholder="Number" type="text"  #input>
+                                            </mat-form-field>
+                                        </div>
+                                        <div class="right-text-block">
+                                            <mat-form-field class="full-width select-height" appearance="outline">
+                                                <mat-label class="required"> Day</mat-label>
+                                                <mat-select>
+                                                    <mat-option value="work" default>Monday</mat-option>
+                                                    <mat-option value="home">Home</mat-option>
+                                                    <mat-option value="mobile">Mobile</mat-option>
+                                                    <mat-option value="other">Other</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="choose-date-after-show">
+                                        <!-- <mat-form-field appearance="outline">
+                                            <mat-label>Due Date</mat-label>
+                                            <input matInput type="text" bsDatepicker #dp="bsDatepicker">
+                                        </mat-form-field> -->
+                                        <mat-form-field appearance="outline">
+                                            <mat-label>Choose a date</mat-label>
+                                            <input matInput [matDatepicker]="picker">
+                                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                            <mat-datepicker #picker></mat-datepicker>
+                                          </mat-form-field>
+                                    </div>
+                                    <div class="check-items-for-delayed">
+                                        <mat-checkbox class="example-margin">At a specific time of day</mat-checkbox>
+                                    </div>
+                                    <!-- ------------tabs--time-------------->
+                                    <div class="at-between-main-tabs">
+                                        <nav>
+                                            <div class="nav nav-tabs nav-fill" id="nav-tab" role="tablist">
+                                                <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">At</a>
+                                                <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Between</a>
+                                            </div>
+                                        </nav>
+                                        <div class="tab-content py-3 px-3 px-sm-0" id="nav-tabContent">
+                                            <div class="tab-pane fade show active" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+                                                <div class="custom-time-picker-main">
+                                                    <mat-form-field class="full-width" appearance="outline">
+                                                        <mat-label class="required">Time</mat-label>
+                                                        <input matInput placeholder="Time" type="text"  value="{{time}}" #input1>
+                                                        <img src="assets/images/ic_clock.svg" (click)="open()" width="20">
+                                                    </mat-form-field>
+                                                </div>
+                                            </div>
+                                            <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+                                                <div class="between-time-pick-main">
+                                                    <div class="left-col-time custom-time-picker-main">
+                                                        <mat-form-field class="full-width" appearance="outline">
+                                                            <mat-label class="required">Time</mat-label>
+                                                            <input matInput placeholder="Time" type="text"  value="{{time}}" #input1>
+                                                            <img src="assets/images/ic_clock.svg" (click)="open()" width="20">
+                                                        </mat-form-field>
+                                                    </div>
+                                                    <div class="center-col-time">
+                                                        and
+                                                    </div>
+                                                    <div class="right-col-time custom-time-picker-main">
+                                                        <mat-form-field class="full-width" appearance="outline">
+                                                            <mat-label class="required">Time</mat-label>
+                                                            <input matInput placeholder="Time" type="text"  value="{{time}}" #input1>
+                                                            <img src="assets/images/ic_clock.svg" (click)="open()" width="20">
+                                                        </mat-form-field>
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                            
+                                        </div>
+                                    
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+                        </div>
+                    </div>
+
+                 </div>
+            </ng-container>
+            <!-- ---------------- create-notiification-body------------->
+            <ng-container *ngIf="createnotification==true">
+                <div class="right-col create-notification">
+                    <div class="chips-notification">
+                        <mat-form-field class="example-chip-list"   appearance="outline" >
+                            <mat-chip-list #chipList>
+                            <mat-chip>All users</mat-chip>
+                            <mat-chip>Sudhir Reddy</mat-chip>
+                            </mat-chip-list>
+                            <mat-label class="required">Notification Recipient</mat-label>
+                            <input [matChipInputFor]="chipList">
+                        </mat-form-field>
+                    </div>
+                    <div class="second-row-notification">
+                        <mat-checkbox class="example-margin">Send desktop notification</mat-checkbox>
+                        <mat-checkbox class="example-margin">Send mobile notification</mat-checkbox>
+                        <mat-checkbox class="example-margin">Send email notification</mat-checkbox>
+                    </div>
+                    <div class="third-row-notification">
+                        <div class="inner-third-noti-left">
+                        <mat-form-field class="full-width my-form-field" appearance="outline">
+                            <mat-label class="required">Notification subject</mat-label>
+                            <input matInput placeholder="Notification subject" type="text"  #input>
+                        </mat-form-field>
+                        </div>
+                        <div class="inner-third-noti-right">
+                           <div class="dropdown global-add-button ping-dr-notification">
+                                <div class="btn-group add-btn" dropdown>
+                                    <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle "
+                                            aria-controls="dropdown-basic">Merge<i class="fas fa-angle-down"></i>
+                                    </button>
+                                        <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-basic">
+                                            <ng-container *ngIf="maindropdown==true">
+                                                <li role="menuitem" class="first-drop-list-notification">
+                                                    <span>Merge Filed</span>
+                                                </li>
+                                                <li role="menuitem" (click)="contacts()">Contact<i class="fas fa-angle-down"></i></li>
+                                                <li role="menuitem">Profile<i class="fas fa-angle-down"></i></li>
+                                                <li role="menuitem">Current Date and Time<i class="fas fa-angle-down"></i></li>
+                                                <li role="menuitem">User<i class="fas fa-angle-down"></i></li>
+                                            </ng-container>
+                                            <!-- ----contacts------------ -->
+                                            <ng-container *ngIf="contactsub==false">
+                                                <li  class="first-drop-list-notification">
+                                                    <i class="fas fa-angle-down"></i>
+                                                    <span>Contact</span>
+                                                </li>
+                                                <li>First Name</li>
+                                                <li>Last Name</li>
+                                                <li>Email</li>
+                                                <li>Phone</li>
+                                            </ng-container>
+                                            
+                                        </ul>
+                                </div> 
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="third-row-notification">
+                        <div class="inner-third-noti-left">
+                        <mat-form-field class="full-width my-form-field" appearance="outline">
+                            <mat-label class="required">Notification Content</mat-label>
+                            <input matInput placeholder="Notification subject" type="text"  #input>
+                        </mat-form-field>
+                        </div>
+                        <div class="inner-third-noti-right">
+                           <div class="dropdown global-add-button ping-dr-notification">
+                                <div class="btn-group add-btn" dropdown>
+                                    <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle "
+                                            aria-controls="dropdown-basic">Merge<i class="fas fa-angle-down"></i>
+                                    </button>
+                                        <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu"
+                                            aria-labelledby="button-basic">
+                                                <li role="menuitem" class="first-drop-list-notification">
+                                                    <span>Merge Filed</span>
+                                                </li>
+                                                <li role="menuitem" (click)="contacts()">Contact<i class="fas fa-angle-down"></i></li>
+                                                <li role="menuitem">Profile<i class="fas fa-angle-down"></i></li>
+                                                <li role="menuitem">Current Date and Time<i class="fas fa-angle-down"></i></li>
+                                                <li role="menuitem">User<i class="fas fa-angle-down"></i></li>
+
+                                        </ul>
+                                </div> 
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </ng-container>
+
+
+   </ng-template>
+
+  
+
+
+   <!-- ---------------------after-delete-show-all-option--------------------------------------->
+   <ng-template #othercontentdelete>
+            
+                <div class="right-col">
+
+                    <div class="right-inner-wrapper-first after-delete-show-all-option">
+                        <!-- ---------------upper-dropdown-main -->
+                        <div class="btn-group add-btn start-automation-dropdown" dropdown>
+                            <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle " aria-controls="dropdown-basic">
+                                What starts your automation?<i class="fas fa-angle-down"></i>
+                            </button>
+                            <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu"
+                                aria-labelledby="button-basic">
+
+                                <li role="menuitem">
+                                    <a class="dropdown-item">Option 1 </a>
+                                </li>
+                                <li role="menuitem">
+                                    <a class="dropdown-item">Option 2 </a>
+                                </li>
+                                <li role="menuitem">
+                                    <a class="dropdown-item">Option 3 </a>
+                                </li>
+                            </ul>
+                        </div>
+                        <!-- -------------------------suggested-option----------- -->
+                        <div class="label-option">
+                            <span>Suggested options</span>
+                        </div>
+                        <div class="select-option-four-grid-wrapper">
+                            <div class="inner-grid-col" (click)="leadformsubmittednew()">
+                                <span>Lead form is <br/>submitted </span>
+                                <img src="assets/images/lead-form-is-submitted.svg" width="60">
+                            </div>
+                            <div class="inner-grid-col" (click)="appointmentSubmitted()">
+                                <span>Appointment is <br/>scheduled </span>
+                                <img src="assets/images/appointment-is-scheduled.svg" width="60">
+                            </div>
+                            <div class="inner-grid-col" (click)="tagisadded()">
+                                <span>Tag is added </span>
+                                <img src="assets/images/tag-is-addwd.svg" width="60">
+                            </div>
+                            <div class="inner-grid-col" (click)="purchasemethod()">
+                                <span>Purchase is made </span>
+                                <img src="assets/images/purchase-is-made.svg" width="60">
+                            </div>
+
+                        </div>
+                        <!-- -------------------show all option Button----------------------------->
+                        <div class="text-center show-all-option">
+                            <button class="btn scroll-class" (click)="Showoption12()" >{{buttonName}}</button>
+                        </div>
+                        
+                    </div>
+                    <!-- -------------------show all option Button----------------------------->
+                    <ng-container *ngIf="(option)">
+                        <div class="all-option-available">
+                        <div class="appoint-ments">
+                            <span> Appointments</span>
+                        </div>
+                        </div>
+                        <div class="right-inner-wrapper-first">
+                            <div class="select-option-four-grid-wrapper" style="margin-bottom: 40px;">
+                                <div class="inner-grid-col">
+                                    <span>Appointment is <br/>scheduled </span>
+                                    <img src="assets/images/appointment-is-scheduled.svg" width="60">
+                                </div>
+                                <div class="inner-grid-col">
+                                    <span>Appointment is <br/>cancelled </span>
+                                    <img src="assets/images/appointment-is-scheduled.svg" width="60">
+                                </div>    
+                            </div>
+                        </div>
+                        <!-- ------------forms------------- -->
+                        <div class="all-option-available">
+                            <div class="appoint-ments">
+                                <span> Forms</span>
+                            </div>
+                        </div>
+                        <div class="right-inner-wrapper-first">
+                            <div class="select-option-four-grid-wrapper" style="margin-bottom: 40px;">
+                                <div class="inner-grid-col">
+                                    <span>Lead form is <br/>submitted </span>
+                                    <img src="assets/images/lead-form-is-submitted.svg" width="60">
+                                </div>
+                                <div class="inner-grid-col">
+                                    <span>Internal form is <br/>submitted </span>
+                                    <img src="assets/images/lead-form-is-submitted.svg" width="60">
+                                </div>
+                            </div>
+                        </div>
+                    <!-- ------------Money------------- -->
+                        <div class="all-option-available">
+                            <div class="appoint-ments">
+                                <span> Money</span>
+                            </div>
+                        </div>
+                        <div class="right-inner-wrapper-first">
+                            <div class="select-option-four-grid-wrapper" >
+                                <div class="inner-grid-col">
+                                    <span>Purchase is made </span>
+                                    <img src="assets/images/purchase-is-made.svg" width="60">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="all-option-available">
+                            <div class="appoint-ments">
+                                <span> Tags</span>
+                            </div>
+                        </div>
+                        <div class="right-inner-wrapper-first">
+                            <div class="select-option-four-grid-wrapper" >
+                                <div class="inner-grid-col">
+                                    <span>Tag is added </span>
+                                    <img src="assets/images/tag-is-addwd.svg" width="60">
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <div class="short-des-not-seeing">
+                        Not seeing something you wish to automate? <br/>
+                        Let us know!
+                    </div>
+                    <div class="share-feed-back">
+                        <button (click)="openSubmitfeedback()">Share feedback</button>
+                    </div>
+
+                </div>
+                <!-- --------------------------------------------Appointment scheduled--------------- -->
+     
+
+   </ng-template>
+
+</div>
+
+

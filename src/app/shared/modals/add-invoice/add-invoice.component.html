@@ -1,0 +1,674 @@
+<!--.elevation-z1-->
+
+<div class="med-popup invoice_popup">
+    <div class="modal-header email_str_header">
+        <section id="close" class="navigation">
+            <button class="icon-only" type="button" aria-label="Close" (click)="closeAction()"
+                    *ngIf="!hidePrint">
+                <img src="/assets/images/ic_close.svg">
+            </button>
+        </section>
+        <section class="text" *ngIf="!hidePrint">
+            <h4>
+                <ng-container *ngIf="!isView">
+                    {{isEdit ? 'Edit' : 'Create an'}} {{myModel?.heading}}
+                </ng-container>
+
+                <ng-container *ngIf="isView">
+                    {{myModel?.heading | titlecase}} preview
+                </ng-container>
+            </h4>
+            <p>{{selectedContact?.firstName}} {{selectedContact?.lastName}}</p>
+        </section>
+        <section class="action" *ngIf="!hidePrint">
+
+            <div class="">
+                <div class="button-row" *ngIf="myResponse?.items?.length">
+                    <div class="btn-group send-invite add-money" dropdown>
+                        <button id="button-basic2" dropdownToggle type="button" class="text-button"
+                                aria-controls="dropdown-basic">More actions
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" id="chevron-down">
+                                <path
+                                        d="M6.293 9.293a1 1 0 0 1 1.414 0L12 13.586l4.293-4.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414z"
+                                        fill-rule="evenodd"></path>
+                            </svg>
+                        </button>
+                        <ul id="dropdown-basic2" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-basic"
+                            style="left: -103px;">
+                            <li role="menuitem" style="display: block" (click)="isView = true" *ngIf="!isView">
+                                <a class="dropdown-item">
+                                    <span class="ellipsis">Preview {{myModel?.heading}}</span>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block" (click)="isView = false"
+                                *ngIf="(isView && myResponse.status === 'Draft')">
+                                <a class="dropdown-item">
+                                    <span class="ellipsis">Edit</span>
+                                </a>
+                            </li>
+
+                            <li role="menuitem" style="display: block" *ngIf="modalData?.type != 1"
+                                (click)="convertToInvoice()">
+                                <a class="dropdown-item">
+                                    <span class="ellipsis">Convert to invoice</span>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block" *ngIf="modalData?.type != 1">
+
+                                <a class="dropdown-item" [appCopyClipboard]="myResponse.link" (copied)="notify($event)">
+                                    <span class="ellipsis">Copy link to quote</span>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block">
+                                <a class="dropdown-item" (click)="printFile()">
+                                    <span class="ellipsis">Print {{modalData?.type == 1 ? 'invoice' : 'quote'}}</span>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block">
+                                <a class="dropdown-item" (click)="pdf.saveAs( modalData?.type == 1 ? 'invoice.pdf' : 'quote.pdf')">
+                                    <span class="ellipsis">Download PDF</span>
+                                </a>
+                            </li>
+                            <li role="menuitem" style="display: block"
+                                (click)="deleteInvoice()">
+                                <a class="dropdown-item" *ngIf="myResponse.status === 'Draft'">
+                                    <span class="ellipsis text-danger">Delete</span>
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+
+                    <button class="btn-outline-primary" *ngIf="!hidePrint && myResponse.status !== 'Refunded'"
+                            type="button"
+                            (click)="finalSubmit(true);">
+                        Next
+                    </button>
+                    <!--                        local test-->
+                    <!--                        <button class="btn-outline-primary" type="button" (click)="finalSubmit(true)"-->
+                    <!--                                [disabled]="!selectedProducts?.length"> Next-->
+                    <!--                        </button>-->
+                </div>
+            </div>
+        </section>
+    </div>
+    <kendo-pdf-export #pdf >
+       
+        <form [formGroup]="form" autocomplete="off" id="add_invoice_form" #content>
+            <div class="modal-body">
+    
+                <div class="invoice-modal-content">
+                    <div class="ds-card invoice-card " [ngClass]="{'elevation-z1':!hidePrint}">
+                        <div class="ds-card-body">
+                            <div class="invoice-edit">
+                                <section>
+                                    <div class="header-section editing">
+                                        <div class="logo-container">
+    
+                                            <div class="logo">
+                                                <app-loader [showLoader]="myModel.loader"></app-loader>
+                                                <img src="{{selected?.imageUrl?.thumbnail}}"
+                                                     alt="loading..." class="invoice-img"
+                                                     *ngIf="selected?.imageUrl?.thumbnail">
+    
+                                                <div class="file-upload clickable"
+                                                     *ngIf="!myModel?.loader && !selected?.imageUrl">
+                                                    <section class="no-pointer-events">
+                                                        <div class="circle">
+                                                            <svg class="icon-upload icon">
+                                                                <svg xmlns="http://www.w3.org/2000/svg"
+                                                                     viewBox="0 0 24 24"
+                                                                     id="upload-cloud">
+                                                                    <path
+                                                                            d="M12 10.998a1 1 0 0 1 .707.293l4 4.002a1 1 0 0 1-1.414 1.414L13 14.413V21a1 1 0 1 1-2 0v-6.587l-2.293 2.294a1 1 0 0 1-1.414-1.414l4-4.002a1 1 0 0 1 .707-.293zM9 3c2.935 0 5.5 1.581 6.89 3.933.02.032.041.051.056.06A.071.071 0 0 0 15.96 7H17a6 6 0 0 1 3.601 10.8 1 1 0 0 1-1.201-1.6A4 4 0 0 0 17 9h-1.042c-.788 0-1.439-.457-1.79-1.049A6 6 0 1 0 4.8 15.286a1 1 0 1 1-1.399 1.428A8 8 0 0 1 9 3z"
+                                                                            fill-rule="evenodd"></path>
+                                                                </svg>
+                                                            </svg>
+                                                        </div>
+                                                        <div class="file-type" style="display: none;"></div>
+                                                    </section>
+    
+                                                    <section id="initial-info" class="no-pointer-events">
+                                                        <h4 class="label semibold"> Upload logo</h4>
+                                                        <h6 class="instructions"> Drag &amp; drop here or
+                                                            browse </h6>
+                                                        <h6 class="allowedFilesLabel"> jpeg, png, gif files
+                                                            are acceptable </h6>
+                                                    </section>
+                                                </div>
+    
+    
+                                            </div>
+                                            <ng-container>
+                                                <div class="address-dropdown address display-address business-address editing"
+                                                     dropdown>
+                                                    <button dropdownToggle type="button" class="btn dropdown-toggle"
+                                                            aria-controls="dropdown-basic">
+                                                      <div  class="contact-name" >{{selected?.name}}</div>
+                                                        <div class= "contact-email desktop">{{selected?.email}}</div>
+                                                        <div class="address contact-address fs-block editing">
+                                                            <div>{{selected?.address1}}</div>
+                                                            <div> {{selected?.city}},
+                                                                {{selected?.postalCode}}</div>
+                                                            <div>{{selected?.country}}</div>
+                                                        </div>
+                                                    </button>
+                                                    <div *ngIf="!isView">
+                                                    <ul *dropdownMenu class="dropdown-menu" role="menu"
+                                                        aria-labelledby="button-basic">
+    
+                                                        <li role="menuitem" *ngFor="let data of myModel?.addresses"
+                                                            (click)="selected = data;finalSubmit(false)">
+                                                            <a class="dropdown-item">
+                                                                {{data?.name}}<br>
+                                                                ({{data?.address1}})
+                                                            </a>
+                                                        </li>
+                                                    </ul>
+                                                    </div>
+                                                </div>
+                                            </ng-container>
+                                        </div>
+    
+                                        <div class="number-container" *ngIf="myResponse">
+                                            <div class="invoice-number-title"> Invoice # {{myResponse?.srNo}}</div>
+                                            <!-- <div class="invoice-number">{{myResponse?.srNo}}</div> -->
+                                            <div class="paid">
+                                            <span class="order-status-pill paid" *ngIf="myResponse?.status">
+                                                <div class="chip" style="background: darkgrey">
+                                                    <div class="text">{{myResponse?.status}}</div>
+                                                </div>
+                                            </span>
+                                            </div>
+    
+                                            <div class="invoice-number-title" style="text-align: right;"
+                                                 *ngIf="myResponse?.status == 'Refunded'">
+                                                This has a refund applied. If you need to charge for an adjusted amount,
+                                                you'll need to create a new invoice. This invoice can no longer be
+                                                modified.
+                                            </div>
+                                        </div>
+                                    </div>
+    
+                                    <div class="contact-information editing">
+                                        <div class="contact-info">
+                                            <div class="column-header"> Billed to</div>
+                                            <div class="invoice-choose-contact">
+    
+                                                <ng-container *ngIf="!isView">
+                                                    <div class="input-field" *ngIf="!selectedContact">
+                                                        <div class="btn-group add-btn select-opt">
+                                                            <mat-form-field class="select-height full-width"
+                                                                            appearance="outline">
+                                                                <mat-label>Select Contact</mat-label>
+                                                                <input matInput class="form-control py-2" type="search"
+                                                                       [formControl]="myControl" [matAutocomplete]="auto"
+                                                                       (blur)="clearSearch()"
+                                                                       (click)="myControl.patchValue('')">
+                                                                <mat-autocomplete autoActiveFirstOption
+                                                                                  #auto="matAutocomplete"
+                                                                                  (optionSelected)="finalSelected()">
+                                                                    <mat-option (click)="http.openModal('addContact')"><i
+                                                                            class="fas fa-plus"></i>Add
+                                                                    </mat-option>
+                                                                    <mat-option
+                                                                            *ngFor="let val of myModel.contacts | filter:myControl.value"
+                                                                            [value]="val">
+                                                                        {{val?.firstName}} {{val?.lastName}}
+                                                                    </mat-option>
+                                                                </mat-autocomplete>
+                                                                <mat-icon matSuffix>
+                                                                    <i class="fas fa-angle-down"
+                                                                       style="margin-left:6px"></i>
+                                                                </mat-icon>
+                                                            </mat-form-field>
+                                                        </div>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <div class="contact-name-email editing" *ngIf="selectedContact">
+                                                <div class="contact-name" (click)="openDetails()">
+                                                    <a>
+                                                        {{selectedContact?.firstName}} {{selectedContact?.lastName}}
+                                                        <i class="fa fa-trash remove_fa_button" aria-hidden="true" (click)="selectedContact = null;myControl.patchValue('')" *ngIf="!isView && !hidePrint"></i>
+                                                    </a>
+                                                </div>
+                                                <div class="contact-email desktop"> {{selectedContact?.email}}</div>
+                                                <div class="contact-phone"></div>
+    
+                                                <div class="address contact-address fs-block editing"
+                                                     *ngIf="selectedContact?.billingAddress">
+                                                    <div> {{selectedContact?.billingAddress?.address}}</div>
+                                                    <div> {{selectedContact?.billingAddress?.state}}</div>
+                                                    <div> {{selectedContact?.billingAddress?.city}}
+                                                        ,  {{selectedContact?.billingAddress?.zipCode}}</div>
+                                                    <div> {{selectedContact?.billingAddress?.country}}</div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="due-date">
+                                            <div class="column-header">Due by</div>
+                                            <div class="due-date-picker">
+                                                <input formControlName="dueBy" bsDatepicker class="date-input">
+                                            </div>
+                                        </div>
+    
+                                        <div class=" due-amount">
+                                            <div class="column-header">Total due</div>
+                                            <div class="total-due-number">{{total | currency}}</div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <section>
+    
+                                    <div class="line-item-container">
+                                        <div class="table">
+                                            <div class="table-row header">
+                                                <div class="title-description">Description</div>
+                                                <div class="column">Price</div>
+                                                <div class="column">Quantity</div>
+                                                <div class="column">Amount</div>
+                                            </div>
+                                            <div class="line-item-body">
+                                                <ng-container *ngFor="let data of myResponse?.items;let i = index">
+                                                    <div class="line-item table-row editing" dropdown>
+    
+                                                        <div class="line-items" id="basic-link" dropdownToggle
+                                                             aria-controls="basic-link-dropdown">
+                                                            <div class="title-description">
+                                                                <div class="line-item-title second-color remove-overflow" style="width: 200px;">{{data?.name}}</div>
+                                                                <div class="line-item-description remove-overflow" style="width: 200px;">{{data?.description}}</div>
+                                                                <!--                                                            <div class="mobile-description"> 1 x $0.11</div>-->
+                                                            </div>
+                                                            <div class="column price">{{data?.price|currency}}</div>
+                                                            <div class="column quantity">{{data?.quantity}}</div>
+                                                            <div class="column">{{data?.price * data?.quantity |currency}}</div>
+                                                        </div>
+                                                        <ng-container *ngIf="!isView">
+                                                            <ul id="basic-link-dropdown" *dropdownMenu class="dropdown-menu"
+                                                                role="menu" aria-labelledby="basic-link">
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       (click)="editProduct(data, i)">Edit</a>
+                                                                </li>
+                                                                <li>
+                                                                    <a class="dropdown-item"
+                                                                       (click)="deleteProduct(data, i)">
+                                                                        Delete</a>
+                                                                </li>
+                                                            </ul>
+                                                        </ng-container>
+                                                    </div>
+                                                </ng-container>
+                                            </div>
+                                            <!-- <div class="mobile-description line-item-description"> Large </div> -->
+                                        </div>
+                                    </div>
+                                    <ng-container *ngIf="!isView">
+    
+                                        <div class="add-line-item" *ngIf="!hidePrint">
+                                            <div class="btn-group send-invite add-money" dropdown>
+                                                <button id="button-basic3" dropdownToggle type="button" class="text-button"
+    
+                                                        aria-controls="dropdown-basic">+ Add a line item
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                         id="chevron-down">
+                                                        <path
+                                                                d="M6.293 9.293a1 1 0 0 1 1.414 0L12 13.586l4.293-4.293a1 1 0 1 1 1.414 1.414l-5 5a1 1 0 0 1-1.414 0l-5-5a1 1 0 0 1 0-1.414z"
+                                                                fill-rule="evenodd"></path>
+                                                    </svg>
+                                                </button>
+                                                <ul id="dropdown-basic3" *dropdownMenu
+                                                    class="dropdown-menu add-line-item-dropdown" role="menu"
+                                                    aria-labelledby="button-basic"
+                                                    style="left: -103px;">
+                                                    <li role="menuitem" style="display: block"
+                                                        (click)="http.openModal('addProduct')">
+                                                        <a class="dropdown-item">
+                                                            <span class="ellipsis"> Create a new product or service </span>
+                                                        </a>
+                                                    </li>
+                                                    <input 
+                                                    class="form-control p-3"
+                                                    placeholder ="Search Products..."
+                                                    (click)="$event.stopPropagation()" [ngModelOptions]="{standalone: true}" [(ngModel)]="searchText">
+                                                    <ng-container *ngFor="let data of myModel?.products|filter: searchText">
+                                                        <li role="menuitem" style="display: block"
+                                                            (click)="selectProduct(data)">
+                                                            <a class="dropdown-item">
+                                                            <span class="ellipsis remove-overflow">{{data?.name}}</span>
+                                                                <p>{{data?.price | currency}}</p>
+                                                            </a>
+                                                        </li>
+                                                    </ng-container>
+                                                </ul>
+                                            </div>
+                                        </div>
+                                    </ng-container>
+    
+                                </section>
+    
+                                <section>
+                                    <div class="review-container">
+                                        <div class="review-totals">
+                                            <div class="review-row">
+                                                <div>Subtotal</div>
+                                                <div>{{subTotal | currency}}</div>
+                                            </div>
+                                            <!--                                        {{subTotal}}-=- -->
+                                            <div class="review-row" *ngIf="subTotal > 0">
+    
+                                                <div class="add-line-item add_a_discount_outter"
+                                                     *ngIf="modalData?.type == 1">
+    
+                                                    <ng-container *ngIf="isView">
+                                                        <span class="blue-link">Discount</span>
+                                                    </ng-container>
+    
+                                                    <!--                                                [insideClick]="true"-->
+                                                    <div class="btn-group send-invite add-money" dropdown
+                                                         [autoClose]="false" #dropdown="bs-dropdown">
+    
+                                                        <ng-container *ngIf="form.value.isDiscount && !isView">
+                                                                <span class="blue-link" *ngIf="!hidePrint"><i
+                                                                        class="far fa-trash-alt"
+                                                                        (click)="removeDiscount()"></i>
+                                                                </span>
+                                                        </ng-container>
+                                                        <button id="button-basic5" dropdownToggle type="button"
+                                                                class="add_a_discount"
+                                                                aria-controls="dropdown-basic" *ngIf="!isView">
+                                                            <ng-container *ngIf="!form.value.isDiscount &&  !hidePrint">
+                                                                Add a discount
+                                                            </ng-container>
+                                                            <ng-container *ngIf="form.value.isDiscount">
+                                                                &nbsp; Discount
+                                                            </ng-container>
+                                                        </button>
+    
+                                                        <div id="dropdown-basic5" *dropdownMenu class="dropdown-menu"
+                                                             role="menu" aria-labelledby="button-basic"
+                                                             style="left: -103px;">
+                                                            <p>Add a discount</p>
+                                                            <div class="row">
+                                                                <div class="col-md-7 input-field simple-input">
+                                                                    <mat-form-field class="full-width" appearance="outline">
+                                                                        <input matInput type="text" appNumberOnly
+                                                                               formControlName="discountValue">
+                                                                    </mat-form-field>
+                                                                </div>
+                                                                <!--                                                            (click)="saveDiscount();form.controls.isDiscount.patchValue(true)"-->
+                                                                <div class="col-md-5 btn-group add-btn select-opt simple-input">
+                                                                    <mat-form-field class="full-width select-height"
+                                                                                    appearance="outline">
+                                                                        <mat-select formControlName="discountType"
+                                                                                    (selectionChange)="saveDiscount()">
+                                                                            <mat-option value="1">%</mat-option>
+                                                                            <mat-option value="2">$</mat-option>
+                                                                        </mat-select>
+                                                                    </mat-form-field>
+                                                                </div>
+                                                            </div>
+    
+                                                            <button class="btn-outline-primary"
+                                                                    (click)="form.controls.isDiscount.patchValue(true);saveDiscount();dropdown.hide()">
+                                                                Save
+                                                            </button>
+                                                            <button class="text-button" (click)="dropdown.hide()">Cancel
+                                                            </button>
+    
+                                                        </div>
+                                                    </div>
+                                                </div>
+    
+                                                <div *ngIf="modalData?.type == 1">{{showDiscount | currency}}</div>
+                                            </div>
+                                            <!---->
+                                            <div class="review-row">
+                                                <div>Amount paid</div>
+                                                <div>{{amountPaid | currency}}</div>
+                                                <!--                                            <div>{{total | currency}}</div>-->
+                                            </div>
+                                            <div>
+                                                <div class="review-row">
+                                                    <div>Total due</div>
+                                                    <div class="bold"> {{total | currency}}</div>
+                                                </div>
+    
+                                                <ng-container *ngIf="modalData?.type == 1">
+                                                    <div class="review-row" *ngIf="subTotal > 0">
+                                                        <div>
+    
+                                                            <div class="add-line-item add_a_discount_outter">
+    
+                                                                <ng-container *ngIf="isView">
+                                                                <span class="blue-link">
+                                                                    Deposit
+                                                                </span>
+                                                                </ng-container>
+    
+                                                                <ng-container *ngIf="form.value.isDeposit && !isView">
+                                                                <span class="blue-link" *ngIf="!hidePrint">
+                                                                    <i class="far fa-trash-alt"
+                                                                       (click)="removeDeposit()"></i>
+                                                                </span>
+                                                                </ng-container>
+    
+                                                                <!--                                                            [insideClick]="false"-->
+                                                                <div class="btn-group send-invite add-money" dropdown
+                                                                     *ngIf="!isView "
+                                                                     [autoClose]="false" #dropdown="bs-dropdown">
+    
+                                                                    <button id="button-basic6" dropdownToggle
+                                                                            type="button"
+                                                                            class="add_a_discount"
+                                                                            aria-controls="dropdown-basic">
+                                                                        <ng-container
+                                                                                *ngIf="!form.value.isDeposit">
+                                                                            Request Deposit
+                                                                        </ng-container>
+                                                                        <ng-container *ngIf="form.value.isDeposit">
+                                                                            &nbsp; Deposit
+                                                                        </ng-container>
+                                                                    </button>
+                                                                    <div id="dropdown-basic6" *dropdownMenu
+                                                                         class="dropdown-menu" role="menu"
+                                                                         aria-labelledby="button-basic"
+                                                                         style="left: -103px;">
+                                                                        <p> Request Deposit</p>
+                                                                        <div class="row">
+                                                                            <div class="col-md-7 simple-input input-field">
+                                                                                <mat-form-field class="full-width"
+                                                                                                appearance="outline">
+                                                                                    <input matInput type="text"
+                                                                                           appNumberOnly
+                                                                                           formControlName="depositValue">
+                                                                                </mat-form-field>
+                                                                            </div>
+    
+                                                                            <div class="col-md-5 simple-input btn-group add-btn select-opt">
+                                                                                <mat-form-field
+                                                                                        class="full-width select-height"
+                                                                                        appearance="outline">
+                                                                                    <mat-select
+                                                                                            formControlName="depositType"
+                                                                                            (selectionChange)="saveDeposit()">
+                                                                                        <mat-option value="1">%</mat-option>
+                                                                                        <mat-option value="2">$</mat-option>
+                                                                                    </mat-select>
+                                                                                </mat-form-field>
+                                                                            </div>
+                                                                        </div>
+    
+                                                                        <button class="btn-outline-primary"
+                                                                                (click)="form.controls.isDeposit.patchValue(true);saveDeposit();dropdown.hide()">
+                                                                            Save
+                                                                        </button>
+                                                                        <button class="text-button"
+                                                                                (click)="dropdown.hide()">Cancel
+                                                                        </button>
+    
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+    
+                                                        </div>
+                                                        <div class="bold"> {{showDeposit |currency}}</div>
+                                                    </div>
+                                                </ng-container>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+    
+                                <ng-container *ngIf="!isView">
+                                    <section class="invoice-take-payments" *ngIf="modalData?.type == 1">
+                                        <div class="take-payments" *ngIf="!hidePrint">
+                                            <div class="setup-text">
+                                                <svg class="icon">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"
+                                                         id="credit-card">
+                                                        <path
+                                                                d="M21 4a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2zm0 6H3v8h18zm0-4H3v3h18z"
+                                                                fill-rule="evenodd"></path>
+                                                    </svg>
+                                                </svg>
+                                                <span class="text">Accept online payments</span>
+                                            </div>
+                                            <div class="show-options">
+                                                <section class="Signature-toggle cc-toggle">
+                                                <span class="label">
+        <!--                                            <span>Accept credit cards</span>-->
+                                                </span>
+    
+    
+                                                    <label class="switch">
+                                                        <input type="checkbox" formControlName="acceptOnlinePayment"
+                                                               [value]="true">
+                                                        <span class="slider round"></span>
+                                                    </label>
+                                                </section>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </ng-container>
+    
+                                <section class="order-terms" *ngIf="form?.value?.acceptOnlinePayment">
+                                    <div class="notes">
+                                        <div class="title">Bank Details</div>
+                                        <div>
+                                            <div class="input-field textarea no-label">
+                                                <ng-container *ngIf="!isView && !hidePrint">
+                                                  <textarea placeholder="Bank Details" (blur)="finalSubmit()"
+                                                            formControlName="bankDetails"></textarea>
+                                                </ng-container>
+                                                <ng-container *ngIf="isView || !!hidePrint">
+    
+                                                    <ng-container *ngIf="form?.value?.bankDetails">
+                                                        {{form?.value?.bankDetails}}
+                                                    </ng-container>
+                                                </ng-container>
+    
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+    
+                                <section class="order-terms">
+                                    <div class="notes">
+                                        <ng-container *ngIf="!isView && !hidePrint">
+                                            <div class="title"> Notes</div>
+                                            <div>
+                                                <div class="input-field textarea no-label">
+                                                <textarea placeholder="Add a note (optional)" (blur)="finalSubmit()"
+                                                          formControlName="notes"></textarea>
+                                                </div>
+                                            </div>
+                                        </ng-container>
+    
+                                        <ng-container *ngIf="isView || hidePrint">
+                                            <ng-container *ngIf="form?.value?.notes">
+                                                <div class="title"> Notes</div>
+                                                {{form?.value?.notes || 'N.A.'}}
+                                            </ng-container>
+                                        </ng-container>
+    
+                                    </div>
+    
+                                    <div class="notes">
+    
+                                        <div>
+                                            <ng-container *ngIf="!isView && !hidePrint">
+                                                <div class="title"> Terms</div>
+                                                <div class="input-field textarea no-label">
+                                                <textarea placeholder="Add terms (optional)" (blur)="finalSubmit()"
+                                                          formControlName="terms"></textarea>
+                                                </div>
+                                            </ng-container>
+    
+                                            <ng-container *ngIf="isView || hidePrint">
+                                                <ng-container *ngIf="form?.value?.terms">
+                                                    <div class="title"> Terms</div>
+                                                    {{form?.value?.terms || 'N.A.'}}
+                                                </ng-container>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                </section>
+    
+                                <ng-container *ngIf="!hidePrint">
+                                    <section class="order-terms-payments" *ngIf="myResponse?.payments?.length > 0">
+                                        <div class="title-container desktop">
+                                            <h3>Payments for this invoice #{{myResponse?.srNo}}</h3>
+    
+                                        </div>
+                                        <div class="table-grid">
+                                            <div class="table-wrapper">
+                                                <table>
+                                                    <thead>
+                                                    <tr>
+                                                        <th class="">
+                                                            <div class="cell">Date</div>
+                                                        </th>
+                                                        <th class="">
+                                                            <div class="cell">Type</div>
+                                                        </th>
+                                                        <th class="">
+                                                            <div class="cell">Amount</div>
+                                                        </th>
+                                                    </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                    <tr class="" *ngFor="let data of myResponse?.payments">
+                                                        <!---->
+                                                        <td class="">
+                                                            <div class="cell">{{data.createdAt | date}}</div>
+                                                        </td>
+                                                        <td class="">
+                                                            <div class="cell"><span class="">
+                                                                    {{data?.status == 1 ? 'Manual payment made' : 'Refund'}}
+                                                                <!--                                                            Manual payment made -->
+                                                            </span></div>
+                                                        </td>
+                                                        <td class="">
+                                                            <div class="cell"><span
+                                                                    class=""> {{data?.amount | currency}} </span>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </div>
+                                    </section>
+                                </ng-container>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+      </kendo-pdf-export>
+
+</div>

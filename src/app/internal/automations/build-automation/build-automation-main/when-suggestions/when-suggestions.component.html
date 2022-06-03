@@ -1,0 +1,142 @@
+<div class="right-col">
+
+    <div class="right-inner-wrapper-first after-delete-show-all-option">
+        <!-- ---------------upper-dropdown-main -->
+        <div class="btn-group add-btn start-automation-dropdown" dropdown>
+            <button id="button-basic1" dropdownToggle type="button" class="btn dropdown-toggle " aria-controls="dropdown-basic">
+                {{ selectedEvent ? selectedEvent.eventDescription : 'What starts your automation?' }}
+                <i class="fas fa-angle-down"></i>
+            </button>
+            <ul id="dropdown-basic1" *dropdownMenu class="dropdown-menu" role="menu"
+                aria-labelledby="button-basic">
+                <ng-container *ngFor="let item of listOfWhenEvents">
+                    <li role="menuitem">
+                        <a class="dropdown-item" (click)="onSelectEvent(item)">{{item.eventDescription}} </a>
+                    </li>
+                </ng-container>
+                <!-- <li role="menuitem">
+                    <a class="dropdown-item">Option 1 </a>
+                </li>
+                <li role="menuitem">
+                    <a class="dropdown-item">Option 2 </a>
+                </li>
+                <li role="menuitem">
+                    <a class="dropdown-item">Option 3 </a>
+                </li> -->
+            </ul>
+        </div>
+        <!-- -------------------------suggested-option----------- -->
+        <div class="label-option">
+            <span>Suggested options</span>
+        </div>
+        <div class="select-option-four-grid-wrapper">
+            <ng-container *ngFor="let item of listOfWhenEvents">
+                <div (click)="onSelectEvent(item)" class="inner-grid-col">
+                    <span>{{item.eventDescription}}</span>
+                    <img  [src]="item.img" width="60">
+                </div>    
+            </ng-container>
+            <ng-container *ngIf="loader">
+                    <ngx-skeleton-loader
+                        count="1"
+                        [theme]="{ width: '100%', 'border-radius': '10px', height: '200px', 'margin-bottom': '3px','z-index':'99','margin-left': '0px','margin-top': '0','border': 'none','left':'0'}">
+                    </ngx-skeleton-loader>
+            </ng-container>
+            <!-- <div class="inner-grid-col" >
+                <span>Lead form is <br/>submitted </span>
+                <img src="../../../../assets/images/lead-form-is-submitted.svg" width="60">
+            </div>
+            <div class="inner-grid-col" >
+                <span>Appointment is <br/>scheduled </span>
+                <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+            </div>
+            <div class="inner-grid-col" >
+                <span>Tag is added </span>
+                <img src="../../../../assets/images/tag-is-addwd.svg" width="60">
+            </div>
+            <div class="inner-grid-col" >
+                <span>Purchase is made </span>
+                <img src="../../../../assets/images/purchase-is-made.svg" width="60">
+            </div> -->
+
+        </div>
+        <!-- -------------------show all option Button----------------------------->
+        <div class="text-center show-all-option">
+            <button class="btn scroll-class" (click)="toggleOptions()" >{{showOption ? 'Show less option': 'Show more option'}}</button>
+        </div>
+        
+    </div>
+    <!-- -------------------show all option Button----------------------------->
+    <ng-container *ngIf="showOption">
+        <div class="all-option-available">
+        <div class="appoint-ments">
+            <span> Appointments</span>
+        </div>
+        </div>
+        <div class="right-inner-wrapper-first">
+            <div class="select-option-four-grid-wrapper" style="margin-bottom: 40px;">
+                <div class="inner-grid-col">
+                    <span>Appointment is <br/>scheduled </span>
+                    <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                </div>
+                <div class="inner-grid-col">
+                    <span>Appointment is <br/>cancelled </span>
+                    <img src="../../../../assets/images/appointment-is-scheduled.svg" width="60">
+                </div>    
+            </div>
+        </div>
+        <!-- ------------forms------------- -->
+        <div class="all-option-available">
+            <div class="appoint-ments">
+                <span> Forms</span>
+            </div>
+        </div>
+        <div class="right-inner-wrapper-first">
+            <div class="select-option-four-grid-wrapper" style="margin-bottom: 40px;">
+                <div class="inner-grid-col">
+                    <span>Lead form is <br/>submitted </span>
+                    <img src="../../../../assets/images/lead-form-is-submitted.svg" width="60">
+                </div>
+                <div class="inner-grid-col">
+                    <span>Internal form is <br/>submitted </span>
+                    <img src="../../../../assets/images/lead-form-is-submitted.svg" width="60">
+                </div>
+            </div>
+        </div>
+    <!-- ------------Money------------- -->
+        <div class="all-option-available">
+            <div class="appoint-ments">
+                <span> Money</span>
+            </div>
+        </div>
+        <div class="right-inner-wrapper-first">
+            <div class="select-option-four-grid-wrapper" >
+                <div class="inner-grid-col">
+                    <span>Purchase is made </span>
+                    <img src="../../../../assets/images/purchase-is-made.svg" width="60">
+                </div>
+            </div>
+        </div>
+        <div class="all-option-available">
+            <div class="appoint-ments">
+                <span> Tags</span>
+            </div>
+        </div>
+        <div class="right-inner-wrapper-first">
+            <div class="select-option-four-grid-wrapper" >
+                <div class="inner-grid-col">
+                    <span>Tag is added </span>
+                    <img src="../../../../assets/images/tag-is-addwd.svg" width="60">
+                </div>
+            </div>
+        </div>
+    </ng-container>
+    <div class="short-des-not-seeing">
+        Not seeing something you wish to automate? <br/>
+        Let us know!
+    </div>
+    <div class="share-feed-back">
+        <button (click)="openSubmitfeedback()">Share feedback</button>
+    </div>
+
+</div>

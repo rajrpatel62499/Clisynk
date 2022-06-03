@@ -1,0 +1,23 @@
+.nav-link{
+    padding: 0px !important;
+}
+
+.tag-contact-list-content{
+    padding-top: 0px;
+}
+
+.main-tags-area .tag-input {
+    margin-bottom: 20px;
+}
+
+.main-tags-area .tag-input::before {
+    left: 29px;
+}
+
+.main-tags-area .tag-input input{
+    border-radius: 5px;
+}
+
+.tag-item.active {
+    background: #fafafa;
+}

@@ -1,0 +1,99 @@
+
+
+span.all-changes-saved {
+    margin-right: 20px;
+    padding-left: 25px;
+    position: relative;
+    font-size: 16px;
+}
+
+span.all-changes-saved::before{
+    position: absolute;
+    content: '';
+    background: url('../../../../assets/images/tick.svg')no-repeat;
+    background-size: 16px;
+    width: 16px;
+    height: 16px;
+    top: 3px;
+    margin: auto;
+    left: 0;
+    
+}
+
+
+.details-and-preview-main {
+    width: 90%;
+    margin: auto;
+    display: flex;
+    /* align-items: center; */
+    padding-bottom: 30px;
+    padding-top: 10px;
+}
+
+.details-and-preview-main .details-main-left {
+    width: 60%;
+}
+
+.details-and-preview-main .right-priview-label {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+}
+
+
+
+.details-and-preview-main label.comman-label {
+    margin-bottom: 10px;
+    font-weight: 500;
+    font-size: 20px;
+    line-height: 25px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+}
+
+
+
+.smart-form-builder-main .formio.builder {
+    width: 90%;
+    margin: auto;
+    flex-wrap: inherit;
+}
+
+.this-form-will .short-description-of-form {
+    width: 96%;
+    font-size: 15px;
+    font-weight: 300;
+}
+
+
+.workspace-input {
+    position: relative;
+    margin-top: 10px;
+    width: 96% ;
+
+}
+
+
+.text-area-for-that {
+    margin-top: 15px !important;
+    width: 96%;
+}
+
+
+.short-description-of-form {
+    width: 80%;
+    margin-top: 20px;
+    margin-bottom: 50px;
+    font-size: 16px;
+    line-height: 23px;
+    letter-spacing: 0.02em;
+    color: #2A2A2A;
+}
+span.max-length-labal {
+    display: block;
+    font-size: 12px;
+    margin-top: -18px;
+    padding-left: 10px;
+    letter-spacing: 0.02em;
+    color: #979797;
+}

@@ -1,0 +1,181 @@
+
+<div class="new-ul-main">
+        <div class="left-col-main-new">
+                <div class="login-forms-news">
+                    <form class="login-form-wrapper" [formGroup]="form" (ngSubmit)="loginFun()" autocomplete="off">
+
+                        <div class="clisynk-img-logo">
+                            <img src="/assets/images/1280x1024.jpg" alt="IMG" class="login-logo-main" style="width:200px">
+                        </div>
+                        <div class="login-text-new">Login account</div>
+                        <div class="login-form-field-main">
+                            <div class="form-group email-group">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    
+                                    <input matInput type="text" formControlName="email"
+                                        placeholder="Enter email here">
+                                    <mat-error *ngIf="form.controls['email'].hasError('required')">
+                                        Please enter email.
+                                    </mat-error>
+                                    <mat-error
+                                            *ngIf="form.controls['email'].hasError('pattern')">
+                                        Please enter valid email.
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+
+                            <div class="form-group">
+                                <mat-form-field class="full-width" appearance="outline">
+                                    <input matInput  [type]="showPassword ? 'password' : 'text'" name="pass" placeholder="at least 8 charachters"
+                                        formControlName="password">
+                                    <mat-error
+                                            *ngIf="form.controls['password'].hasError('required') && form.controls.password.touched">
+                                        Please enter password.
+                                    </mat-error>
+                                    <mat-icon matSuffix (click)="showPassword = !showPassword">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                </mat-form-field>
+                            </div>
+
+                            <button type="submit" class="btn login-btn">
+                                <i class="fa fa-spinner fa-spin" *ngIf="loader"></i>
+                                <span *ngIf="!loader">Login</span>
+                            </button>
+                        </div>
+                    
+                        <a class="pull-right" routerLink="/forgotpassword">Forgot Password?</a>
+
+                        <div class="mt-5 text-center">Dont' have an account? <a class="pull-right d-inline" routerLink="/createaccount"> Register</a></div>
+              </form>
+
+
+                </div>
+
+
+        </div>
+        <div class="right-col-main-new">
+                <div class="new-main-img-div">
+                    <img src="../../../assets/images/login-new-vectors.svg">
+                </div>
+        </div>
+
+
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+ <!-- <div class="container-login100">
+
+    <div class="left-img-vector-main">
+            <div class="img-login-vector">
+            <img src="../../../assets/images/login-desktop.svg" class="main-img-login" alt="vector">
+
+            <div class="inner-img-desktop">
+                <img src="../../../assets/images/headphone-man.svg">
+            </div>
+
+            <div class="circle-of-animation-main">
+                    <div class="first-circle">
+                        <div class="in-img-1-rotation">
+                            <img src="../../../assets/images/inner-circle-one.svg">
+                        </div>
+                        <div class="in-img-2-rotation">
+                            <img src="../../../assets/images/inner-circle-two.svg">
+                        </div>
+                    </div>
+                    <div class="second-circle">
+                        <div class="img-1-rotation">
+                            <img src="../../../assets/images/time-clock.svg">
+                        </div>
+                        <div class="img-2-rotation">
+                            <img src="../../../assets/images/green-calender.svg">
+                        </div>
+                        <div class="img-3-rotation">
+                            <img src="../../../assets/images/chating.svg">
+                        </div>
+
+                    </div>
+                    
+    
+
+            </div>
+
+            </div>
+
+    </div>
+
+
+    <div class="card shadow login-card-main  card-width">
+
+
+        <div class="card-body ">
+            <div class="row">
+             
+
+                <div class="col-md-12">
+
+                    <form class="login100-form validate-form text-center" [formGroup]="form"
+                          (ngSubmit)="loginFun()"
+                          autocomplete="off">
+                        <div class="inner-card">
+                            <div class="card-body">
+                                <img src="/assets/images/1280x1024.jpg" alt="IMG"
+                                     class="login-img-size-small">
+                                     <h1>Welcome to Clisynk</h1>
+                                    <div class="login-form-field-main">
+                                        <div class="form-group email-group">
+                                            <label>Your e-mail</label>
+                                            <mat-form-field class="full-width" appearance="outline">
+                                                
+                                                <input matInput type="text" formControlName="email"
+                                                    placeholder="Enter email here">
+                                                <mat-error *ngIf="form.controls['email'].hasError('required')">
+                                                    Please enter email.
+                                                </mat-error>
+                                                <mat-error
+                                                        *ngIf="form.controls['email'].hasError('pattern')">
+                                                    Please enter valid email.
+                                                </mat-error>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <div class="form-group">
+                                            <label>Password</label>
+                                            <mat-form-field class="full-width" appearance="outline">
+                                                <input matInput  [type]="showPassword ? 'password' : 'text'" name="pass" placeholder="at least 8 charachters"
+                                                    formControlName="password">
+                                                <mat-error
+                                                        *ngIf="form.controls['password'].hasError('required') && form.controls.password.touched">
+                                                    Please enter password.
+                                                </mat-error>
+                                                <mat-icon matSuffix (click)="showPassword = !showPassword">{{showPassword ? 'visibility_off' : 'visibility'}}</mat-icon>
+                                            </mat-form-field>
+                                        </div>
+
+                                        <button type="submit" class="btn login-btn">
+                                            <i class="fa fa-spinner fa-spin" *ngIf="loader"></i>
+                                            <span *ngIf="!loader">Login</span>
+                                        </button>
+                                    </div>
+                                
+                                <a class="pull-right" routerLink="/forgotpassword">Forgot Password?</a>
+
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+ -->

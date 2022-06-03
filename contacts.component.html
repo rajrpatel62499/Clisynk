@@ -1,0 +1,190 @@
+<div class="wrapper border-bottom white-bg">
+    <div class="contact">
+        <div class="contact-header">
+
+            <ng-container *ngIf="myModel?.savedFilter">
+                <div class="Clients_list_heading">
+                    <img src="/assets/images/back-arrow.svg" (click)="myModel.contactsType=null; tab='contactList'">
+                    <h3 class="page-title">{{myModel?.savedFilter?.name}}</h3>
+                </div>
+            </ng-container>
+
+
+            <ng-container *ngIf="myModel?.contactsType">
+                <div class="Clients_list_heading">
+                    <img src="/assets/images/back-arrow.svg" (click)="myModel.contactsType=null; tab='contactList'">
+                    <h3 class="page-title" *ngIf="myModel.contactsType == 1">Leads</h3>
+                    <h3 class="page-title" *ngIf="myModel.contactsType == 2">Clients</h3>
+                </div>
+            </ng-container>
+
+            <ng-container *ngIf="!myModel?.contactsType && !myModel?.savedFilter">
+                <h3 class="page-title">{{http?.heading}}</h3>
+                <div class="actions" *ngIf="tab == 'allContact'">
+                    <span class="filter-icon" (click)="openContactFilter()"><img src="/assets/images/filter.svg"></span>
+                    <div class="btn-group add-btn" dropdown>
+                        <button id="add-contact" dropdownToggle type="button" class="btn dropdown-toggle"
+                                aria-controls="dropdown-basic">
+                            <span class="plus-icon"><img src="/assets/images/plus.svg"> </span>
+                        </button>
+                        <ul id="add-contact" *dropdownMenu class="dropdown-menu" role="menu"
+                            aria-labelledby="button-basic">
+                            <li role="menuitem"><a class="dropdown-item" (click)="http.openModal('addContact')">
+                                Add Contact</a></li>
+                            <li role="menuitem"><a class="dropdown-item" (click)="http.openModal('importContact')">
+                                Import Contact</a></li>
+                        </ul>
+                    </div>
+                </div>
+
+                <ul class="nav nav-pills mb-3 contact-h-tab-heading">
+                    <li class="nav-item" [ngClass]="{'tab-btn':tab == 'allContact'}"
+                        (click)="tab='allContact';http.addQueryParams({});">All
+                        Contacts
+                    </li>
+                    <li class="nav-item" (click)="tab='contactList';this.listsFun();"
+                        [ngClass]="{'tab-btn':tab == 'contactList'}">
+                        Contacts lists
+                    </li>
+                </ul>
+            </ng-container>
+
+
+
+
+            <!--            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">-->
+            <!--                <div class="contact-saved-lists">-->
+            <!--                    <a class="contact-list-card">-->
+            <!--                        <div class="top">-->
+            <!--                            <h4 title="Clients" class="name">Clients</h4>-->
+            <!--                            <div class="number">{{myModel?.allData?.clients || 0}}</div>-->
+            <!--                        </div>-->
+            <!--                    </a>-->
+            <!--                    <a class="contact-list-card" (click)="http.addQueryParams({type:1})">-->
+            <!--                        <div class="top">-->
+            <!--                            <h4 title="Clients" class="name">Leads</h4>-->
+            <!--                            <div class="number">{{myModel?.allData?.leads || 0}}</div>-->
+            <!--                        </div>-->
+            <!--                    </a>-->
+            <!--                    <a class="view-all contact-list-card" (click)="http.openModal('contactLists',myModel?.allData)">-->
+            <!--                        View all contact lists-->
+            <!--                    </a>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+            <!--            <ul class="nav nav-pills mb-3 contact-h-tab-heading" id="pills-tab" role="tablist">-->
+            <!--                <li class="nav-item">-->
+            <!--                    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab"-->
+            <!--                       aria-controls="pills-home" aria-selected="true" (click)="tab1=true">All Contacts</a>-->
+            <!--                </li>-->
+            <!--                <li class="nav-item">-->
+            <!--                    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab"-->
+            <!--                       aria-controls="pills-profile" aria-selected="false" (click)="tab1=false">Contacts lists</a>-->
+            <!--                </li>-->
+            <!--            </ul>-->
+
+
+            <!--            <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">-->
+            <!--                <div class="contact-saved-lists">-->
+            <!--                    <a class="contact-list-card">-->
+            <!--                        <div class="top">-->
+            <!--                            <h4 title="Clients" class="name">Clients</h4>-->
+            <!--                            <div class="number">{{myModel?.allData?.clients || 0}}</div>-->
+            <!--                        </div>-->
+            <!--                    </a>-->
+            <!--                    <a class="contact-list-card" (click)="http.addQueryParams({type:1})">-->
+            <!--                        <div class="top">-->
+            <!--                            <h4 title="Clients" class="name">Leads</h4>-->
+            <!--                            <div class="number">{{myModel?.allData?.leads || 0}}</div>-->
+            <!--                        </div>-->
+            <!--                    </a>-->
+            <!--                    <a class="view-all contact-list-card" (click)="http.openModal('contactLists',myModel?.allData)">-->
+            <!--                        View all contact lists-->
+            <!--                    </a>-->
+            <!--                </div>-->
+            <!--            </div>-->
+
+
+            <!--            <div class="tab-content  contact-v-tab-heading" id="pills-tabContent">-->
+            <!--                <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">-->
+            <!--                    <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">-->
+            <!--                        <div class="select-all">-->
+            <!--                            <label class="custom-checkbox">Select all-->
+            <!--                                <input type="checkbox" (change)="selectAllContact()" [formControl]="allSelect">-->
+            <!--                                <span class="checkmark"></span>-->
+            <!--                                <div class="bottom-fix-bar">-->
+            <!--                                    <div class="container">-->
+            <!--                                        <div class="item-count">{{selectedContactCount}} Selected</div>-->
+            <!--                                        <section>-->
+            <!--                                            &lt;!&ndash;                                        <button type="button" class="outline-btn"> Add or remove tags</button>&ndash;&gt;-->
+            <!--                                            <button type="button" class="outline-btn"> Send a broadcast</button>-->
+            <!--                                            <button type="button" class="outline-btn" (click)="exportContacts()">-->
+            <!--                                                Exports-->
+            <!--                                            </button>-->
+            <!--                                            &lt;!&ndash;                                        <button type="button" class="outline-btn"> Add contact to campaign</button>&ndash;&gt;-->
+            <!--                                            <button type="button" class="outline-btn delet-btn" (click)="deleteFun()">-->
+            <!--                                                Delete-->
+            <!--                                            </button>-->
+            <!--                                        </section>-->
+            <!--                                    </div>-->
+            <!--                                </div>-->
+            <!--                            </label>-->
+
+            <!--                        </div>-->
+            <!--                        <cdk-virtual-scroll-viewport itemSize="50" class="full-port">-->
+            <!--                            <app-loader [showLoader]="loader" [length]="myModel?.contacts?.length"></app-loader>-->
+            <!--                            <div *cdkVirtualFor="let data of myModel?.contacts;let i = index">-->
+
+            <!--                                <a class="nav-link" [ngClass]="{'active': selectedIndex == i}">-->
+            <!--                                    <ng-container *ngIf="allSelect.value">-->
+            <!--                                    <span class="circle">-->
+            <!--                                        <label class="custom-checkbox">-->
+            <!--                                            <input type="checkbox" (change)="selectUnselect(data.isSelected)"-->
+            <!--                                                   [(ngModel)]="data.isSelected">-->
+            <!--                                            <span class="checkmark" style="margin-left: -10px;" *ngIf="data.isSelected">-->
+            <!--                                            </span>-->
+            <!--                                            <span class="circle" *ngIf="!data.isSelected" style="top: 0;left:0">-->
+            <!--                                                {{data?.firstName.substr(0, 1)}}{{data?.lastName.substr(0, 1)}}-->
+            <!--                                            </span>-->
+            <!--                                        </label>-->
+            <!--                                    </span>-->
+
+            <!--                                    </ng-container>-->
+
+            <!--                                    <ng-container *ngIf="!data.isSelected && !allSelect.value">-->
+            <!--                                    <span class="circle" *ngIf="!data?.imageUrl?.thumbnail">-->
+            <!--                                        {{data?.firstName.substr(0, 1)}}{{data?.lastName.substr(0, 1)}}-->
+            <!--                                    </span>-->
+            <!--                                        <img class="image-circle" *ngIf="data?.imageUrl?.thumbnail"-->
+            <!--                                             src="{{data?.imageUrl?.thumbnail || http.CONSTANT.USER_PLACEHOLDER}}">-->
+            <!--                                    </ng-container>-->
+
+            <!--                                    <h4 (click)="selectContact(data,i)">{{data?.fullName}}</h4>-->
+            <!--                                    <ul class="top-ul">-->
+            <!--                                        <li *ngIf="data?.contactsType == 1"><span>Lead</span>-->
+            <!--                                            <i class="fas fa-circle selected-tab" style="color: #f07a39"></i>-->
+            <!--                                        </li>-->
+            <!--                                        <li *ngIf="data?.contactsType == 2"><span>Client</span>-->
+            <!--                                            <i class="fas fa-circle selected-tab"></i>-->
+            <!--                                        </li>-->
+            <!--                                    </ul>-->
+            <!--                                    <p (click)="selectContact(data,i)">{{data?.email || '&#45;&#45;'}}-->
+            <!--                                        <span>Added {{data?.createdAt |date:'MMM dd,yyyy'}}</span>-->
+            <!--                                    </p>-->
+            <!--                                </a>-->
+            <!--                            </div>-->
+            <!--                        </cdk-virtual-scroll-viewport>-->
+
+            <!--                    </div>-->
+            <!--                </div>-->
+
+
+            <!--            </div>-->
+
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,53 @@
+<div class="right-col choose-form-right-col-body">
+    <div class="inner-row-main-vc">
+        <button class="btn" (click)="openAddTag()">Create a new tag <img src="../../../../assets/images/export-blue-icon.svg" width="35"> </button>
+        <div class="search-filed">
+            <input [(ngModel)]="searchText" type="text" class="search" placeholder="Search tags">
+        </div>
+    </div>
+    <div class="formlisting-body">
+        <ng-container *ngFor="let tag of sortedData|filter: searchText; let i=index">
+            <div (click)="onSelectTag(tag)" class="any-lead-form-main">
+                    <span class="heading-form">{{tag?.name}}</span>
+                    <span class="sub-task-main">{{tag?.tagCategoryId?.name}}</span>
+            </div>
+        </ng-container>
+        <app-loading [length]="3"></app-loading>
+    </div>
+    <!-- <div class="smart-form-listing-table">
+        <table class="smart-table-list" matSort (matSortChange)="sortData($event)">
+            <thead>
+                <tr>
+                    <th class="form-name" mat-sort-header="name">Appointment Name</th>
+                    <th class="added-on" mat-sort-header="link">Link</th>
+                    <th class="status" >Action</th>
+                </tr>
+            </thead>
+            <tbody *ngIf="!(loadingService.loader$|async)">
+                <tr  *ngFor="let f of sortedData| filter:searchText; let i=index">
+                    <td (click)="onSelectForm(f)" class="form-name">
+                        {{ f.name }}
+                    </td>
+                    <td class="added-on">
+                        <a class="links" (click)="http.openInNewTab(appoint.getBookingLink(f.name))">    {{appoint.getBookingLink(f.name)}} </a>
+                    </td>
+                    <td class="status" >
+                        <span class="button-send-invite">
+                            <button  (click)="appoint.sendInvite(f)"> <svg id="send" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.707 1.293a1 1 0 0 1 .262.953l-.04.125-8 20a1 1 0 0 1-1.88-.06l-.03-.115-1.869-9.346-9.346-1.87a1 1 0 0 1-.283-1.858l.108-.05 20-8a1 1 0 0 1 1.078.22zm-3.445 4.86l-6.176 6.176 1.235 6.176zm-1.414-1.415L5.495 9.679l6.176 1.235z" fill-rule="evenodd"></path></svg> 
+                                Send invite
+                            </button>
+                         </span>
+                     </td>
+                </tr>
+            </tbody>
+        </table>
+    </div> -->
+        <!-- <div class="first-section-wrapper">
+            <div class="gravatar-title">
+                <div>
+                    <app-loading [length]="3"></app-loading>
+                </div>
+            </div>
+        </div> -->
+</div>  
+
